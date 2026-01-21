@@ -37,5 +37,4 @@ public class AuthService {
         return authRepo.findAll();
     }
 
-
 }

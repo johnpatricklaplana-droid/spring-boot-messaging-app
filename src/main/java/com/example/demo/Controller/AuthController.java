@@ -40,6 +40,13 @@ public class AuthController {
     public List<User> testing () {
         return service.testing();
     }
+
+    @PostMapping("/posttest")
+    @ResponseBody
+    public String postTesting (@RequestBody User user) {
+        service.postTesting(user);
+        return "{ \"response\": \"good one\" }";
+    }
     
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<String> UserExistHandler (UserAlreadyExistsException ex) {
