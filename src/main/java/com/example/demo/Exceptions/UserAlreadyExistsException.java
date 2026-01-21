@@ -1,4 +1,4 @@
-package com.example.demo.Controller;
+package com.example.demo.Exceptions;
 
 public class UserAlreadyExistsException extends RuntimeException {
 
