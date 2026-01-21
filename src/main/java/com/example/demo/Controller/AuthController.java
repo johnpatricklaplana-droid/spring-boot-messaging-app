@@ -1,10 +1,13 @@
 package com.example.demo.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,6 +33,12 @@ public class AuthController {
     public String logIn (@RequestBody User user) {
         service.loginUser(user);
         return "";
+    }
+
+    @GetMapping("/test")
+    @ResponseBody
+    public List<User> testing () {
+        return service.testing();
     }
     
     @ExceptionHandler(UserAlreadyExistsException.class)

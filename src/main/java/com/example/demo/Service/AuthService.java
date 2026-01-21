@@ -1,5 +1,6 @@
 package com.example.demo.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,10 @@ public class AuthService {
         if(!authRepo.existsByEmail(user.getEmail())) {
             // TODO:
         }
+    }
+
+    public List<User> testing() {
+        return authRepo.findAll();
     }
 
 
