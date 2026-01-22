@@ -1,6 +1,6 @@
-import { post } from "/api.js";
-import { validation } from "/helper.js";
-import { storageKeys } from "/constants.js";
+import { post } from "/api/api.js";
+import { validation } from "/utils/helper.js";
+import { storageKeys } from "/constants/constants.js";
 
 (() => {
     const loginButton = document.querySelector(".loginButton");
