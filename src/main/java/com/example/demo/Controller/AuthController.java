@@ -1,9 +1,12 @@
 package com.example.demo.Controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,13 +37,30 @@ public class AuthController {
     public ResponseEntity<String> logIn (@RequestBody User user) {
         service.loginUser(user);
 
-        return ResponseEntity.ok("login success");
+        String token = UUID.randomUUID().toString();
+
+        ResponseCookie cookie = ResponseCookie.from("sessionId", token)
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(7 * 24 * 60 * 60)
+                .sameSite("Strict")
+                .build();
+
+        return ResponseEntity.ok()
+            .header(HttpHeaders.SET_COOKIE, cookie.toString())
+            .body("login success");
     }
 
     @GetMapping("/test")
     @ResponseBody
     public List<User> testing () {
         return service.testing();
+    }
+
+    @GetMapping("/index")
+    public String serveMainPage () {
+        return "index";
     }
     
     @ExceptionHandler(UserAlreadyExistsException.class)

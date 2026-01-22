@@ -35,6 +35,7 @@ public class AuthService {
         if(!userFromDB.getPassword().equals(user.getPassword())) {
            throw new UserDontExistsException("user not found");
         } 
+        
     }
 
     public List<User> testing() {
