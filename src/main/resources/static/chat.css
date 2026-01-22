@@ -1,0 +1,202 @@
+.chatContainer {
+    background-color: white;
+    width: 400px;
+    height: 85vh;
+    border-radius: 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    display: none;
+    flex-direction: column;
+    box-shadow: 1px 1px 8px gray;
+    border-radius: 20px;
+    border: 5px solid gray;
+}
+
+/* @media (max-width: 900px) {
+    .messagesContainer {
+        display: none;
+    }
+
+    .chatContainer {
+        width: 100%;
+    }
+} */
+
+.reciever {
+    height: 10vh;
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, .3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 5px solid gray;
+}
+
+.recieverContainer {
+    display: flex;
+    align-items: center;
+}
+
+.recieverContainer h1 {
+    cursor: pointer;
+    font-family: sans-serif;
+    font-weight: 100;
+    font-size: large;
+}
+
+.recieverProfile {
+    cursor: pointer;
+    margin-right: 10px;
+    height: 50px;
+    width: 55px;
+}
+
+.chatContainer i {
+    cursor: pointer;
+}
+
+.fa-x {
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.fa-x:hover {
+    background-color: rgb(255, 14, 14);
+}
+
+.fa-camera {
+    font-size: 20px;
+}
+
+.fa-x {
+    font-size: 20px;
+}
+
+.conversationContainer {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    overflow: auto;
+}
+
+.kachatlittleinfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.friendProfile {
+    width: 150px;
+    height: 140px;
+    background-size: cover;
+}
+
+.conversationContainer h3 {
+    margin-bottom: 10px;
+}
+
+.conversation {
+    width: 100%;
+}
+
+.youContainer {
+    display: flex;
+    justify-content: end;
+}
+
+.you {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.you p {
+    text-align: end;
+    background-color: blue;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+}
+
+.youProfile {
+    width: 50px;
+    height: 40px;
+    margin: 10px;
+    background-size: cover;
+    box-shadow: 1px 1px 8px gray;
+}
+
+.kachatContainer {
+    display: flex;
+    justify-content: start;
+}
+
+.kachat {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+}
+
+.kachat p {
+    text-align: start;
+    background-color: lightgray;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.kachatProfile {
+    width: 50px;
+    height: 40px;
+    margin: 10px;
+    background-size: cover;
+    box-shadow: 1px 1px 8px gray;
+}
+
+.chatInputboxContainer {
+    display: flex;
+    padding: 20px;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 10px;
+    background-color: white;
+    height: 10vh;
+    border-top: 5px solid gray;
+}
+
+.Inputfieldicons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: space-evenly;
+}
+
+.Inputfieldicons i {
+    font-size: 20px;
+    border-radius: 3px;
+    padding: 3px;
+}
+
+.Inputfieldicons i:hover {
+    background-color: lightgray;
+}
+
+.chatInputboxContainer .messageInputField {
+    padding: 10px;
+    width: 100%;
+    border-radius: 40px;
+}
+
+.chatInputboxContainer p {
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.chatInputboxContainer p:hover {
+    background-color: lightgray;
+}

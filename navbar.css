@@ -1,0 +1,158 @@
+.navbar {
+    height: 10vh;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 1px 1px 8px gray;
+    gap: 10px;
+}
+
+.searchPeople {
+    width: 100%;
+    border-radius: 40px;
+    box-shadow: 1px 1px 8px gray;
+    border-style: none;
+}
+
+.navbarSearchAndButtonContainer {
+    display: flex;
+    width: 500px;
+    gap: 10px;
+    position: relative;
+}
+
+.navbarSearchButton {
+    border-radius: 40px;
+    border-style: none;
+    background: linear-gradient(135deg, #1e293b, #334155);
+    color: white;
+}
+
+.userprofile {
+    height: 40px;
+    width: 50px;
+    cursor: pointer;
+}
+
+.navbaruser {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navbarProfileAndNotificationWrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.notifBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: inherit;
+    position: relative;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.notifBtn:hover {
+    background-color: lightgray;
+}
+ 
+.notifDropdown {
+    position: absolute;
+    z-index: 10;
+    background-color: white;
+    padding: 20px;
+    right: 80px;
+    top: 50px;
+    border-radius: 10px;
+    display: none;
+}
+
+.notifDropdown h2 {
+    color: #1f1f1f;
+}
+
+.fa-bell {
+    font-size: 30px;
+}
+
+.notifmessage {
+    margin: 10px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    color: #1f1f1f;
+}
+
+.notifmessage:hover {
+    background-color: lightgray;
+}
+
+.notifbadge {
+    background-color: red;
+    border-radius: 50%;
+    width: 15px;
+    position: absolute;
+    right: 10%;
+}
+.searchResultContainer {
+    position: absolute;
+    left: 42%;
+    top: 40px;
+    background-color: white;
+    padding: 10px;
+    transform: translate(-50%);
+    width: 83%;
+    z-index: 10;
+    border-radius: 10px;
+    box-shadow: 1px 1px 8px gray;
+    height: 400px;
+    overflow: auto;
+    scrollbar-width: none;
+    display: none;
+}
+
+.searchResultContainer ul li {
+    list-style: none;
+    margin: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.searchResultContainer ul li:hover {
+    box-shadow: 1px 1px 8px gray;
+}
+
+.noResultFoundMessage {
+    text-align: center;
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 100;
+    font-family: cursive;
+    width: 100%;
+}
+
+.userFromSearchResult span {
+    display: inline-block;
+    background-size: cover;
+    border-radius: 3px;
+    padding: 10px;
+    width: 50px;
+    height: 40px;
+    box-shadow: 1px 1px 8px gray;
+}

@@ -1,0 +1,101 @@
+.sidebar {
+    height: 100vh;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    background-color: white;
+    z-index: 10;
+    border-radius: 0;
+}
+
+/* @media (max-width: 900px) {
+    .sidebar {
+        display: none;
+    }
+} */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.fa-envelope {
+    font-size: 50px;
+}
+
+.iconsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.fa-user {
+    font-size: 30px;
+}
+
+.settings {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.settings:hover {
+    background-color: lightgray;
+}
+
+.accountsInSideBar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.accountsInSideBar:hover {
+    background-color: lightgray;
+}
+
+.fa-gear {
+    font-size: 30px;
+}
+
+.messagesIcon {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   cursor: pointer;
+   padding: 10px;
+   border-radius: 5px;
+}
+
+.messagesIcon:hover {
+    background-color: lightgray;
+}
+
+.fa-envelope {
+    font-size: 30px;
+}
+
+.FriendRequestIconAndLabelContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.FriendRequestIconAndLabelContainer:hover {
+    background-color: lightgray;
+}
+
+.fa-user-group {
+    font-size: 30px;
+}

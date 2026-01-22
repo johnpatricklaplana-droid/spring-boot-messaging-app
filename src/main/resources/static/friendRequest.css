@@ -1,0 +1,72 @@
+.friendrequestsContainer {
+    background-color: white;
+    height: 85vh;
+    padding: 10px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 1px 1px 8px gray;
+    border-radius: 10px;
+    gap: 10px;
+    display: none;
+    overflow: auto;
+    scrollbar-width: none;
+}
+
+.friendrequestsContainer hr {
+    width: 100%;
+}
+
+.personRequestContainer {
+   display: flex;
+   gap: 10px;
+   width: 100%;
+   border-radius: 10px;
+   padding: 10px;
+}
+
+.personRequestContainer:hover {
+    background-color: lightgray;
+}
+
+.personRequestContainer hr {
+    width: 100%;
+}
+
+.personRequestProfilePicture {
+    height: 60px;
+    width: 70px;
+    border-radius: 5px;
+    background-size: cover;
+}
+
+.NameAndButtonsContainerInFriendRequest {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.NameAndButtonsContainerInFriendRequest button {
+    padding: 5px;
+    width: 100px;
+    border-radius: 3px;
+    border-width: 1px;
+    font-weight: 600;
+}
+
+.NameAndButtonsContainerInFriendRequest button:hover {
+    filter: brightness(.9);
+}
+
+.accept {
+    background-color: #185fd1;
+    color: white;
+}
+
+.block {
+    background-color: lightgray;
+}
