@@ -2,5 +2,7 @@ package com.example.demo.Exceptions;
 
 public class UserDontExistsException  {
     
-    public UserDontExists
+    public UserDontExistsException(String message) {
+        
+    }
 }
