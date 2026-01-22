@@ -28,7 +28,7 @@ import { storageKeys } from "/constants.js";
 
         const isValid = validation(requestBody, validationRules);
             console.log(isValid);
-       
+        
         if(isValid.length > 0) {
             loginErrorMessage(isValid);
             return;
@@ -36,27 +36,10 @@ import { storageKeys } from "/constants.js";
         
         const url = `http://localhost:8080/login`;
         const result = await post(requestBody, url, "include");   
-        
-        const email = result.email;
-        const username = result.username;
-        const id = result.id;    
 
-        console.log(localStorage.getItem(storageKeys.userInfoKey));
-        
-        const userinfo = {
-            email: email,
-            username: username,
-            id: id
-        };
-        
-        if (!userinfo) {
-            console.log("bad one");
-            return;
-        }
-        
-        localStorage.setItem(storageKeys.userInfoKey, JSON.stringify(userinfo));
-
-        window.location.href = "http://localhost:8080/mainpage";
+        if(!result) {
+            window.location.href = "http://localhost:8080/index"; 
+        }                
     })
 }) ();
 

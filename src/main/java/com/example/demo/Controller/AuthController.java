@@ -30,22 +30,17 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String logIn (@RequestBody User user) {
+    @ResponseBody
+    public ResponseEntity<String> logIn (@RequestBody User user) {
         service.loginUser(user);
-        return "";
+
+        return ResponseEntity.ok("login success");
     }
 
     @GetMapping("/test")
     @ResponseBody
     public List<User> testing () {
         return service.testing();
-    }
-
-    @PostMapping("/posttest")
-    @ResponseBody
-    public String postTesting (@RequestBody User user) {
-        service.postTesting(user);
-        return "{ \"response\": \"good one\" }";
     }
     
     @ExceptionHandler(UserAlreadyExistsException.class)
