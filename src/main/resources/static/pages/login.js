@@ -36,9 +36,9 @@ import { storageKeys } from "/constants/constants.js";
         
         const url = `http://localhost:8080/login`;
         const result = await post(requestBody, url, "include");   
-
-        if(!result) {
-            window.location.href = "http://localhost:8080/index"; 
+        
+        if(result) {
+            window.location.href = "http://localhost:8080/index";
         }                
     })
 }) ();

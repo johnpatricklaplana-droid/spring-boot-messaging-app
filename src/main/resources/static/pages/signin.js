@@ -1,5 +1,5 @@
-import {post} from "/api.js";
-import { validation } from "/helper.js";
+import {post} from "/api/api.js";
+import { validation } from "/utils/helper.js";
 
 
 (() => {

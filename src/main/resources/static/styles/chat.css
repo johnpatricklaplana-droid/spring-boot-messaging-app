@@ -6,7 +6,7 @@
     padding: 0;
     overflow: hidden;
     position: relative;
-    display: none;
+    display: flex;
     flex-direction: column;
     box-shadow: 1px 1px 8px gray;
     border-radius: 20px;
@@ -32,7 +32,7 @@
     padding: 20px;
     border-bottom: 5px solid gray;
 }
-
+        
 .recieverContainer {
     display: flex;
     align-items: center;

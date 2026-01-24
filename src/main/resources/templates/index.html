@@ -95,16 +95,14 @@
                              johny yes dadday sent some trashtalk
                          </div>
                     </div>
-                    <div class="navbaruser">
-                        <div class="box-shadow profile userprofile"></div>
-                    </div>
+                    <img class="userprofile" th:src="@{${imagePath}}" alt="">
                 </div>
             </div> 
             <div class="bigWrapper">
                 <div class="MainContentContainer">
                     <div class="box-shadow container messagesContainer" id="messagesContainer">
                         <div class="box-shadow messagestopcontent">
-                            <div class="profile box-shadow userprofileinmessagesheader"></div>
+                            <img class="userprofileinmessagesheader" th:src="@{${imagePath}}" alt="">
                             <div class="searchContainer">
                                 <input class="box-shadow input" type="search" placeholder="search friends">
                                 <button class="box-shadow btn searchbtn">Search</button>
@@ -212,6 +210,6 @@
       
     <script type="module" src="components/components.js"></script>
     <script type="module" src="pages/login.js"></script>
-    <script type="module" src="main.js"></script>
+    <script type="module" src="pages/mainPage.js"></script>
 </body>
 </html>
