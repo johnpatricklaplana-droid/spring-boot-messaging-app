@@ -33,22 +33,24 @@ import { storageKeys } from "/constants/constants.js";
 
         const searchResultContainer = document.querySelector(".searchResultContainer");
         const name = searchPeople.value.trim();
+
+        searchResultContainer.querySelectorAll("li").forEach(li => li.remove());
         
         if(name === "") {
-            // searchResultContainer.style.display = "none";
-            // searchResultContainer.querySelectorAll("li").forEach(li => li.remove());
-            // return;
+            searchResultContainer.style.display = "none";
+            searchResultContainer.querySelectorAll("li").forEach(li => li.remove());
+            return;
         }
         
         searchResultContainer.style.display = "block";
 
-        // const url = `http://localhost:8080/search?name=${name}`;
-        // const result = await get(url);
+        const url = `http://localhost:8080/search/${name}`;
+        const result = await get(url);
         
-        // if(!result.length) {
-        //     document.querySelector(".noResultFoundMessage").style.display = "block";
-        //     return;
-        // }
+        if(!result.length) {
+            document.querySelector(".noResultFoundMessage").style.display = "block";
+            return;
+        }
         
         document.querySelector(".noResultFoundMessage").style.display = "none";
         searchResult(result);

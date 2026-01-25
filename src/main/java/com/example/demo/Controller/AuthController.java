@@ -11,10 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.DTO.UserDTO;
 import com.example.demo.Exceptions.UnauthorizedException;
 import com.example.demo.Exceptions.UserAlreadyExistsException;
 import com.example.demo.Exceptions.UserDontExistsException;
@@ -58,17 +60,17 @@ public class AuthController {
     @GetMapping("/index")
     public String serveMainPage (Model model, HttpServletRequest request) {
 
-        String username = service.isAuthorized(request); // TODO: Verify authorization and use the username later for personalized content
+        String userId = service.isAuthorized(request); // TODO: Verify authorization and use the username later for personalized content
 
-        model.addAttribute("imagePath", "/getProfilePic/1.png");
+        model.addAttribute("imagePath", "/getProfilePic/" + userId + ".png");
 
         return "index";
     }
 
-    @GetMapping("/search")
+    @GetMapping("/search/{name}")
     @ResponseBody
-    public List<User> searchUser () {
-        return service.searchUsers();
+    public List<UserDTO> searchUser (@PathVariable String name) {
+        return service.searchUsers(name);
     }
     
     @ExceptionHandler(UserAlreadyExistsException.class)

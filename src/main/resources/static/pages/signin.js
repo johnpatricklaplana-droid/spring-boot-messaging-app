@@ -40,8 +40,9 @@ import { validation } from "/utils/helper.js";
     }
         const url = `http://localhost:8080/signup`;
         const result = await post(userInfo, url);
-
-        if(result.response == "good one") {
+        console.log(result);
+        
+        if(result == 200) {
             window.location.href = "http://localhost:8080/loginPage.html";
         }
 

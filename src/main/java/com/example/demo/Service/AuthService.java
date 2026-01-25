@@ -1,7 +1,10 @@
 package com.example.demo.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +30,7 @@ public class AuthService {
     public void signUp(User user) {
 
         if(authRepo.existsByEmail(user.getEmail())) {
-            throw new UserAlreadyExistsException("USER ALREADY EXIST");
+            throw new UserAlreadyExistsException("{ \"response\": \"USER ALREADY EXIST\" }");
         }
 
         String token = UUID.randomUUID().toString();
@@ -43,11 +46,11 @@ public class AuthService {
            throw new UserDontExistsException("{ \"response\": \"user not found\" }");
         } 
 
-        String username = userFromDB.getEmail();
+        String userId = userFromDB.getId().toString();
         
-        String token = jwtService.generateToken(username);
+        String token = jwtService.generateToken(userId);
 
-        return token;
+        return token;   
     }
 
     public String isAuthorized (HttpServletRequest request) {
@@ -75,10 +78,17 @@ public class AuthService {
         
     }
 
-    // public List<User> searchUsers() {
-    //     return authRepo.findAll().stream()
-    //         .map(user -> new UserDTO(user.getId(), user.getUsername(), user.getEmail()))
-    //         .collect(Collect);
-    // }
+    public List<UserDTO> searchUsers(String name) {
+
+        List<User> user = authRepo.findByusernameIgnoreCaseContaining(name);
+    
+        List<UserDTO> dto = new ArrayList<>();
+
+        for (User u : user) {
+            dto.add(new UserDTO(u.getId(), u.getUsername(), u.getEmail()));
+        }
+
+        return dto;
+    }
 
 }
