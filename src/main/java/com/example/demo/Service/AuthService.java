@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.DTO.UserDTO;
 import com.example.demo.Exceptions.UnauthorizedException;
 import com.example.demo.Exceptions.UserAlreadyExistsException;
 import com.example.demo.Exceptions.UserDontExistsException;
@@ -39,7 +40,7 @@ public class AuthService {
         User userFromDB = authRepo.findUserByEmail(user.getEmail()).orElseThrow(() -> new RuntimeException("user not found"));
 
         if(!userFromDB.getPassword().equals(user.getPassword())) {
-           throw new UserDontExistsException("user not found");
+           throw new UserDontExistsException("{ \"response\": \"user not found\" }");
         } 
 
         String username = userFromDB.getEmail();
@@ -47,10 +48,6 @@ public class AuthService {
         String token = jwtService.generateToken(username);
 
         return token;
-    }
-
-    public List<User> testing() {
-        return authRepo.findAll();
     }
 
     public String isAuthorized (HttpServletRequest request) {
@@ -77,5 +74,11 @@ public class AuthService {
         return jwtService.extractUsername(token);
         
     }
+
+    // public List<User> searchUsers() {
+    //     return authRepo.findAll().stream()
+    //         .map(user -> new UserDTO(user.getId(), user.getUsername(), user.getEmail()))
+    //         .collect(Collect);
+    // }
 
 }

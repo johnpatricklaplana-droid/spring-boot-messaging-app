@@ -20,14 +20,14 @@ public class JwtService {
     }
 
     public String generateToken(String username) {
-        long expirationMillis = 1000 * 60 * 60; 
-
+        long expirationTime = 3600000;
+        
         return Jwts.builder()
-                .setSubject(username)             
-                .setIssuedAt(new Date())          
-                .setExpiration(new Date(System.currentTimeMillis() + expirationMillis)) 
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256) // creates signature 
-                .compact();
+        .setSubject(username)
+        .setIssuedAt(new Date())
+        .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
+        .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+        .compact();
     }
 
     public String extractUsername(String token) {
@@ -36,18 +36,19 @@ public class JwtService {
     
     public boolean isTokenValid(String token) {
         try {
-            extractAllClaims(token); 
+            extractAllClaims(token);
             return true;
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
 
-    private Claims extractAllClaims(String token) {
+    public Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token) // recreates the signature if signature is match to the token signature token is valid 
-                .getBody();
+            .setSigningKey(getSigningKey())
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
     }
 }

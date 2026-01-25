@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.Exceptions.UnauthorizedException;
 import com.example.demo.Exceptions.UserAlreadyExistsException;
+import com.example.demo.Exceptions.UserDontExistsException;
 import com.example.demo.Model.User;
 import com.example.demo.Service.AuthService;
 
@@ -54,12 +55,6 @@ public class AuthController {
         
     }
 
-    @GetMapping("/test")
-    @ResponseBody
-    public List<User> testing () {
-        return service.testing();
-    }
-
     @GetMapping("/index")
     public String serveMainPage (Model model, HttpServletRequest request) {
 
@@ -69,6 +64,12 @@ public class AuthController {
 
         return "index";
     }
+
+    @GetMapping("/search")
+    @ResponseBody
+    public List<User> searchUser () {
+        return service.searchUsers();
+    }
     
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<String> UserExistHandler (UserAlreadyExistsException ex) {
@@ -76,7 +77,12 @@ public class AuthController {
     }
     
     @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<String> Unauthorized (UserAlreadyExistsException ex) {
+    public ResponseEntity<String> Unauthorized (UnauthorizedException ex) {
+        return ResponseEntity.status(HttpStatusCode.valueOf(401)).body(ex.getMessage());
+    }
+    
+    @ExceptionHandler(UserDontExistsException.class)
+    public ResponseEntity<String> UserDontExist (UserDontExistsException ex) {
         return ResponseEntity.status(HttpStatusCode.valueOf(401)).body(ex.getMessage());
     }
     

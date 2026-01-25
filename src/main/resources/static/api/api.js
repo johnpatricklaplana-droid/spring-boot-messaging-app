@@ -13,7 +13,7 @@ export async function post (requestBody, url, credentials = "omit") {
         });   
         const response = await result.json();
         console.log(response);
-        return response;
+        return result.status;
     } catch (error) {
         console.error(error);
     }  
