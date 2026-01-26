@@ -6,19 +6,17 @@ import { post } from "/api/api.js";
 import { storageKeys } from "/constants/constants.js";
 
 // GET USER
-(() => {
-    const currentUser = JSON.parse(getCurrentUser());
-    console.log(currentUser);
+// (() => {
+//     const currentUser = JSON.parse(getCurrentUser());
+//     console.log(currentUser);
      
-    const youProfile = document.querySelectorAll(".youProfile");
-    
-    const id = 1; // testing
+//     const youProfile = document.querySelectorAll(".youProfile");
   
-    youProfile.forEach(element => {
-        element.style.backgroundImage = `url("http://localhost:8080/getProfilePic/${id}.png")`;
-    });
+//     youProfile.forEach(element => {
+//         element.style.backgroundImage = `url("http://localhost:8080/getProfilePic/${id}.png")`;
+//     });
     
-}) ();
+// }) ();
 
 // SEARCH FEATURE
 (()=> {
@@ -53,7 +51,9 @@ import { storageKeys } from "/constants/constants.js";
         }
         
         document.querySelector(".noResultFoundMessage").style.display = "none";
+
         searchResult(result);
+
     });
 
 }) ();
@@ -82,8 +82,8 @@ import { storageKeys } from "/constants/constants.js";
         const personProfilePicture = document.querySelector(".personProfilePicture");
         const personName = document.querySelector(".personName");
 
-        // personProfilePicture.style.backgroundImage = `url("http://localhost:8080/userProfile?id=${id}")`;
-        // personName.innerText = person.username;
+        personProfilePicture.style.backgroundImage = `url("http://localhost:8080/getProfilePic/${id}.png")`;
+        personName.innerText = person.username;
     })
 }) ();
 

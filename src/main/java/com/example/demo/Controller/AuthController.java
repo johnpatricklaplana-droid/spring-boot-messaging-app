@@ -60,7 +60,7 @@ public class AuthController {
     @GetMapping("/index")
     public String serveMainPage (Model model, HttpServletRequest request) {
 
-        String userId = service.isAuthorized(request); // TODO: Verify authorization and use the username later for personalized content
+        String userId = service.isAuthorized(request); 
 
         model.addAttribute("imagePath", "/getProfilePic/" + userId + ".png");
 

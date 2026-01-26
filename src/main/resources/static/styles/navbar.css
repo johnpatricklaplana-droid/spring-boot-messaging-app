@@ -132,7 +132,7 @@
 }
 
 .searchResultContainer ul li:hover {
-    box-shadow: 1px 1px 8px gray;
+    background-color: lightgray;
 }
 
 .noResultFoundMessage {
