@@ -63,6 +63,7 @@ public class AuthController {
         String userId = service.isAuthorized(request); 
 
         model.addAttribute("imagePath", "/getProfilePic/" + userId + ".png");
+        model.addAttribute("userId", userId);
 
         return "index";
     }

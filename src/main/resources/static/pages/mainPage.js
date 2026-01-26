@@ -93,8 +93,13 @@ import { storageKeys } from "/constants/constants.js";
     addButton.addEventListener("click", async (event) => {
         const currentUserInfo = JSON.parse(getCurrentUser());
         
+        const userprofile = document.querySelector(".userprofile");
+
         const personID = event.target.dataset.personId;
-        const userId = currentUserInfo.id;
+        const userId = userprofile.dataset.userId;
+
+        console.log(userId);
+        
         
         if(personID === userId) {
             console.log("TODO feature");
@@ -106,13 +111,13 @@ import { storageKeys } from "/constants/constants.js";
            requestTo: personID
         };
 
-        // const url = "http://localhost:8080/addfriend";
-        // const result = await post(requestBody, url);
+        const url = "http://localhost:8080/addFriend";
+        const result = await post(requestBody, url);
         
-        // if (result.response === "success") {
-        //     addButton.innerText = "request sent";
-        //     addButton.style.backgroundColor = "white";
-        // }
+        if (result.response === "success") {
+            addButton.innerText = "request sent";
+            addButton.style.backgroundColor = "white";
+        }
         
     });
 
@@ -126,9 +131,9 @@ import { storageKeys } from "/constants/constants.js";
             return;
         }
 
-        const currentUser = JSON.parse(getCurrentUser());
+        // const currentUser = JSON.parse(getCurrentUser());
       
-        const currentUserId = currentUser.id;
+        // const currentUserId = currentUser.id;
 
         // const url = `http://localhost:8080/getFriendRequest?currentUserId=${currentUserId}`;
         // const result = await get(url);
@@ -199,8 +204,8 @@ import { storageKeys } from "/constants/constants.js";
         if(event.target.closest(".accept")) {
             const currentUser = JSON.parse(getCurrentUser(storageKeys.userInfoKey));
              
-            const idFromFriendRequest = event.target.dataset.personID;
-            const currentUserId = currentUser.id;
+            // const idFromFriendRequest = event.target.dataset.personID;
+            // const currentUserId = currentUser.id;
             
             // const url = `http://localhost:8080/accept?idFromFriendRequest=${idFromFriendRequest}&currentUserId=${currentUserId}`;
             // const result = await get(url);
@@ -234,7 +239,7 @@ import { storageKeys } from "/constants/constants.js";
 (async () => {
     const currentUser = JSON.parse(getCurrentUser());
 
-    const currentUserId = currentUser.id;
+    // const currentUserId = currentUser.id;
 
     // const url = `http://localhost:8080/getfriends?currentUserId=${currentUserId}`;
     // const result = await get(url);

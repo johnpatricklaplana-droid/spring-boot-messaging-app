@@ -2,6 +2,8 @@ package com.example.demo.Model;
 
 import java.time.LocalDateTime;
 
+import com.example.demo.Enum.FriendStatus;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @Data
-@Table
+@Table(name = "friends")
 public class Friend {
 
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -22,7 +24,8 @@ public class Friend {
     
     private int requestFrom;
     private int requestTo;
+
     private LocalDateTime requestedAt;
     private LocalDateTime acceptedAt;
-    private String status;
+    private FriendStatus status;
 }
