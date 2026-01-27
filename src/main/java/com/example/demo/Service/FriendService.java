@@ -13,8 +13,12 @@ public class FriendService {
     FriendRepository friendRepo;
 
     public void addFriend(Friend friend) {
-        
+        friend.setStatus("pending");
         friendRepo.save(friend);
+    }
+
+    public void getFriendRequest(int peopleYouManyKnowId) {
+          
     }
     
 }

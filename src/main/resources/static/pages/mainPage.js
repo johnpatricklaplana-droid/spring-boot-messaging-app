@@ -4,6 +4,7 @@ import { searchResult } from "/components/components.js";
 import { addUser, getUser } from "/store/userstore.js";
 import { post } from "/api/api.js";
 import { storageKeys } from "/constants/constants.js";
+import { currentUser } from "/store/currentUser.js";
 
 // GET USER
 // (() => {
@@ -92,11 +93,9 @@ import { storageKeys } from "/constants/constants.js";
 
     addButton.addEventListener("click", async (event) => {
         const currentUserInfo = JSON.parse(getCurrentUser());
-        
-        const userprofile = document.querySelector(".userprofile");
 
         const personID = event.target.dataset.personId;
-        const userId = userprofile.dataset.userId;
+        const userId = currentUser.id;
 
         console.log(userId);
         
@@ -114,7 +113,7 @@ import { storageKeys } from "/constants/constants.js";
         const url = "http://localhost:8080/addFriend";
         const result = await post(requestBody, url);
         
-        if (result.response === "success") {
+        if (result == 200) {
             addButton.innerText = "request sent";
             addButton.style.backgroundColor = "white";
         }
@@ -130,13 +129,11 @@ import { storageKeys } from "/constants/constants.js";
         if(!friendRequestIconAndLabelContainer) {
             return;
         }
-
-        // const currentUser = JSON.parse(getCurrentUser());
       
-        // const currentUserId = currentUser.id;
+        const currentUserId = currentUser.id;
 
-        // const url = `http://localhost:8080/getFriendRequest?currentUserId=${currentUserId}`;
-        // const result = await get(url);
+        const url = `http://localhost:8080/getFriendRequest/${currentUserId}`;
+        const result = await get(url);
 
         const friendrequestsContainer = document.querySelector(".friendrequestsContainer");
          
