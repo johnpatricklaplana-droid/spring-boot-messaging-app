@@ -16,7 +16,7 @@ public class FriendController {
     
     @PostMapping("/addFriend")
     public String AddFriend (@RequestBody Friend friend) {
-        
+        service.addFriend(friend);
         return "";
     }
 
