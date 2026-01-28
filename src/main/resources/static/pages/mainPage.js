@@ -98,7 +98,7 @@ import { currentUser } from "/store/currentUser.js";
         const userId = currentUser.id;
 
         console.log(userId);
-        
+            
         
         if(personID === userId) {
             console.log("TODO feature");

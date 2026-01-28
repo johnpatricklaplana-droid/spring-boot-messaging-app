@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,20 +21,17 @@ public class Friend {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Id
     private Integer id;
-    
-    private int requestFrom;
-    private int requestTo;
 
     private LocalDateTime requestedAt;
     private LocalDateTime acceptedAt;
     private String status;
 
-    // @ManyToOne
-    // @JoinColumn(name = "requestTo")
-    // private User user;
+    @ManyToOne
+    @JoinColumn(name = "requestTo", referencedColumnName = "id")
+    private User requestTo;
 
-    // @ManyToOne
-    // @JoinColumn(name = "requestFrom")
-    // private User user1;
+    @ManyToOne
+    @JoinColumn(name = "requestFrom", referencedColumnName = "id")
+    private User requestFrom;
     
 }
