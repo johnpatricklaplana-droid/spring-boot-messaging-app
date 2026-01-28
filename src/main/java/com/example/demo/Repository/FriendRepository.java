@@ -6,4 +6,5 @@ import com.example.demo.Model.Friend;
 
 public interface FriendRepository extends JpaRepository<Friend, Integer> {
     
+    // List<Friend> get
 }

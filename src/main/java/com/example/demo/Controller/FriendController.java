@@ -1,6 +1,8 @@
 package com.example.demo.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +19,13 @@ public class FriendController {
     @PostMapping("/addFriend")
     public String AddFriend (@RequestBody Friend friend) {
         service.addFriend(friend);
-        return "";
+        return "{ \"response\": \"good one\" }";
+    }
+
+    @GetMapping("/getFriendRequest/{peopleYouManyKnowId}")
+    public String GetFriendRequest (@PathVariable int peopleYouManyKnowId) {
+        service.getFriendRequest(peopleYouManyKnowId);
+        return null;
     }
 
 }
