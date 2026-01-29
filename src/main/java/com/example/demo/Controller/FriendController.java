@@ -26,7 +26,7 @@ public class FriendController {
     }
 
     @GetMapping("/getFriendRequest/{requestTo}")
-    public List<Friend> GetFriendRequest (@PathVariable int requestTo) {
+    public List<FriendDTO> GetFriendRequest (@PathVariable int requestTo) {
         return service.getFriendRequest(requestTo);
     }
 

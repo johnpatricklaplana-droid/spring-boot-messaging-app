@@ -1,7 +1,11 @@
 package com.example.demo.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.type.descriptor.java.LocalDateTimeJavaType;
+import org.hibernate.type.descriptor.jdbc.LocalDateTimeJdbcType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +26,14 @@ public class FriendService {
 
     public void addFriend(FriendDTO friendDTO) {
 
-        User userFrom = authRepo.findById(friendDTO.getRequestFrom())
+        User userFrom = authRepo.findById(friendDTO.getRequestFrom().getId())
             .orElseThrow(() -> new RuntimeException());
 
-        User userTo = authRepo.findById(friendDTO.getRequestTo())
+        User userTo = authRepo.findById(friendDTO.getRequestTo().getId())
             .orElseThrow(() -> new RuntimeException());
 
         Friend friend = new Friend();
+        friend.setRequestedAt(LocalDateTime.now());
         friend.setStatus("pending");
         friend.setRequestFrom(userFrom);
         friend.setRequestTo(userTo);
@@ -36,8 +41,21 @@ public class FriendService {
         friendRepo.save(friend);
     }
 
-    public List<Friend> getFriendRequest(Integer requestToId) {
-        return friendRepo.getFriendRequests(requestToId);
+    public List<FriendDTO> getFriendRequest(Integer requestToId) {
+
+        List<FriendDTO> dto = new ArrayList<>();
+
+        List<Friend> friends = friendRepo.getFriendRequests(requestToId);
+
+        for (Friend f : friends) {
+            FriendDTO fDTO = new FriendDTO();
+            fDTO.setId(f.getId());
+            fDTO.setRequestFrom(f.getRequestFrom());
+            dto.add(fDTO);
+        }
+
+        return dto;
+
     }
     
 }

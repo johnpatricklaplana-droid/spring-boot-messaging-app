@@ -3,6 +3,7 @@ package com.example.demo.Model;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,6 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name="Users")
+@JsonIgnoreProperties({"password", "emailVerificationToken"})
 public class User {
     
     @GeneratedValue(strategy=GenerationType.IDENTITY)

@@ -1,5 +1,10 @@
 package com.example.demo.DTO;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class UserDTO {
 
     private Integer id;
@@ -11,16 +16,5 @@ public class UserDTO {
         this.username = username;
         this.email = email;
     }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getUsername () {
-        return username;
-    }
-
-    public String getEmail () {
-        return email;
-    }
+    
 }
