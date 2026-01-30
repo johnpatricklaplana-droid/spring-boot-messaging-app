@@ -32,3 +32,16 @@ export async function get (url) {
         console.error(error);
     }
 }
+
+export async function update (url) {
+    try {
+        const result = await fetch(url, {
+            method: "PUT"
+        });
+        const response = await result.json();
+    
+        return result.status;
+    } catch (error) {   
+        console.error(error);
+    }
+}

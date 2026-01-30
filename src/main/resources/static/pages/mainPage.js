@@ -5,6 +5,7 @@ import { addUser, getUser } from "/store/userstore.js";
 import { post } from "/api/api.js";
 import { storageKeys } from "/constants/constants.js";
 import { currentUser } from "/store/currentUser.js";
+import { update } from "/api/api.js";
 
 // GET USER
 // (() => {
@@ -94,24 +95,16 @@ import { currentUser } from "/store/currentUser.js";
     addButton.addEventListener("click", async (event) => {
         const currentUserInfo = JSON.parse(getCurrentUser());
 
-        const personID = event.target.dataset.personId;
-        const userId = currentUser.id;
-
-        console.log(userId);
-            
+        const requestTo = event.target.dataset.personId;
+        const requestFrom = currentUser.id;    
         
-        if(personID === userId) {
+        if(requestFrom === requestTo) {
             console.log("TODO feature");
             return;
         }
-        
-        const requestBody = {
-           requestFrom: userId,
-           requestTo: personID
-        };
 
-        const url = "http://localhost:8080/addFriend";
-        const result = await post(requestBody, url);
+        const url = `http://localhost:8080/addFriend/${requestTo}/${requestFrom}`;
+        const result = await post(null, url);
         
         if (result == 200) {
             addButton.innerText = "request sent";
@@ -137,43 +130,46 @@ import { currentUser } from "/store/currentUser.js";
 
         const friendrequestsContainer = document.querySelector(".friendrequestsContainer");
          
-        // result.forEach(user => {
-            // const divpersonRequestContainer = document.createElement("div");
-        //     divpersonRequestContainer.className = "personRequestContainer";
+        result.forEach(user => {
 
-        //     const divpersonRequestProfilePicture = document.createElement("div");
-        //     divpersonRequestProfilePicture.style.backgroundImage = `url("http://localhost:8080/getProfile/user_1.png")`;
-        //     divpersonRequestProfilePicture.className = "personRequestProfilePicture";
-        //     divpersonRequestProfilePicture.classList.add("profile");
+            const id = user.requestFrom.id;
 
-        //     const divNameAndButtonsContainerInFriendRequest = document.createElement("div");
-        //     divNameAndButtonsContainerInFriendRequest.className = "NameAndButtonsContainerInFriendRequest";
+            const divpersonRequestContainer = document.createElement("div");
+            divpersonRequestContainer.className = "personRequestContainer";
 
-        //     const h3nameInFriendRequest = document.createElement("h3");
-        //     h3nameInFriendRequest.innerText = user.username;
-        //     h3nameInFriendRequest.className = "nameInFriendRequest";
+            const divpersonRequestProfilePicture = document.createElement("div");
+            divpersonRequestProfilePicture.style.backgroundImage = `url("http://localhost:8080/getProfilePic/${id}.png")`;
+            divpersonRequestProfilePicture.className = "personRequestProfilePicture";
+            divpersonRequestProfilePicture.classList.add("profile");
 
-        //     const divbuttonContainerInFrienRequest = document.createElement("div");
-        //     divbuttonContainerInFrienRequest.className = "buttonContainerInFrienRequest";
+            const divNameAndButtonsContainerInFriendRequest = document.createElement("div");
+            divNameAndButtonsContainerInFriendRequest.className = "NameAndButtonsContainerInFriendRequest";
 
-        //     const buttonaccept = document.createElement("button");
-        //     buttonaccept.dataset.personID = user.id;
-        //     buttonaccept.innerText = "Accept";
-        //     buttonaccept.className = "accept";
+            const h3nameInFriendRequest = document.createElement("h3");
+            h3nameInFriendRequest.innerText = user.requestFrom.username;
+            h3nameInFriendRequest.className = "nameInFriendRequest";
 
-        //     const buttonblock = document.createElement("button");
-        //     buttonblock.dataset.personID = user.id;
-        //     buttonblock.innerText = "Block";
-        //     buttonblock.className = "block";
+            const divbuttonContainerInFrienRequest = document.createElement("div");
+            divbuttonContainerInFrienRequest.className = "buttonContainerInFrienRequest";
+
+            const buttonaccept = document.createElement("button");
+            buttonaccept.dataset.personID = id;
+            buttonaccept.innerText = "Accept";
+            buttonaccept.className = "accept";
+
+            const buttonblock = document.createElement("button");
+            buttonblock.dataset.personID = user.id;
+            buttonblock.innerText = "Block";
+            buttonblock.className = "block";
            
-        //     divNameAndButtonsContainerInFriendRequest.appendChild(h3nameInFriendRequest);
-        //     divNameAndButtonsContainerInFriendRequest.appendChild(divbuttonContainerInFrienRequest);
-        //     divbuttonContainerInFrienRequest.appendChild(buttonaccept);
-        //     divbuttonContainerInFrienRequest.appendChild(buttonblock);
-        //     divpersonRequestContainer.appendChild(divpersonRequestProfilePicture);
-        //     divpersonRequestContainer.appendChild(divNameAndButtonsContainerInFriendRequest);
-        //     friendrequestsContainer.appendChild(divpersonRequestContainer);
-        // });
+            divNameAndButtonsContainerInFriendRequest.appendChild(h3nameInFriendRequest);
+            divNameAndButtonsContainerInFriendRequest.appendChild(divbuttonContainerInFrienRequest);
+            divbuttonContainerInFrienRequest.appendChild(buttonaccept);
+            divbuttonContainerInFrienRequest.appendChild(buttonblock);
+            divpersonRequestContainer.appendChild(divpersonRequestProfilePicture);
+            divpersonRequestContainer.appendChild(divNameAndButtonsContainerInFriendRequest);
+            friendrequestsContainer.appendChild(divpersonRequestContainer);
+        });
     
 }) ();
 
@@ -199,47 +195,45 @@ import { currentUser } from "/store/currentUser.js";
     document.addEventListener("click", async (event) => {
          
         if(event.target.closest(".accept")) {
-            const currentUser = JSON.parse(getCurrentUser(storageKeys.userInfoKey));
              
-            // const idFromFriendRequest = event.target.dataset.personID;
-            // const currentUserId = currentUser.id;
+            const idFromFriendRequest = event.target.dataset.personID; 
+            const currentUserId = currentUser.id; 
             
-            // const url = `http://localhost:8080/accept?idFromFriendRequest=${idFromFriendRequest}&currentUserId=${currentUserId}`;
-            // const result = await get(url);
-            // console.log(result.response);
+            const url = `http://localhost:8080/acceptFriendRequest/${idFromFriendRequest}/${currentUserId}`;
+            const result = await update(url);
+            console.log(result);
             
-            // if (result.response === "good one") {
-            //     const requestContainer = event.target.closest(".personRequestContainer");
+            if (result == 200) {
+                const requestContainer = event.target.closest(".personRequestContainer");
 
-            //     const NameAndButtonsContainerInFriendRequest = requestContainer.querySelector(".NameAndButtonsContainerInFriendRequest");
+                const NameAndButtonsContainerInFriendRequest = requestContainer.querySelector(".NameAndButtonsContainerInFriendRequest");
 
-            //     const acceptbutton = NameAndButtonsContainerInFriendRequest.querySelector(".accept");
-            //     const blockbutton = NameAndButtonsContainerInFriendRequest.querySelector(".block");
-            //     const h3 = NameAndButtonsContainerInFriendRequest.querySelector(".nameInFriendRequest")
+                const acceptbutton = NameAndButtonsContainerInFriendRequest.querySelector(".accept");
+                const blockbutton = NameAndButtonsContainerInFriendRequest.querySelector(".block");
+                const h3 = NameAndButtonsContainerInFriendRequest.querySelector(".nameInFriendRequest")
 
-            //     acceptbutton.remove();
-            //     blockbutton.remove();
+                acceptbutton.remove();
+                blockbutton.remove();
 
-            //     const message = document.createElement("p");
-            //     message.className = "friendAddedMessage";
-            //     const username = h3.innerText;
-            //     message.innerText = `You're now friends with ${username}`;
-            //     h3.remove();
+                const message = document.createElement("p");
+                message.className = "friendAddedMessage";
+                const username = h3.innerText;
+                message.innerText = `You're now friends with ${username}`;
+                h3.remove();
 
-            //     NameAndButtonsContainerInFriendRequest.appendChild(message);
-            // }
+                NameAndButtonsContainerInFriendRequest.appendChild(message);
+            }
         }
 
     })
 }) ();
 
 (async () => {
-    const currentUser = JSON.parse(getCurrentUser());
 
-    // const currentUserId = currentUser.id;
+    const currentUserId = currentUser.id;
 
-    // const url = `http://localhost:8080/getfriends?currentUserId=${currentUserId}`;
-    // const result = await get(url);
+    const url = `http://localhost:8080/getfriends/${currentUserId}`;
+    const result = await get(url);
 
     const messagesContentContainer = document.querySelector(".messagesContentContainer");
     

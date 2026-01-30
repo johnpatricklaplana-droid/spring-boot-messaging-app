@@ -3,7 +3,7 @@ package com.example.demo.Model;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,20 +20,21 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name="Users")
-@JsonIgnoreProperties({"password", "emailVerificationToken"})
 public class User {
     
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Id
-    private Integer id;
+    private Integer id;                                                             
     private String username;
     private String email;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private String emailVerificationToken;
     
     @OneToMany(mappedBy = "requestFrom")
     @JsonIgnore
-    private List<Friend> sentFriendRequest;
+    private List<Friend> sentFriendRequest; 
 
     @OneToMany(mappedBy = "requestTo")
     @JsonIgnore

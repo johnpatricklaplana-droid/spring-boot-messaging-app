@@ -27,11 +27,11 @@ public class Friend {
     private String status;
 
     @ManyToOne
-    @JoinColumn(name = "requestTo", referencedColumnName = "id")
+    @JoinColumn(name = "requestTo")
     private User requestTo;
 
     @ManyToOne
-    @JoinColumn(name = "requestFrom", referencedColumnName = "id")
+    @JoinColumn(name = "requestFrom")
     private User requestFrom;
     
 }
