@@ -239,25 +239,29 @@ import { update } from "/api/api.js";
     
     result.forEach(friend => {
         
-        addUser(friend);
         const friendEl = document.createElement("div");
         friendEl.className = "friend";
-        friendEl.dataset.friendId = friend.id;
 
         const user = document.createElement("div");
         user.className = "user";
 
         const profilepicture = document.createElement("div");
         profilepicture.className = "profilepicture";
+        console.log(friend.requestFrom.id);
         
+        const h3 = document.createElement("h3");
         if(friend.requestFrom === null) {
-            profilepicture.style.backgroundImage = `url("http://localhost:8080/userProfilePic/${friend.requestTo.id}.png")`;
+            profilepicture.style.backgroundImage = `url("http://localhost:8080/getProfilePic/${friend.requestTo.id}.png")`;
+            h3.innerText = friend.requestTo.username;
+            friendEl.dataset.friendId = friend.requestTo.id;
+            addUser(friend.requestTo);
         } else {
-            profilepicture.style.backgroundImage = `url("http://localhost:8080/userProfilePic/${friend.requestFrom.id}.png")`;
+            profilepicture.style.backgroundImage = `url("http://localhost:8080/getProfilePic/${friend.requestFrom.id}.png")`;
+            h3.innerText = friend.requestFrom.username;
+            friendEl.dataset.friendId = friend.requestFrom.id;
+            addUser(friend.requestFrom);
         }
 
-        const h3 = document.createElement("h3");
-        h3.innerText = friend.username;
 
         const i = document.createElement("i");
         i.className = "fa-ellipsis";
@@ -280,7 +284,7 @@ import { update } from "/api/api.js";
         if (event.target.closest(".friend") && !event.target.classList.contains("fa-ellipsis")) {
             
             const id = event.target.closest(".friend").dataset.friendId;
-            const friendInfo = getUser(id);
+            const friendInfo = getUser(id);   
 
             document.querySelector(".chatContainer").style.display = "flex";
             document.querySelector(".personProfile").style.display = "none";
@@ -292,9 +296,9 @@ import { update } from "/api/api.js";
             const recivierNameTop = document.querySelector(".recivierNameTop");
             const kachatProfile = document.querySelectorAll(".kachatProfile");
             
-            // recieverProfile.style.backgroundImage = `url("http://localhost:8080/userProfile?id=${id}")`;
-            // friendProfile.style.backgroundImage = `url("http://localhost:8080/userProfile?id=${id}")`;
-            // kachatProfile.forEach(el => el.style.backgroundImage = `url("http://localhost:8080/userProfile?id=${id}")`);
+            recieverProfile.style.backgroundImage = `url("http://localhost:8080/getProfilePic/${id}.png")`;
+            friendProfile.style.backgroundImage = `url("http://localhost:8080/getProfilePic/${id}.png")`;
+            kachatProfile.forEach(el => el.style.backgroundImage = `url("http://localhost:8080/getProfilePic/${id}.png")`);
 
             recivierName.innerText = friendInfo.username;
             recivierNameTop.innerText = friendInfo.username;
