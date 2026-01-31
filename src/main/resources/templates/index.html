@@ -56,47 +56,9 @@
                         </ul>
                     </div>
                 </div>
-                <div class="navbarProfileAndNotificationWrapper">
-                    <button class="notifBtn">
-                        <i class="fa-regular fa-bell"></i>
-                        <span class="notifbadge">3</span>
-                    </button>
-                    <div class="box-shadow notifDropdown">
-                        <h2 class="notificationHeader">Notifications</h2>
-                        <div class="notifmessage">
-                            New message request from johny yes dadday
-                        </div>
-
-                        <div class="notifmessage">
-                            new message request from johny yes dadday
-                        </div>
-
-                        <div class="notifmessage">
-                            new message request from johny yes dadday
-                        </div>
-
-                        <div class="notifmessage">
-                            johny yes dadday sent some message
-                        </div>
-
-                        <div class="notifmessage">
-                            johny yes dadday sent some trashtalk
-                        </div>
-
-                        <div class="notifmessage">
-                            johny yes dadday sent some trashtalk
-                        </div>
-
-                        <div class="notifmessage">
-                            johny yes dadday sent some trashtalk
-                        </div>
-
-                         <div class="notifmessage">
-                             johny yes dadday sent some trashtalk
-                         </div>
-                    </div>
+                
                     <img class="userprofile profile" th:attr="data-user-id=${userId}" th:src="@{${imagePath}}" alt="">
-                </div>
+                
             </div> 
             <div class="bigWrapper">
                 <div class="MainContentContainer">
@@ -187,7 +149,7 @@
                     </div>
                     <h1 class="personName">john Patrick laplana</h1>
                     <div class="buttonsContainer">
-                        <button class="addButton">Add</button>
+                        <button id="addBtn" class="addButton">Add</button>
                         <button class="messageButton">Message</button>
                     </div>
                     <hr>

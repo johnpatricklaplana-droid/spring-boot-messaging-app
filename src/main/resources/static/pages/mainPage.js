@@ -6,6 +6,7 @@ import { post } from "/api/api.js";
 import { storageKeys } from "/constants/constants.js";
 import { currentUser } from "/store/currentUser.js";
 import { update } from "/api/api.js";
+import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
 
 // GET USER
 // (() => {
@@ -68,11 +69,31 @@ import { update } from "/api/api.js";
             return;
         } 
 
+        const addButton = document.querySelector(".addButton");
+        addButton.style.display = "block";
+        addButton.innerText = "Add";
+        addButton.style.backgroundColor = "rgb(21, 187, 242)";
+        addButton.disabled = false;
+        addButton.style.pointerEvents = "auto";
+        addButton.style.cursor = "pointer";
+
+        const id = event.target.dataset.personId
+
+        if(isFriendWithCurrentUser(id) === currentUser.id) {
+            addButton.style.backgroundColor = "white";
+            addButton.innerText = "friends";
+            addButton.style.opacity = "1";
+            addButton.style.color = "black";
+            addButton.disabled = true;
+            addButton.style.pointerEvents = "none";
+            addButton.style.borderColor = "black";
+            addButton.style.cursor = "not-allowed";
+        }   
+
         document.querySelector(".chatContainer").style.display = "none";
         document.querySelector(".friendrequestsContainer").style.display = "none";
 
         const personProfile = document.querySelector(".personProfile");
-        const id = event.target.dataset.personId
       
         document.querySelector(".addButton").dataset.personId = id;
 
@@ -93,6 +114,7 @@ import { update } from "/api/api.js";
     const addButton = document.querySelector(".addButton");
 
     addButton.addEventListener("click", async (event) => {
+
         const currentUserInfo = JSON.parse(getCurrentUser());
 
         const requestTo = event.target.dataset.personId;
@@ -247,18 +269,19 @@ import { update } from "/api/api.js";
 
         const profilepicture = document.createElement("div");
         profilepicture.className = "profilepicture";
-        console.log(friend.requestFrom.id);
         
         const h3 = document.createElement("h3");
         if(friend.requestFrom === null) {
             profilepicture.style.backgroundImage = `url("http://localhost:8080/getProfilePic/${friend.requestTo.id}.png")`;
             h3.innerText = friend.requestTo.username;
             friendEl.dataset.friendId = friend.requestTo.id;
+            addRelationship(friend.requestTo.id);
             addUser(friend.requestTo);
         } else {
             profilepicture.style.backgroundImage = `url("http://localhost:8080/getProfilePic/${friend.requestFrom.id}.png")`;
             h3.innerText = friend.requestFrom.username;
             friendEl.dataset.friendId = friend.requestFrom.id;
+            addRelationship(friend.requestFrom.id);
             addUser(friend.requestFrom);
         }
 
@@ -349,3 +372,4 @@ import { update } from "/api/api.js";
     });
     
 }) ();
+
