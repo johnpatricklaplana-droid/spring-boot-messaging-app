@@ -237,34 +237,38 @@ import { update } from "/api/api.js";
 
     const messagesContentContainer = document.querySelector(".messagesContentContainer");
     
-    // result.forEach(friend => {
-    //     console.log(friend);
+    result.forEach(friend => {
         
-    //     addUser(friend);
-    //     const friendEl = document.createElement("div");
-    //     friendEl.className = "friend";
-    //     friendEl.dataset.friendId = friend.id;
+        addUser(friend);
+        const friendEl = document.createElement("div");
+        friendEl.className = "friend";
+        friendEl.dataset.friendId = friend.id;
 
-    //     const user = document.createElement("div");
-    //     user.className = "user";
+        const user = document.createElement("div");
+        user.className = "user";
 
-    //     const profilepicture = document.createElement("div");
-    //     profilepicture.className = "profilepicture";
-    //     profilepicture.style.backgroundImage = `url("http://localhost:8080/userProfile?id=${friend.id}")`;
-
-    //     const h3 = document.createElement("h3");
-    //     h3.innerText = friend.username;
-
-    //     const i = document.createElement("i");
-    //     i.className = "fa-ellipsis";
-    //     i.classList.add("fa-solid");
+        const profilepicture = document.createElement("div");
+        profilepicture.className = "profilepicture";
         
-    //     friendEl.appendChild(user);
-    //     user.appendChild(profilepicture);
-    //     user.appendChild(h3);
-    //     friendEl.appendChild(i);
-    //     messagesContentContainer.appendChild(friendEl);
-    // });
+        if(friend.requestFrom === null) {
+            profilepicture.style.backgroundImage = `url("http://localhost:8080/userProfilePic/${friend.requestTo.id}.png")`;
+        } else {
+            profilepicture.style.backgroundImage = `url("http://localhost:8080/userProfilePic/${friend.requestFrom.id}.png")`;
+        }
+
+        const h3 = document.createElement("h3");
+        h3.innerText = friend.username;
+
+        const i = document.createElement("i");
+        i.className = "fa-ellipsis";
+        i.classList.add("fa-solid");
+        
+        friendEl.appendChild(user);
+        user.appendChild(profilepicture);
+        user.appendChild(h3);
+        friendEl.appendChild(i);
+        messagesContentContainer.appendChild(friendEl);
+    });
     
 }) ();
 

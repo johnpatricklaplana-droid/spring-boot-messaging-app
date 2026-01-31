@@ -33,7 +33,13 @@ public interface FriendRepository extends JpaRepository<Friend, Integer> {
                      @Param("acceptedAt") LocalDateTime datetime);
 
     @Query("""
-    TODO: bukas
+    SELECT f
+    FROM Friend f
+    JOIN FETCH f.requestTo
+    JOIN FETCH f.requestFrom
+    WHERE (f.requestFrom.id = :userId OR f.requestTo.id = :userId)
+    AND f.status = 'accepted'
     """)
     List<Friend> FriendsList(@Param("userId") int userId);
+
 }

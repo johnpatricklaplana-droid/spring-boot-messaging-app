@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DTO.FriendDTO;
-import com.example.demo.Model.User;
 import com.example.demo.Service.FriendService;
 
 @RestController
@@ -37,9 +36,8 @@ public class FriendController {
     }
 
     @GetMapping("/getfriends/{currentUserId}")
-    public List<User> getFriends (@PathVariable int currentUserId) {
-        service.getFriends(currentUserId);
-        return null;
+    public List<FriendDTO> getFriends (@PathVariable int currentUserId) {
+        return service.getFriends(currentUserId);
     }
 
 }

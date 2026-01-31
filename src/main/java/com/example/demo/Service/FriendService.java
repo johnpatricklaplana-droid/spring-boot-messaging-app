@@ -4,10 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.type.descriptor.java.LocalDateTimeJavaType;
-import org.hibernate.type.descriptor.jdbc.LocalDateTimeJdbcType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.DTO.FriendDTO;
@@ -69,9 +66,26 @@ public class FriendService {
         friendRepo.acceptUpdate(idFromFriendRequest, currentUserId, LocalDateTime.now());
     }
 
-    public List<User> getFriends(int currentUserId) {
-        // authRepo.
-        return null;
+    public List<FriendDTO> getFriends(int currentUserId) {
+
+        List<Friend> friends = friendRepo.FriendsList(currentUserId);
+
+        List<FriendDTO> friendDTO = new ArrayList<>();
+
+        for (Friend f : friends) {
+            FriendDTO dto = new FriendDTO();
+            dto.setAcceptedAt(f.getAcceptedAt());
+            dto.setId(f.getId());
+            if(f.getRequestFrom().getId() == currentUserId) {
+                dto.setRequestTo(f.getRequestTo());
+            } else {
+                dto.setRequestFrom(f.getRequestFrom());
+            }
+            dto.setStatus(f.getStatus());
+            friendDTO.add(dto);
+        }
+
+        return friendDTO;
     }
     
 }
