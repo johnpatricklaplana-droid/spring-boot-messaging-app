@@ -41,6 +41,8 @@ public class AuthController {
     @PostMapping("/login")
     @ResponseBody
     public ResponseEntity<String> logIn (@RequestBody User user) {
+
+        System.out.println("what is your problem?");
     
         String token = service.loginUser(user);
   
@@ -50,7 +52,7 @@ public class AuthController {
                 .path("/")
                 .maxAge(60*60)
                 .sameSite("Strict")
-                .build();
+                .build(); 
             
         return ResponseEntity.ok()
         .header(HttpHeaders.SET_COOKIE, cookie.toString())

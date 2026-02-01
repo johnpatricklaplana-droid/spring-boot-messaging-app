@@ -45,7 +45,7 @@ export function searchResult(peoples) {
         li.className = "userListFromSearch";
         const span = document.createElement("span");
         li.innerText = person.username;
-        span.style.backgroundImage = `url("http://localhost:8080/getProfilePic/${id}.png")`;
+        span.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
         li.appendChild(span);
         ul.appendChild(li);
     });

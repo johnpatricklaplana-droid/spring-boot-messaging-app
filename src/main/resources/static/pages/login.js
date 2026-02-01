@@ -34,7 +34,7 @@ import { storageKeys } from "/constants/constants.js";
             return;
         }
         
-        const url = `http://localhost:8080/login`;
+        const url = `http://192.168.100.17:8080/login`;
         const result = await post(requestBody, url, "include");   
         
         if(result != 200) {
@@ -42,7 +42,7 @@ import { storageKeys } from "/constants/constants.js";
             return;
         }      
         
-        window.location.href = "http://localhost:8080/index";
+        window.location.href = "http://192.168.100.17:8080/index";
     })
 }) ();
 
