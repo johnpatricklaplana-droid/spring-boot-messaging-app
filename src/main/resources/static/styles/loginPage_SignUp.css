@@ -1,37 +1,58 @@
+/* Reset & Box sizing */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Body */
 body {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
+/* Login Body */
 .loginbody {
     background: linear-gradient(135deg,
-  #e0f7fa,  /* icy white */
-  #b2ebf2,  /* pale ice blue */
-  #81d4fa   /* cold sky blue */
-    ); /* seasonal */
+            #e0f7fa,
+            /* icy white */
+            #b2ebf2,
+            /* pale ice blue */
+            #81d4fa
+            /* cold sky blue */
+        );
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
 }
 
+/* Login Container */
+.LoginContainer {
+    width: 90%;
+    max-width: 400px;
+    margin: 15px;
+    box-shadow: 1px 1px 10px blue;
+    padding: 15px;
+}
+
+/* Buttons */
 .btn {
     padding: 15px;
     font-weight: 600;
     border-radius: 5px;
-    border-style: none;
-    margin: 10px;
+    border: none;
+    margin: 10px 0;
 }
 
 .btn:hover {
     filter: brightness(.9);
 }
 
+/* Container inside login */
 .container {
     display: flex;
     padding: 20px;
@@ -40,29 +61,24 @@ body {
     align-items: center;
 }
 
+/* Input fields */
 .input {
     padding: 15px;
     outline: none;
     border-radius: 5px;
-    border-style: none;
+    border: none;
     width: 100%;
-    margin: 5px;
+    margin: 5px 0;
 }
 
-.LoginContainer {
-    box-shadow: 1px 1px 10px blue;
-    width: 400px;
-    max-width: 500px;
-    /* background-color: white; temporary */
-    margin: 15px;
-}
-
+/* Welcome Message */
 .welcome-message {
     text-align: center;
-    margin: 5px;
+    margin: 5px 0;
 }
 
-.LoginContainer a {  /* forgot password */
+/* Login links */
+.LoginContainer a {
     color: black;
     text-decoration: none;
 }
@@ -71,6 +87,7 @@ body {
     text-decoration: underline;
 }
 
+/* Input inside login container */
 .LoginContainer input {
     box-shadow: 1px 1px 5px blue;
     font-size: large;
@@ -82,6 +99,7 @@ body {
     transition: background-color 5000s ease-in-out 0s;
 }
 
+/* Login Button */
 .loginButton {
     width: 100%;
     background-color: navy;
@@ -89,25 +107,26 @@ body {
     box-shadow: 1px 1px 5px blue;
 }
 
-.LoginContainer a:hover {
-    text-decoration: none;
-}
-
+/* Create New Account Button */
 .createNewAccount {
+    width: 100%;
     background-color: rgb(169, 238, 169);
     box-shadow: 1px 1px 5px blue;
 }
 
-.security-indicators p{
+/* Security indicators */
+.security-indicators p {
     text-align: center;
 }
 
+/* Footer */
 .footer {
     margin-top: 50px;
     width: 100%;
     display: flex;
     justify-content: center;
     gap: 15px;
+    flex-wrap: wrap;
 }
 
 .footer a {
@@ -124,31 +143,46 @@ body {
     gap: 10px;
 }
 
-/* sign up boundary */
-
+/* Sign Up Body */
 .signupbody {
-     background: linear-gradient(135deg,
-   #8b0000,   /* dark red / ember */
-   #ff4500,   /* orange-red */
-   #ff8c00,   /* orange */
-   #ffd700    /* yellow spark */
-   );
+    background: linear-gradient(135deg,
+            #8b0000,
+            /* dark red / ember */
+            #ff4500,
+            /* orange-red */
+            #ff8c00,
+            /* orange */
+            #ffd700
+            /* yellow spark */
+        );
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
 }
 
+/* Sign Up Container */
 .SignUpContainer {
-    width: 400px;
+    width: 90%;
+    max-width: 400px;
     box-shadow: 1px 1px 5px yellow;
+    padding: 15px;
 }
 
+/* Sign Up Buttons */
 .SignUpContainer button {
     box-shadow: 1px 1px 5px yellow;
     background-color: red;
+    width: 100%;
 }
 
+/* Sign Up Inputs */
 .SignUpContainer input {
     box-shadow: 1px 1px 5px yellow;
     background-color: transparent;
     color: white;
+    width: 100%;
+    margin: 5px 0;
 }
 
 .SignUpContainer input::placeholder {
@@ -159,6 +193,7 @@ body {
     transition: background-color 5000s ease-in-out 0s;
 }
 
+/* Terms & Conditions */
 .SignUpContainer .termsAndCondition {
     text-align: center;
     margin-bottom: 5px;
@@ -167,4 +202,51 @@ body {
 .welcommessageSignup {
     font-weight: 100;
     margin-bottom: 10px;
+}
+
+/* =================== MEDIA QUERIES =================== */
+
+/* Small phones */
+@media (max-width: 414px) {
+
+    .LoginContainer,
+    .SignUpContainer {
+        width: 95%;
+        padding: 10px;
+        margin: 10px;
+    }
+
+    .footer a {
+        font-size: 12px;
+    }
+
+    .btn {
+        padding: 12px;
+        font-size: 14px;
+    }
+}
+
+/* Extra small phones (less than 370px) */
+@media (max-width: 370px) {
+    .footer a {
+        font-size: 10px;
+    }
+}
+
+/* Tablets */
+@media (min-width: 415px) and (max-width: 768px) {
+
+    .LoginContainer,
+    .SignUpContainer {
+        width: 80%;
+    }
+}
+
+/* Desktop */
+@media (min-width: 769px) {
+
+    .LoginContainer,
+    .SignUpContainer {
+        width: 400px;
+    }
 }
