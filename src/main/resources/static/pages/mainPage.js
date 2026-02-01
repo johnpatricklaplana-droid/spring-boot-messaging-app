@@ -68,6 +68,9 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
         if (!event.target.classList.contains("userListFromSearch")) {
             return;
         } 
+      
+        const messageButton = document.querySelector(".messageButton");
+        messageButton.style.display = "block";
 
         const addButton = document.querySelector(".addButton");
         addButton.style.display = "block";
@@ -76,8 +79,15 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
         addButton.disabled = false;
         addButton.style.pointerEvents = "auto";
         addButton.style.cursor = "pointer";
+        addButton.style.display = "block";
 
         const id = event.target.dataset.personId
+
+        // check if current user is checking their profile
+        if(currentUser.id === id) {
+            addButton.style.display = "none";
+            messageButton.style.display = "none";
+        }
 
         if(isFriendWithCurrentUser(id) === currentUser.id) {
             addButton.style.backgroundColor = "white";
@@ -115,15 +125,8 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
 
     addButton.addEventListener("click", async (event) => {
 
-        const currentUserInfo = JSON.parse(getCurrentUser());
-
         const requestTo = event.target.dataset.personId;
         const requestFrom = currentUser.id;    
-        
-        if(requestFrom === requestTo) {
-            console.log("TODO feature");
-            return;
-        }
 
         const url = `http://localhost:8080/addFriend/${requestTo}/${requestFrom}`;
         const result = await post(null, url);
