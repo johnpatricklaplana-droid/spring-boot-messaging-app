@@ -376,3 +376,22 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
     
 }) ();
 
+
+// (() => { 
+
+//     const messageInputField = document.querySelector(".messageInputField");
+
+//     const textMessage = messageInputField.value.trim();
+
+//     const socket = new WebSocket();
+
+//     socket.onopen = () => {
+//         socket.send(JSON.stringify(
+//             { 
+//                 text: textMessage,
+//                 sender: currentUser.id  
+//             }
+//         ))
+//     };
+
+// }) ();
