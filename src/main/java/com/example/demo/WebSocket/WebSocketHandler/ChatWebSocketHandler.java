@@ -22,7 +22,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         System.out.println("[OPEN] sessionId=" + session.getId());
-        // nothing yet, will assign session to conversation after first message or handshake with conversationId
+        
     }
 
     @Override
@@ -31,21 +31,17 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
         System.out.println("[RECEIVE] from=" + session.getId() +
                 " payload=" + message.getPayload());
 
-        // parse incoming JSON
         JsonNode jsonNode = objectMapper.readTree(message.getPayload());
         long conversationId = jsonNode.get("conversationId").asLong();
         String text = jsonNode.get("text").asText();
 
-        // get or create the set of sessions for this conversation
         conversationSessions.putIfAbsent(conversationId, ConcurrentHashMap.newKeySet());
         Set<WebSocketSession> sessions = conversationSessions.get(conversationId);
 
-        // add this session to the conversation (if not already present)
         sessions.add(session);
 
         System.out.println("[BROADCAST] to " + sessions.size() + " sessions in conversation " + conversationId);
 
-        // broadcast message only to sessions in this conversation
         for (WebSocketSession s : sessions) {
             System.out.println("[SEND] to=" + s.getId() + " open=" + s.isOpen());
             if (s.isOpen()) {
@@ -58,8 +54,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 
         System.out.println("[CLOSE] sessionId=" + session.getId() + " status=" + status);
-
-        // remove session from all conversation sets
+        
         conversationSessions.forEach((conversationId, sessions) -> sessions.remove(session));
     }
 }

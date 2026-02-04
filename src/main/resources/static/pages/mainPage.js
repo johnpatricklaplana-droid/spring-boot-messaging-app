@@ -322,6 +322,7 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
             const recivierNameTop = document.querySelector(".recivierNameTop");
             const kachatProfile = document.querySelectorAll(".kachatProfile");
             
+            friendProfile.dataset.friendId = id;
             recieverProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
             friendProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
             kachatProfile.forEach(el => el.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`);
@@ -376,22 +377,18 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
     
 }) ();
 
+(() => {
+    
+    const socket = new WebSocket("ws://192.168.100.17:8080/chat");
 
-// (() => { 
+    socket.onopen = () => {
 
-//     const messageInputField = document.querySelector(".messageInputField");
+        socket.send(JSON.stringify({
+            text: "",
+            userId: 1
+        }))
 
-//     const textMessage = messageInputField.value.trim();
+    };
 
-//     const socket = new WebSocket();
+}) ();
 
-//     socket.onopen = () => {
-//         socket.send(JSON.stringify(
-//             { 
-//                 text: textMessage,
-//                 sender: currentUser.id  
-//             }
-//         ))
-//     };
-
-// }) ();
