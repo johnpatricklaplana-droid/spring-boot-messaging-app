@@ -7,6 +7,7 @@ import { storageKeys } from "/constants/constants.js";
 import { currentUser } from "/store/currentUser.js";
 import { update } from "/api/api.js";
 import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
+import { user_conversation_id } from "/store/currentUser.js";
 
 // GET USER
 // (() => {
@@ -377,22 +378,30 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
     
 }) ();
 
-// (() => {
+(() => {
 
-//     const messageInputField = document.querySelector(".messageInputField");
+    const messageInputField = document.querySelector(".messageInputField");
 
-//     const textMessage = messageInputField.value.trim();
+    const textMessage = messageInputField.value.trim();
 
-//     const socket = new WebSocket();
+    let conversation_id;
 
-//     socket.onopen = () => {
-//         socket.send(JSON.stringify(
-//             {
-//                 text: textMessage,
-//                 sender: currentUser.id
-//             }
-//         ))
-//     };
+    if(user_conversation_id.conversation_id == null) {
+        //TODO: fetch conversation id of this client user
+    } else {
+        conversation_id = user_conversation_id.conversation_id;
+    }
 
-// }) ();
+    const socket = new WebSocket(`ws://192.168.100.17:8080/chat?conversation_id=${conversation_id}`);
+
+    socket.onopen = () => {
+        socket.send(JSON.stringify(
+            {
+                text: textMessage,
+                sender_id: currentUser.id
+            }
+        ))
+    };
+
+}) ();
 

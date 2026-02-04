@@ -29,6 +29,9 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
         session.getAttributes().put("conversation_id", conversation_id);
 
         conversationSession.putIfAbsent(conversation_id, new HashSet<>());
+        Set<WebSocketSession> chatRoom = conversationSession.get(conversation_id);
+
+        chatRoom.add(session);
     }
 
     @Override
@@ -40,10 +43,21 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     
         Set<WebSocketSession> chatRoom = conversationSession.get(conversatonId);
 
+        for (WebSocketSession convo : chatRoom) {
+            if(convo.isOpen()) {
+                convo.sendMessage(new TextMessage(text));
+            }
+        }
+
     }
 
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {       
+        int conversation_id = (Integer) session.getAttributes().get("conversation_id");
+
+        Set<WebSocketSession> chatRoom = conversationSession.get(conversation_id);
+
+        chatRoom.remove(session);
 
     }
 }
