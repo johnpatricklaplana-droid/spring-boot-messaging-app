@@ -28,7 +28,7 @@ public interface FriendRepository extends JpaRepository<Friend, Integer> {
     WHERE f.requestTo.id = :requestToId
     AND f.requestFrom.id = :requestFromId
     """)
-    int acceptUpdate(@Param("requestFromId") Integer requestFromId,
+    int acceptFriendRequest(@Param("requestFromId") Integer requestFromId,
                      @Param("requestToId") Integer requestToId,
                      @Param("acceptedAt") LocalDateTime datetime);
 

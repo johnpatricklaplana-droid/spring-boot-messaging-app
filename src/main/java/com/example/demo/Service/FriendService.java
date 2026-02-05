@@ -8,9 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.DTO.FriendDTO;
+import com.example.demo.Model.Conversation;
+import com.example.demo.Model.ConversationMember;
 import com.example.demo.Model.Friend;
 import com.example.demo.Model.User;
 import com.example.demo.Repository.AuthRepository;
+import com.example.demo.Repository.ConversationMemberRepository;
+import com.example.demo.Repository.ConversationRepository;
 import com.example.demo.Repository.FriendRepository;
 
 import jakarta.transaction.Transactional;
@@ -23,6 +27,12 @@ public class FriendService {
 
     @Autowired
     AuthRepository authRepo;
+
+    @Autowired
+    ConversationRepository conversationRepo;
+
+    @Autowired
+    ConversationMemberRepository conversationMemberRepo;
 
     public void addFriend(int requestTo, int requestFrom) {
     
@@ -39,7 +49,7 @@ public class FriendService {
         friend.setStatus("pending");
 
         friendRepo.save(friend);
-        
+
     }
 
     public List<FriendDTO> getFriendRequest(Integer requestToId) {
@@ -63,7 +73,29 @@ public class FriendService {
     @Transactional
     public void acceptFriendRequest(int idFromFriendRequest, int currentUserId) {
         
-        friendRepo.acceptUpdate(idFromFriendRequest, currentUserId, LocalDateTime.now());
+        friendRepo.acceptFriendRequest(idFromFriendRequest, currentUserId, LocalDateTime.now());
+
+        Conversation conversation = new Conversation();
+        conversation.setConversationName("default");
+        conversation.setCreatedAt(LocalDateTime.now());
+
+        conversationRepo.save(conversation);
+
+        int conversation_id = conversation.getId();
+
+        ConversationMember currentUser = new ConversationMember();
+        currentUser.setJoinedAt(LocalDateTime.now());
+        currentUser.getConversationId().setId(conversation_id);
+        currentUser.getUserId().setId(currentUserId);
+
+        ConversationMember friendRequest = new ConversationMember();
+        friendRequest.setJoinedAt(LocalDateTime.now());
+        friendRequest.getConversationId().setId(conversation_id);
+        friendRequest.getUserId().setId(idFromFriendRequest);
+        
+        conversationMemberRepo.save(currentUser);
+        conversationMemberRepo.save(friendRequest);
+
     }
 
     public List<FriendDTO> getFriends(int currentUserId) {

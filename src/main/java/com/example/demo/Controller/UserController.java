@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.DTO.ConversationMemberDTO;
 import com.example.demo.Service.UserService;
 
 @Controller
@@ -16,9 +17,8 @@ public class UserController {
     UserService service;
     
     @GetMapping("getConversationId/{userId}")
-    public String getConversationId (@PathVariable int userId) {
-        service.getConversationId(userId);
-        return "{ \"response\": \"TODO\" }";
+    public ConversationMemberDTO getConversationId (@PathVariable int userId) {
+        return service.getConversationId(userId);
     }
 
 }

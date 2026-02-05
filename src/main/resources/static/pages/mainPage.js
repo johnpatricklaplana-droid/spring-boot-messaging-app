@@ -7,7 +7,6 @@ import { storageKeys } from "/constants/constants.js";
 import { currentUser } from "/store/currentUser.js";
 import { update } from "/api/api.js";
 import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
-import { user_conversation_id } from "/store/currentUser.js";
 
 // GET USER
 // (() => {
@@ -378,18 +377,22 @@ import { user_conversation_id } from "/store/currentUser.js";
     
 }) ();
 
-(() => {
+(async () => {
 
     const messageInputField = document.querySelector(".messageInputField");
 
     const textMessage = messageInputField.value.trim();
 
-    let conversation_id;
+    const currentUserId = currentUser.id;
 
-    if(user_conversation_id.conversation_id == null) {
-        //TODO: fetch conversation id of this client user
-    } else {
-        conversation_id = user_conversation_id.conversation_id;
+    const response = (await fetch(`http://192.168.100.17:8080/getConversationId/${currentUserId}`));
+    const conversationMember = await response.json();
+
+    const conversation_id = conversationMember.conversationId;
+    console.log(conversationMember);
+    if(conversation_id == null) {
+        console.log("you have no friends buddy");
+        return;
     }
 
     const socket = new WebSocket(`ws://192.168.100.17:8080/chat?conversation_id=${conversation_id}`);
@@ -398,7 +401,7 @@ import { user_conversation_id } from "/store/currentUser.js";
         socket.send(JSON.stringify(
             {
                 text: textMessage,
-                sender_id: currentUser.id
+                sender_id: currentUserId
             }
         ))
     };
