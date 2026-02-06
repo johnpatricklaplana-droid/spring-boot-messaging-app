@@ -1,19 +1,15 @@
 .sidebar {
     height: 100vh;
-    width: 300px;
+    width: 20%;
     display: flex;
     flex-direction: column;
     gap: 30px;
-    background-color: white;
+    background-color: rgba(0, 0, 0, 0.829);
     z-index: 10;
     border-radius: 0;
+    left: 0;
+    position: absolute;
 }
-
-/* @media (max-width: 900px) {
-    .sidebar {
-        display: none;
-    }
-} */
 
 .logo {
     display: flex;
@@ -21,8 +17,13 @@
     gap: 10px;
 }
 
+.logo h1 {
+    color: rgba(255, 255, 255, 0.596);
+}
+
 .fa-envelope {
     font-size: 50px;
+    color: rgba(255, 255, 255, 0.596);
 }
 
 .iconsWrapper {
@@ -32,8 +33,17 @@
     margin-top: 10px;
 }
 
+.iconsWrapper div:hover {
+    background-color: rgba(0, 0, 0, 0.361);
+}
+
+.iconsWrapper span {
+    color: rgba(255, 255, 255, 0.596);
+}
+
 .fa-user {
     font-size: 30px;
+    color: rgba(255, 255, 255, 0.596);
 }
 
 .settings {
@@ -45,10 +55,6 @@
     border-radius: 5px;
 }
 
-.settings:hover {
-    background-color: lightgray;
-}
-
 .accountsInSideBar {
     display: flex;
     align-items: center;
@@ -58,12 +64,9 @@
     border-radius: 5px;
 }
 
-.accountsInSideBar:hover {
-    background-color: lightgray;
-}
-
 .fa-gear {
     font-size: 30px;
+    color: rgba(255, 255, 255, 0.596);
 }
 
 .messagesIcon {
@@ -75,12 +78,9 @@
    border-radius: 5px;
 }
 
-.messagesIcon:hover {
-    background-color: lightgray;
-}
-
 .fa-envelope {
     font-size: 30px;
+    color: rgba(255, 255, 255, 0.596);
 }
 
 .FriendRequestIconAndLabelContainer {
@@ -92,10 +92,7 @@
     border-radius: 5px;
 }
 
-.FriendRequestIconAndLabelContainer:hover {
-    background-color: lightgray;
-}
-
 .fa-user-group {
     font-size: 30px;
+    color: rgba(255, 255, 255, 0.596);
 }

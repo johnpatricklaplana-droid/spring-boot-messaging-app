@@ -25,25 +25,26 @@
                 <div class="iconsWrapper">
                     <div class="accountsInSideBar">
                         <i class="fa-regular fa-user"></i>
-                        Accounts
+                        <span>Accounts</span>
                     </div>
                     <div class="settings">
                         <i class="fa-regular fa-gear"></i>
-                        Settings
+                        <span>Settings</span>
                     </div>
                      <div class="messagesIcon">
                         <i class="fa-regular fa-envelope"></i>
-                        Messages
+                        <span>Messages</span>
                      </div>
                      <div class="FriendRequestIconAndLabelContainer">
                         <i class="fa-solid fa-user-group"></i>
-                        Friend Request
+                        <span>Friend Request</span>
                      </div>
                 </div>
             </div>
         </div>
       
-        <div class="ContentWrapper">  
+       
+        <div class="requestBodyContainer">
             <div class="navbar">
                 <h1>Messages</h1>
                 <div class="navbarSearchAndButtonContainer">
@@ -52,119 +53,110 @@
                     <div class="searchResultContainer">
                         <h1 class="noResultFoundMessage">No result found</h1>
                         <ul class="userFromSearchResult">
-                           
+            
                         </ul>
                     </div>
                 </div>
-                
-                    <img class="userprofile profile" th:attr="data-user-id=${userId}" th:src="@{${imagePath}}" alt="">
-                
+                <img class="userprofile" th:attr="data-user-id=${userId}" th:src="@{${imagePath}}">
             </div> 
-            <div class="bigWrapper">
-                <div class="MainContentContainer">
-                    <div class="box-shadow container messagesContainer" id="messagesContainer">
-                        <div class="box-shadow messagestopcontent">
-                            <img class="userprofileinmessagesheader profile" th:src="@{${imagePath}}" alt="">
-                            <div class="searchContainer">
-                                <input class="box-shadow input" type="search" placeholder="search friends">
-                                <button class="box-shadow btn searchbtn">Search</button>
-                            </div>
-                        </div>
-                        <div class="container messagesContentContainer">
-                    </div>
-                </div>
-                
-                <div class="container chatContainer" id="chatContainer">
-                    <div class="reciever"> <!--opening-->
-                        <div class="recieverContainer"> <!--opening-->
-                            <div class="profile box-shadow recieverProfile"></div> <!--opening&&closing-->
-                               <h1 class="recivierNameTop">Rasma Inasal Jr.</h1>
-                        </div> <!--closing-->
-                        <div class="iconContainer"> <!--opening-->
-                            <i class="fa-solid fa-camera"></i>
-                            <i class="fa-solid fa-x"></i>
-                        </div> <!--closing-->
+            
+            <div class="messagesContainer" id="messagesContainer">
+                <!-- WARNING: don't remove this one  -->
+            </div>
+            
+            
+            <div class="container chatContainer" id="chatContainer">
+                <div class="reciever"> <!--opening-->
+                    <div class="recieverContainer"> <!--opening-->
+                        <div class="profile box-shadow recieverProfile"></div> <!--opening&&closing-->
+                        <h1 class="recivierNameTop">Rasma Inasal Jr.</h1>
                     </div> <!--closing-->
-        
-                        <div class="conversationContainer">
-                            <div class="kachatlittleinfo">
-                                <div class="profile box-shadow friendProfile"></div>
-                                    <h1 class="recivierName">Rasma Inasal Jr.</h1>
-                                    <h3>your friends on Hey Daddy</h3>
-                                </div>
-        
-                                <div class="conversation">
-                                    <div class="youContainer">
-                                        <div class="you">
-                                            <p>fkljalfjdlkafjsajf;</p>
-                                            <img class="profile youProfile" th:src="@{${imagePath}}" alt="">
-                                        </div>
-                                </div>
-        
-                                <div class="kachatContainer">
-                                    <div class="kachat">
-                                        <div class="profile kachatProfile"></div>
-                                            <p>f;ajfldk;sajflksafjlsk</p>
-                                        </div>
-                                    </div>
-                                        <div class="kachatContainer">
-                                            <div class="kachat">
-                                                <div class="profile kachatProfile"></div>
-                                                <p>f;ajfldk;sajflksafjlsk</p>
-                                            </div>
-                                        </div>
-                                        <div class="kachatContainer">
-                                            <div class="kachat">
-                                                <div class="profile kachatProfile"></div>
-                                                <p>f;ajfldk;sajflksafjlsk</p>
-                                            </div>
-                                        </div>
-                                        <div class="youContainer">
-                                            <div class="you">
-                                                <p>fkljalfjdlkafjsajf;</p>   
-                                                <img class="profile youProfile" th:src="@{${imagePath}}" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="youContainer">
-                                            <div class="you">
-                                                <p>fkljalfjdlkafjsajf;</p>
-                                                <img class="profile youProfile" th:src="@{${imagePath}}" alt="">
-                                            </div>
-                                        </div>
+                    <div class="iconContainer"> <!--opening-->
+                        <i class="fa-solid fa-camera"></i>
+                        <i class="fa-solid fa-x"></i>
+                    </div> <!--closing-->
+                </div> <!--closing-->
+            
+                <div class="conversationContainer">
+                    <div class="kachatlittleinfo">
+                        <div class="profile box-shadow friendProfile"></div>
+                        <h1 class="recivierName">Rasma Inasal Jr.</h1>
+                        <h3>your friends on Hey Daddy</h3>
+                    </div>
+            
+                    <div class="conversation">
+                        <div class="youContainer">
+                            <div class="you">
+                                <p>fkljalfjdlkafjsajf;</p>
+                                <div class="profile youProfile"></div>
                             </div>
                         </div>
-                        <div class="box-shadow chatInputboxContainer">
-                            <div class="Inputfieldicons">
-                                <i class="fa-regular fa-file"></i>
-                                <i class="fa-solid fa-image"></i>
-                                <p>😀</p>
+            
+                        <div class="kachatContainer">
+                            <div class="kachat">
+                                <div class="profile kachatProfile"></div>
+                                <p>f;ajfldk;sajflksafjlsk</p>
                             </div>
-                            <input class="input messageInputField" type="text" name="" id="messageInputField">
-                            <p>👍</p>
                         </div>
-                </div> 
-                <div class="personProfile">
-                    <div class="profile personProfilePicture">
-                
+                        <div class="kachatContainer">
+                            <div class="kachat">
+                                <div class="profile kachatProfile"></div>
+                                <p>f;ajfldk;sajflksafjlsk</p>
+                            </div>
+                        </div>
+                        <div class="kachatContainer">
+                            <div class="kachat">
+                                <div class="profile kachatProfile"></div>
+                                <p>f;ajfldk;sajflksafjlsk</p>
+                            </div>
+                        </div>
+                        <div class="youContainer">
+                            <div class="you">
+                                <p>fkljalfjdlkafjsajf;</p>
+                                <div class="profile youProfile"></div>
+                            </div>
+                        </div>
+                        <div class="youContainer">
+                            <div class="you">
+                                <p>fkljalfjdlkafjsajf;</p>
+                                <div class="profile youProfile"></div>
+                            </div>
+                        </div>
                     </div>
-                    <h1 class="personName">john Patrick laplana</h1>
-                    <div class="buttonsContainer">
-                        <button id="addBtn" class="addButton">Add</button>
-                        <button class="messageButton">Message</button>
-                    </div>
-                    <hr>
-                    <p class="title">You can message this person without adding them as a friend.</p>
-                    <p class="bodyText">Adding them as a friend lets you save the conversation, get faster access to their profile, and unlock more messaging
-                    features.</p>
                 </div>
-                <div class="friendrequestsContainer">
-                    <h1>Friend request</h1>
-                    <hr>
-                    
+                <div class="box-shadow chatInputboxContainer">
+                    <div class="Inputfieldicons">
+                        <i class="fa-regular fa-file"></i>
+                        <i class="fa-solid fa-image"></i>
+                        <p>😀</p>
+                    </div>
+                    <input class="input messageInputField" type="text" name="" id="messageInputField">
+                    <p>👍</p>
                 </div>
             </div>
-        </div>  
-        
+            <div class="personProfile">
+                <div class="profile personProfilePicture">
+            
+                </div>
+                <h1 class="personName">john Patrick laplana</h1>
+                <div class="buttonsContainer">
+                    <button class="addButton">Add</button>
+                    <button class="messageButton">Message</button>
+                </div>
+                <hr>
+                <p class="title">You can message this person without adding them as a friend.</p>
+                <p class="bodyText">Adding them as a friend lets you save the conversation, get faster access to their profile, and
+                    unlock more messaging
+                    features.</p>
+            </div>
+            <div class="friendrequestsContainer">
+                <h1>Friend request</h1>
+                <hr>
+            
+            </div>
+            
+        </div>
+
         <div class="threeDonContentContainer">
             <h5>Mute</h5>
             <h5>Block</h5>

@@ -5,11 +5,17 @@
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100vh;
     background-color: #f4f7fb;
+}
+
+.requestBodyContainer {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    position: absolute;
+    right: 0;
 }
 
 .MainContentContainer {
@@ -60,6 +66,6 @@ body {
 }
 
 .box-shadow {
-    box-shadow: 1px 1px 8px gray;
+    border: 1px solid black;
 }
 

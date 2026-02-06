@@ -1,55 +1,11 @@
 
-
-.mainContentContainer {
-    display: flex;
-}
-
 .messagesContainer {
-    width: 400px;
-    height: 85vh;
-    padding: 0; 
-    border-radius: 0;
-    background-color: white;
-    overflow: hidden;
-    scrollbar-width: none;
-    border-radius: 10px;
-}
-
-.messagestopcontent {
-    height: 15vh;
-    padding: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.searchContainer {
-    display: flex;
     width: 100%;
-    margin-left: 10px;
-    gap: 10px;
-}
-
-.messagesContainer input {
-    width: 80%;
-    border-style: none;
-    border-radius: 40px;
-}
-
-.messagesContainer button {
-    background: linear-gradient(135deg, #1e293b, #334155);
-    color: white;
-    border-style: none;
-    cursor: pointer;
-    border-radius: 40px;
-}
-
-.messagesContentContainer {
-    overflow: auto;
+    height: 100%;
     scrollbar-width: none;
-    height: 84%;
-    padding-left: 20px;
-    padding-right: 20px;
+    background-color: rgba(0, 0, 0, 0.925);
+    padding: 20px;
+    overflow: auto;
 }
 
 .friend {
@@ -62,55 +18,54 @@
     padding: 10px;
     justify-content: space-between;
     cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.829);
+    margin-top: 10px;
 }
 
-.user {
+.profilePicAndNameWrapper {
     display: flex;
     align-items: center;
 }
 
-.friend h3 {
-    margin-left: 10px;
+.profilePicAndNameWrapper h1 {
     font-weight: 100;
-}
-
-.friend:hover {
-    background-color: lightgray;
-}
-
-.profilepicture {
-    background-size: cover;
-    height: 45px;
-    width: 50px;    
-    border-radius: 5px;
-    background-image: url("Screenshot 2025-10-16 212452.png");
-}
-
-.userprofileinmessagesheader {
-    width: 50px;
-    height: 35px;
-    background-color: red;
-    background-size: cover;
+    font-family: sans-serif;
+    color: white;
+    font-size: 20px;
 }
 
 .fa-ellipsis {
-    cursor: pointer;
-    font-size: 20px;
-    border-radius: 3px;
+    font-size: 30px;
+    font-weight: 100;
+    color: rgba(255, 255, 255, 0.596);
 }
 
-.fa-ellipsis:hover {
-    background-color:gray;
+.friend .profilepicture {
+    width: 60px;
+    height: 50px;
+    border-radius: 5px;
+    background-size: cover;
+}
+
+.friend h1 {
+    margin-left: 10px;
+    font-weight: 100;
+    color: rgba(255, 255, 255, 0.596);
+}
+
+.friend:hover {
+    background-color: rgba(211, 211, 211, 0.078);
 }
 
 .threeDonContentContainer {
-    position: absolute;
+    position: fixed;
     font-family: sans-serif;
-    background-color: white;
+    background: rgba(255, 255, 255, 0.596);
     box-shadow: 1px 1px 8px gray;
     padding: 10px;
     border-radius: 5px;
     display: none;
+    transform: translate(-50%, 0);
 }
 
 .threeDonContentContainer h5 {
@@ -119,5 +74,5 @@
 }
 
 .threeDonContentContainer h5:hover {
-    background-color: lightgray;
+    background-color: rgba(211, 211, 211, 0.397);
 }

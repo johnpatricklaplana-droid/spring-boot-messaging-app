@@ -210,6 +210,7 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
         document.querySelector(".friendrequestsContainer").style.display = "flex";
         document.querySelector(".chatContainer").style.display = "none";
         document.querySelector(".personProfile").style.display = "none";
+        document.querySelector(".messagesContainer").style.display = "none";
     });
 
 }) ();
@@ -259,30 +260,30 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
 
     const url = `http://192.168.100.17:8080/getfriends/${currentUserId}`;
     const result = await get(url);
-
-    const messagesContentContainer = document.querySelector(".messagesContentContainer");
+    console.log(result);
+    const messagesContainer = document.querySelector(".messagesContainer");
     
     result.forEach(friend => {
         
         const friendEl = document.createElement("div");
         friendEl.className = "friend";
 
-        const user = document.createElement("div");
-        user.className = "user";
+        const profilePicAndNameWrapper = document.createElement("div");
+        profilePicAndNameWrapper.className = "profilePicAndNameWrapper";
 
-        const profilepicture = document.createElement("div");
+        const profilepicture = document.createElement("img");
         profilepicture.className = "profilepicture";
         
-        const h3 = document.createElement("h3");
+        const h1 = document.createElement("h1");
         if(friend.requestFrom === null) {
             profilepicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${friend.requestTo.id}.png")`;
-            h3.innerText = friend.requestTo.username;
+            h1.innerText = friend.requestTo.username;
             friendEl.dataset.friendId = friend.requestTo.id;
             addRelationship(friend.requestTo.id);
             addUser(friend.requestTo);
         } else {
             profilepicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${friend.requestFrom.id}.png")`;
-            h3.innerText = friend.requestFrom.username;
+            h1.innerText = friend.requestFrom.username;
             friendEl.dataset.friendId = friend.requestFrom.id;
             addRelationship(friend.requestFrom.id);
             addUser(friend.requestFrom);
@@ -290,14 +291,14 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
 
 
         const i = document.createElement("i");
-        i.className = "fa-ellipsis";
+        i.className = "fa-ellipsis"; 
         i.classList.add("fa-solid");
         
-        friendEl.appendChild(user);
-        user.appendChild(profilepicture);
-        user.appendChild(h3);
+        friendEl.appendChild(profilePicAndNameWrapper);
+        profilePicAndNameWrapper.appendChild(profilepicture);
+        profilePicAndNameWrapper.appendChild(h1);
         friendEl.appendChild(i);
-        messagesContentContainer.appendChild(friendEl);
+        messagesContainer.appendChild(friendEl);
     });
     
 }) ();
@@ -315,6 +316,7 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
             document.querySelector(".chatContainer").style.display = "flex";
             document.querySelector(".personProfile").style.display = "none";
             document.querySelector(".friendrequestsContainer").style.display = "none";
+            document.querySelector(".messagesContainer").style.display = "none";
 
             const recieverProfile = document.querySelector(".recieverProfile");
             const friendProfile = document.querySelector(".friendProfile");
@@ -358,7 +360,7 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
             } else {
                 threeDonContentContainer.style.top = event.target.getBoundingClientRect().top - rect.height + "px";
             }
-
+    
             threeDonContentContainer.style.left = event.target.getBoundingClientRect().left + "px";
             isOpen = true;
         }
@@ -373,38 +375,39 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
 
     eXbutton.addEventListener("click", () => {
         document.querySelector(".chatContainer").style.display = "none";
+        document.querySelector(".messagesContainer").style.display = "block";
     });
     
 }) ();
 
-(async () => {
+// (async () => {
 
-    const messageInputField = document.querySelector(".messageInputField");
+//     const messageInputField = document.querySelector(".messageInputField");
 
-    const textMessage = messageInputField.value.trim();
+//     const textMessage = messageInputField.value.trim();
 
-    const currentUserId = currentUser.id;
+//     const currentUserId = currentUser.id;
 
-    const response = (await fetch(`http://192.168.100.17:8080/getConversationId/${currentUserId}`));
-    const conversationMember = await response.json();
+//     const response = (await fetch(`http://192.168.100.17:8080/getConversationId/${currentUserId}`));
+//     const conversationMember = await response.json();
 
-    const conversation_id = conversationMember.conversationId;
-    console.log(conversationMember);
-    if(conversation_id == null) {
-        console.log("you have no friends buddy");
-        return;
-    }
+//     const conversation_id = conversationMember.conversationId;
 
-    const socket = new WebSocket(`ws://192.168.100.17:8080/chat?conversation_id=${conversation_id}`);
+//     if(conversation_id == null) {
+//         console.log("you have no friends buddy");
+//         return;
+//     }
 
-    socket.onopen = () => {
-        socket.send(JSON.stringify(
-            {
-                text: textMessage,
-                sender_id: currentUserId
-            }
-        ))
-    };
+//     const socket = new WebSocket(`ws://192.168.100.17:8080/chat?conversation_id=${conversation_id}`);
 
-}) ();
+//     socket.onopen = () => {
+//         socket.send(JSON.stringify(
+//             {
+//                 text: textMessage,
+//                 sender_id: currentUserId
+//             }
+//         ))
+//     };
+
+// }) ();
 
