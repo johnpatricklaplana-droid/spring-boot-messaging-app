@@ -16,7 +16,7 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
 //     const youProfile = document.querySelectorAll(".youProfile");
   
 //     youProfile.forEach(element => {
-//         element.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
+//         element.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
 //     });
     
 // }) ();
@@ -45,7 +45,7 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
         
         searchResultContainer.style.display = "block";
 
-        const url = `http://192.168.100.17:8080/search/${name}`;
+        const url = `http://192.168.100.241:8080/search/${name}`; 
         const result = await get(url);
         
         if(!result.length) {
@@ -115,7 +115,7 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
         const personProfilePicture = document.querySelector(".personProfilePicture");
         const personName = document.querySelector(".personName");
 
-        personProfilePicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
+        personProfilePicture.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
         personName.innerText = person.username;
     })
 }) ();
@@ -128,7 +128,7 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
         const requestTo = event.target.dataset.personId;
         const requestFrom = currentUser.id;    
 
-        const url = `http://192.168.100.17:8080/addFriend/${requestTo}/${requestFrom}`;
+        const url = `http://192.168.100.241:8080/addFriend/${requestTo}/${requestFrom}`;
         const result = await post(null, url);
         
         if (result == 200) {
@@ -150,7 +150,7 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
       
         const currentUserId = currentUser.id;
 
-        const url = `http://192.168.100.17:8080/getFriendRequest/${currentUserId}`;
+        const url = `http://192.168.100.241:8080/getFriendRequest/${currentUserId}`;
         const result = await get(url);
 
         const friendrequestsContainer = document.querySelector(".friendrequestsContainer");
@@ -163,7 +163,7 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
             divpersonRequestContainer.className = "personRequestContainer";
 
             const divpersonRequestProfilePicture = document.createElement("div");
-            divpersonRequestProfilePicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
+            divpersonRequestProfilePicture.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
             divpersonRequestProfilePicture.className = "personRequestProfilePicture";
             divpersonRequestProfilePicture.classList.add("profile");
 
@@ -225,7 +225,7 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
             const idFromFriendRequest = event.target.dataset.personID; 
             const currentUserId = currentUser.id; 
             
-            const url = `http://192.168.100.17:8080/acceptFriendRequest/${idFromFriendRequest}/${currentUserId}`;
+            const url = `http://192.168.100.241:8080/acceptFriendRequest/${idFromFriendRequest}/${currentUserId}`;
             const result = await update(url);
             console.log(result);
             
@@ -258,7 +258,7 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
 
     const currentUserId = currentUser.id;
 
-    const url = `http://192.168.100.17:8080/getfriends/${currentUserId}`;
+    const url = `http://192.168.100.241:8080/getfriends/${currentUserId}`;
     const result = await get(url);
     console.log(result);
     const messagesContainer = document.querySelector(".messagesContainer");
@@ -276,13 +276,13 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
         
         const h1 = document.createElement("h1");
         if(friend.requestFrom === null) {
-            profilepicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${friend.requestTo.id}.png")`;
+            profilepicture.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${friend.requestTo.id}.png")`;
             h1.innerText = friend.requestTo.username;
             friendEl.dataset.friendId = friend.requestTo.id;
             addRelationship(friend.requestTo.id);
             addUser(friend.requestTo);
         } else {
-            profilepicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${friend.requestFrom.id}.png")`;
+            profilepicture.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${friend.requestFrom.id}.png")`;
             h1.innerText = friend.requestFrom.username;
             friendEl.dataset.friendId = friend.requestFrom.id;
             addRelationship(friend.requestFrom.id);
@@ -325,9 +325,9 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
             const kachatProfile = document.querySelectorAll(".kachatProfile");
             
             friendProfile.dataset.friendId = id;
-            recieverProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
-            friendProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
-            kachatProfile.forEach(el => el.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`);
+            recieverProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
+            friendProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
+            kachatProfile.forEach(el => el.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`);
 
             recivierName.innerText = friendInfo.username;
             recivierNameTop.innerText = friendInfo.username;
@@ -380,34 +380,17 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
     
 }) ();
 
-// (async () => {
+(async () => {
 
-//     const messageInputField = document.querySelector(".messageInputField");
+    const messageInputField = document.querySelector(".messageInputField");
 
-//     const textMessage = messageInputField.value.trim();
+    const textMessage = messageInputField.value.trim();
 
-//     const currentUserId = currentUser.id;
+    const currentUserId = currentUser.id;
 
-//     const response = (await fetch(`http://192.168.100.17:8080/getConversationId/${currentUserId}`));
-//     const conversationMember = await response.json();
+    const socket = new WebSocket(
+        `ws://192.168.100.241:8080/chat?user_id=${currentUserId}`
+    );
 
-//     const conversation_id = conversationMember.conversationId;
-
-//     if(conversation_id == null) {
-//         console.log("you have no friends buddy");
-//         return;
-//     }
-
-//     const socket = new WebSocket(`ws://192.168.100.17:8080/chat?conversation_id=${conversation_id}`);
-
-//     socket.onopen = () => {
-//         socket.send(JSON.stringify(
-//             {
-//                 text: textMessage,
-//                 sender_id: currentUserId
-//             }
-//         ))
-//     };
-
-// }) ();
+}) ();
 

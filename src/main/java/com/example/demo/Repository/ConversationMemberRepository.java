@@ -1,5 +1,7 @@
 package com.example.demo.Repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,6 +15,6 @@ public interface ConversationMemberRepository extends JpaRepository<Conversation
             FROM ConversationMember m
             WHERE m.userId.id = :userId
            """)
-    ConversationMember findConversationMemberByUserId(@Param("userId") int userId);
+    List<ConversationMember> findConversationMemberByUserId(@Param("userId") int userId);
     
 }
