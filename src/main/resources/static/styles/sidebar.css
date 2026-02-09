@@ -96,3 +96,17 @@
     font-size: 30px;
     color: rgba(255, 255, 255, 0.596);
 }
+
+@media (max-width: 600px) {
+    .sidebar {
+        display: none;
+    }
+
+    .requestBodyContainer {
+        width: 100vw;
+    }
+
+    .navbar h1 {
+        font-size: 20px;
+    }
+}

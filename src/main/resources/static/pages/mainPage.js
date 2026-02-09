@@ -384,13 +384,32 @@ import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
 
     const messageInputField = document.querySelector(".messageInputField");
 
-    const textMessage = messageInputField.value.trim();
-
     const currentUserId = currentUser.id;
 
     const socket = new WebSocket(
         `ws://192.168.100.241:8080/chat?user_id=${currentUserId}`
     );
+
+    document.querySelector(".sendMessage").addEventListener("click", async () => {
+
+        const friend_id = document.querySelector(".friendProfile").dataset.friendId;
+
+        const conversationId = await (await fetch(
+            `http://192.168.100.241:8080/getUserConversation/${currentUserId}/${friend_id}`
+        )).text();
+        console.log(conversationId);
+        const textMessage = messageInputField.value.trim();
+    
+        const sendTextMessage = {
+        text_message: textMessage,
+        sender: currentUserId,
+        sent_to: friend_id,
+        conversation_id: conversationId
+        };
+                       
+        socket.send(JSON.stringify(sendTextMessage));
+
+    });
 
 }) ();
 

@@ -10,16 +10,6 @@
     flex-direction: column;
 }
 
-/* @media (max-width: 900px) {
-    .messagesContainer {
-        display: none;
-    }
-
-    .chatContainer {
-        width: 100%;
-    }
-} */
-
 .reciever {
     height: 10vh;
     background-color: rgba(128, 128, 128, 0.228);
@@ -199,10 +189,8 @@
     background: rgba(255, 255, 255, 0.596);
 }
 
-.chatInputboxContainer p {
-    font-size: 20px;
-    padding: 5px;
-    border-radius: 5px;
+.chatInputboxContainer .sendMessage {
+    color: white;
 }
 
 .chatInputboxContainer p:hover {

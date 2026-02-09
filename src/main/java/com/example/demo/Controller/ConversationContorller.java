@@ -21,4 +21,9 @@ public class ConversationContorller {
        return service.getConversationId(userId);
     }
 
+    @GetMapping("/getUserConversation/{userId}/{friendId}")
+    public Integer getUserConversation (@PathVariable int userId, @PathVariable int friendId) {
+        return service.getUserConversation(userId, friendId);
+    }
+
 }

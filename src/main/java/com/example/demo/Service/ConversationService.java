@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.DTO.ConversationMemberDTO;
 import com.example.demo.Model.ConversationMember;
+import com.example.demo.Model.User;
 import com.example.demo.Repository.AuthRepository;
 import com.example.demo.Repository.ConversationMemberRepository;
+
+import jakarta.persistence.EntityManager;
 
 
 @Service
@@ -20,6 +23,9 @@ public class ConversationService {
     
     @Autowired
     ConversationMemberRepository convoMemberRepo;
+
+    @Autowired
+    EntityManager entityManager;
     
     public List<ConversationMemberDTO> getConversationId (int userId) {
        
@@ -43,6 +49,24 @@ public class ConversationService {
         }
 
         return memberList;
+    }
+
+    public Integer getUserConversation(int userId, int friendId) {
+        
+        List<ConversationMember> conversationIdList = convoMemberRepo.findConversationMemberByUserId(userId);
+
+        User proxyfriendId = entityManager.getReference(User.class, friendId);
+
+        for (ConversationMember cm: conversationIdList) {
+            
+            boolean friendExist = convoMemberRepo.existsByConversationIdAndUserId(cm.getConversationId(), proxyfriendId);
+
+            if(friendExist) {
+                return cm.getConversationId().getId();
+            }
+        }
+
+        return null;
     }
 
 }
