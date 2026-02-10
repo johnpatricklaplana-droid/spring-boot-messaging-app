@@ -22,14 +22,17 @@ public class Messages {
     
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    Integer id;
+    private Integer id;
     
     @ManyToOne
     @JoinColumn(name = "sender_id")
-    User userId;
+    private User senderId;
  
     @ManyToOne
-    Conversation conversationId;
+    @JoinColumn(name = "conversation_id")
+    private Conversation conversationId;
 
-    LocalDateTime sentAt;
+    private String textMessage;
+
+    private LocalDateTime sentAt;
 }

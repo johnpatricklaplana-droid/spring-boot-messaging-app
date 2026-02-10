@@ -8,24 +8,25 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.DTO.ConversationMemberDTO;
 import com.example.demo.Model.ConversationMember;
+import com.example.demo.Model.Messages;
 import com.example.demo.Model.User;
-import com.example.demo.Repository.AuthRepository;
 import com.example.demo.Repository.ConversationMemberRepository;
+import com.example.demo.Repository.MessagesRepository;
 
 import jakarta.persistence.EntityManager;
 
 
 @Service
 public class ConversationService {
-
-    @Autowired
-    AuthRepository userRepo;
     
     @Autowired
     ConversationMemberRepository convoMemberRepo;
 
     @Autowired
     EntityManager entityManager;
+
+    @Autowired
+    MessagesRepository messagesRepo;
     
     public List<ConversationMemberDTO> getConversationId (int userId) {
        
@@ -67,6 +68,19 @@ public class ConversationService {
         }
 
         return null;
+    }
+
+    public List<List<Messages>> getUserConversationList(int userId) {
+        
+        List<ConversationMember> member = convoMemberRepo.findByUserId(entityManager.getReference(User.class, userId));
+
+        List<List<Messages>> conversationList = new ArrayList<>();
+
+        for (ConversationMember cm : member) {
+            conversationList.add(messagesRepo.findByConversationId(cm.getConversationId()));
+        }
+
+        return conversationList;
     }
 
 }
