@@ -7,6 +7,7 @@ import { currentUser } from "/store/currentUser.js";
 import { update } from "/api/api.js";
 import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
 import { displayConversation } from "/components/components.js";
+import { displayFriendList } from "/components/components.js";
 
 // GET USER
 // (() => {
@@ -254,63 +255,14 @@ import { displayConversation } from "/components/components.js";
     })
 }) ();
 
-(async () => {
-
-    const currentUserId = currentUser.id;
-
-    const url = `http://192.168.100.17:8080/getfriends/${currentUserId}`;
-    const result = await get(url);
-    console.log(result);
-    const messagesContainer = document.querySelector(".messagesContainer");
-    
-    result.forEach(friend => {
-        
-        const friendEl = document.createElement("div");
-        friendEl.className = "friend";
-
-        const profilePicAndNameWrapper = document.createElement("div");
-        profilePicAndNameWrapper.className = "profilePicAndNameWrapper";
-
-        const profilepicture = document.createElement("img");
-        profilepicture.className = "profilepicture";
-        
-        const h1 = document.createElement("h1");
-        if(friend.requestFrom === null) {
-            profilepicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${friend.requestTo.id}.png")`;
-            h1.innerText = friend.requestTo.username;
-            friendEl.dataset.friendId = friend.requestTo.id;
-            addRelationship(friend.requestTo.id);
-            addUser(friend.requestTo);
-        } else {
-            profilepicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${friend.requestFrom.id}.png")`;
-            h1.innerText = friend.requestFrom.username;
-            friendEl.dataset.friendId = friend.requestFrom.id;
-            addRelationship(friend.requestFrom.id);
-            addUser(friend.requestFrom);
-        }
-
-
-        const i = document.createElement("i");
-        i.className = "fa-ellipsis"; 
-        i.classList.add("fa-solid");
-        
-        friendEl.appendChild(profilePicAndNameWrapper);
-        profilePicAndNameWrapper.appendChild(profilepicture);
-        profilePicAndNameWrapper.appendChild(h1);
-        friendEl.appendChild(i);
-        messagesContainer.appendChild(friendEl);
-    });
-    
-}) ();
-
-
-
 (() => {
     
-    document.addEventListener("click", (event) => {
+    document.addEventListener("click", async (event) => {
         if (event.target.closest(".friend") && !event.target.classList.contains("fa-ellipsis")) {
             
             const id = event.target.closest(".friend").dataset.friendId;
+            const conversationId = event.target.closest(".friend").dataset.conversationId;
+            console.log(conversationId);
             const friendInfo = getUser(id);   
 
             document.querySelector(".chatContainer").style.display = "flex";
@@ -331,6 +283,11 @@ import { displayConversation } from "/components/components.js";
 
             recivierName.innerText = friendInfo.username;
             recivierNameTop.innerText = friendInfo.username;
+            
+            const messages = await (await fetch(`http://192.168.100.17:8080/getMessages/${conversationId}`)).json();
+            console.log(messages);
+
+            displayConversation(messages, id);
         }
     });
 
@@ -388,7 +345,7 @@ import { displayConversation } from "/components/components.js";
 
     const socket = new WebSocket(
         `ws://192.168.100.17:8080/chat?user_id=${currentUserId}`
-    );
+    );  
 
     document.querySelector(".sendMessage").addEventListener("click", async () => {
 
@@ -413,8 +370,7 @@ import { displayConversation } from "/components/components.js";
 
     socket.onmessage = (event) => {
         const info = JSON.parse(event.data);
-        
-         
+        console.log(info);
     };
 
 }) ();
@@ -423,11 +379,13 @@ window.addEventListener("load", async () => {
     
     const currentUserId = currentUser.id;
     
-    const conversationList = await(await fetch(
-        `http://192.168.100.17:8080/getUserConversationList/${currentUserId}`
+    const friendList = await(await fetch(
+        `http://192.168.100.17:8080/getConversationList/${currentUserId}`
     )).json();
 
-    console.log(conversationList);
+    displayFriendList(friendList);
 
-})
+});
+
+
 

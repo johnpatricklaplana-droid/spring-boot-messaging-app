@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DTO.ConversationMemberDTO;
-import com.example.demo.Model.Messages;
 import com.example.demo.Service.ConversationService;
 
 @RestController
@@ -27,9 +26,14 @@ public class ConversationContorller {
         return service.getUserConversation(userId, friendId);
     }
 
-    @GetMapping("/getUserConversationList/{userId}")
-    public List<List<Messages>> getUserConversationList (@PathVariable int userId) {
-        return service.getUserConversationList(userId);
+    // @GetMapping("/getUserConversationList/{userId}")
+    // public List<List<MessagesDTO>> getUserConversationList (@PathVariable int userId) {
+    //     return service.getUserConversationList(userId);
+    // }
+
+    @GetMapping("/getConversationList/{userId}")
+    public List<ConversationMemberDTO> getConversationList (@PathVariable int userId) {
+        return service.getConversationList(userId);
     }
 
 }

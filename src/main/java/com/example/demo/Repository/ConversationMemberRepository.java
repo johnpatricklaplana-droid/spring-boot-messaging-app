@@ -22,5 +22,7 @@ public interface ConversationMemberRepository extends JpaRepository<Conversation
     boolean existsByConversationIdAndUserId(Conversation conversationId, User friendId);
 
     List<ConversationMember> findByUserId(User userId);
+
+    List<ConversationMember> findByConversationId(Conversation conversationId);
     
 }

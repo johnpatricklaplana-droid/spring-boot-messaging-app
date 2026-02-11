@@ -1,6 +1,7 @@
 import { storageKeys } from "/constants/constants.js";
 import { addUser } from "/store/userstore.js";
 import { currentUser } from "/store/currentUser.js";
+import { addRelationship } from "/store/userstore.js";
 
 (() => {
     let isOpen = false;
@@ -52,44 +53,95 @@ export function searchResult(peoples) {
     });
 }
 
-export async function displayConversation (info) {
+export async function displayConversation (messages, friendId) {
 
     const currentUserId = currentUser.id;
 
-    const textMessage = info.textMessage;
-    const sentBy = info.senderId;
-    const conversationId = info.conversation_id;
-
-    const getConversation = await (await fetch(`http://192.168.100.17:8080/getMessages/${sentBy}/${conversationId}`)).json();
-    console.log(getConversation);
-
     const conversation = document.querySelector(".conversation");
 
-    if(sentBy === currentUserId) {
-        const youContainer = document.createElement("div");
-        youContainer.className = "youContainer";
+    document.querySelectorAll(".youContainer").forEach(element => {
+        element.remove();
+    });
+   
+    messages.forEach(m => {
+        
+        if (m.senderId.id === Number(currentUserId)) {
+            const youContainer = document.createElement("div");
+            youContainer.className = "youContainer";
 
-        const you = document.createElement("div");
-        youContainer.className = "you";
-  
-        const youMessage = document.createElement("p");
-        youContainer.className = "you";
-        youMessage.innerText = info.textMessage;
+            const you = document.createElement("div");
+            you.className = "you";
 
-        const youProfile = document.createElement("img");
-        youProfile.className = "youProfile";
-    }
+            const youMessage = document.createElement("p");
+            youMessage.innerText = m.textMessage;
 
-    const kachatContainer = document.createElement("div");
-    youContainer.className = "kachatContainer";
+            const youProfile = document.createElement("img");
+            youProfile.className = "youProfile";
 
-    const kachat = document.createElement("div");
-    youContainer.className = "kachat";
+            conversation.appendChild(youContainer);
+            youContainer.appendChild(you);
+            you.appendChild(youMessage);
+            you.appendChild(youProfile);
+        } else if (m.senderId.id === Number(friendId)) {
+            
+            const kachatContainer = document.createElement("div");
+            kachatContainer.className = "kachatContainer";
 
-    const kachatProfile = document.createElement("img");
-    youContainer.className = "kachatProfile";
+            const kachat = document.createElement("div");
+            kachat.className = "kachat";
 
-    const kaChatMessage = document.createElement("p");
+            const kachatProfile = document.createElement("img");
+            kachatProfile.className = "kachatProfile";
+
+            const kaChatMessage = document.createElement("p");
+            kaChatMessage.innerText = m.textMessage;
+
+            conversation.appendChild(kachatContainer);
+            kachatContainer.appendChild(kachat);
+            kachat.appendChild(kachatProfile);
+            kachat.appendChild(kaChatMessage);
+        }
+    });
+}
+
+export async function displayFriendList(friendList) {
+
+    const currentUserId = currentUser.id;
+
+    friendList.forEach(friend => {
+
+        if (friend.userId.id != currentUserId) {
+            const messagesContainer = document.querySelector(".messagesContainer");
+
+            const friendEl = document.createElement("div");
+            friendEl.className = "friend";
+
+            const profilePicAndNameWrapper = document.createElement("div");
+            profilePicAndNameWrapper.className = "profilePicAndNameWrapper";
+
+            const profilepicture = document.createElement("img");
+            profilepicture.className = "profilepicture";
+
+            const h1 = document.createElement("h1");
+
+            profilepicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${friend.userId.id}.png")`;
+            h1.innerText = friend.userId.username;
+            friendEl.dataset.friendId = friend.userId.id;
+            friendEl.dataset.conversationId = friend.conversationId.id;
+            addRelationship(friend.userId.id);
+            addUser(friend.userId);
+
+            const i = document.createElement("i");
+            i.className = "fa-ellipsis";
+            i.classList.add("fa-solid");
+
+            friendEl.appendChild(profilePicAndNameWrapper);
+            profilePicAndNameWrapper.appendChild(profilepicture);
+            profilePicAndNameWrapper.appendChild(h1);
+            friendEl.appendChild(i);
+            messagesContainer.appendChild(friendEl);
+        }
+    });
 }
 
 

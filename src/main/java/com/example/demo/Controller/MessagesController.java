@@ -16,9 +16,9 @@ public class MessagesController {
     @Autowired
     MessagesService messageService;
     
-    @GetMapping("getMessages/{sentBy}/{conversationId}")
-    public List<Messages> getMessages (@PathVariable int sentBy, @PathVariable int conversationId) {
-        return  messageService.getMessages(sentBy, conversationId);
+    @GetMapping("getMessages/{conversationId}")
+    public List<Messages> getMessages (@PathVariable int conversationId) {
+        return  messageService.getMessages(conversationId);
     }
 
 }

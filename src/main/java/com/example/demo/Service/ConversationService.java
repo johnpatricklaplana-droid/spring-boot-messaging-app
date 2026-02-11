@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.DTO.ConversationMemberDTO;
 import com.example.demo.Model.ConversationMember;
-import com.example.demo.Model.Messages;
 import com.example.demo.Model.User;
 import com.example.demo.Repository.ConversationMemberRepository;
 import com.example.demo.Repository.MessagesRepository;
@@ -43,8 +42,8 @@ public class ConversationService {
 
             dto.setId(cm.getId());
             dto.setJoinedAt(cm.getJoinedAt());
-            dto.setConversationId(cm.getConversationId().getId());
-            dto.setUserId(cm.getUserId().getId());
+            dto.setConversationId(cm.getConversationId());
+            dto.setUserId(cm.getUserId());
 
             memberList.add(dto);
         }
@@ -70,17 +69,53 @@ public class ConversationService {
         return null;
     }
 
-    public List<List<Messages>> getUserConversationList(int userId) {
+    // public List<List<MessagesDTO>> getUserConversationList(int userId) {
         
-        List<ConversationMember> member = convoMemberRepo.findByUserId(entityManager.getReference(User.class, userId));
+    //     List<ConversationMember> member = convoMemberRepo.findByUserId(entityManager.getReference(User.class, userId));
 
-        List<List<Messages>> conversationList = new ArrayList<>();
+    //     List<List<MessagesDTO>> conversationList = new ArrayList<>();
 
-        for (ConversationMember cm : member) {
-            conversationList.add(messagesRepo.findByConversationId(cm.getConversationId()));
+    //     for (ConversationMember cm : member) {
+    //         List<MessagesDTO> dtoList = new ArrayList<>();
+
+    //         for(Messages messages: messagesRepo.findByConversationId(cm.getConversationId())) {
+    //             MessagesDTO dto = new MessagesDTO();
+    //             dto.setId(messages.getId());
+    //             dto.setConversationId(messages.getConversationId().getId());
+    //             dto.setSenderId(messages.getSenderId().getId());
+    //             dto.setSentAt(messages.getSentAt());
+    //             dto.setTextMessage(messages.getTextMessage());
+    //             dtoList.add(dto);
+    //         }
+    //         conversationList.add(dtoList);
+    //     }
+
+    //     return conversationList;
+
+    // }
+
+    public List<ConversationMemberDTO> getConversationList(int userId) {
+        
+        List<ConversationMember> convomember = convoMemberRepo.findByUserId(
+            entityManager.getReference(User.class, userId)
+        );
+
+        List<ConversationMemberDTO> convoMemberDTO = new ArrayList<>();
+        
+        for (ConversationMember cm : convomember) {
+            List<ConversationMember> convom = convoMemberRepo.findByConversationId(
+                cm.getConversationId()
+            );
+
+            for (ConversationMember convo : convom) {
+                ConversationMemberDTO dto = new ConversationMemberDTO();
+                dto.setConversationId(convo.getConversationId());
+                dto.setUserId(convo.getUserId());
+                convoMemberDTO.add(dto);
+            }
         }
 
-        return conversationList;
+        return convoMemberDTO;
     }
 
 }

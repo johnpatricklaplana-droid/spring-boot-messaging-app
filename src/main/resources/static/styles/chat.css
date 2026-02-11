@@ -98,7 +98,7 @@
     width: 100%;
 }
 
-.youContainer {
+.youContainer { 
     display: flex;
     justify-content: end;
 }

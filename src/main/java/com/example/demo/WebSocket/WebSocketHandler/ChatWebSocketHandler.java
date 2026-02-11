@@ -52,7 +52,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
 
         for (ConversationMemberDTO d : conversationMember) {
-            conversationSession.putIfAbsent(d.getConversationId(), ConcurrentHashMap.newKeySet());
+            conversationSession.putIfAbsent(d.getConversationId().getId(), ConcurrentHashMap.newKeySet());
             Set<WebSocketSession> chatRoom = conversationSession.get(d.getConversationId());
 
             chatRoom.add(session);

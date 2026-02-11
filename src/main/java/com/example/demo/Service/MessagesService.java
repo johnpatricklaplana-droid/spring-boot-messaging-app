@@ -20,7 +20,8 @@ public class MessagesService  {
 
     @Autowired
     EntityManager entityManager;
-
+    
+    //TODO: I FORGOT WHERE I USE THIS ONE I THINK I DON'T NEED IT ANYMORE?
     public List<Messages> getMessages(int sentBy, int conversationId) {
         
         
@@ -29,6 +30,14 @@ public class MessagesService  {
        
         return messagesRepo.findBysenderIdAndConversationId(sent_by_user, conversation_id);
 
+    }
+
+    public List<Messages> getMessages(int conversationId) {
+       
+        return messagesRepo.findByConversationId(
+            entityManager.getReference(Conversation.class, conversationId)
+        );
+        
     }
     
 }
