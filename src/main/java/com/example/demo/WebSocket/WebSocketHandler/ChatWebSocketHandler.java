@@ -53,7 +53,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
         for (ConversationMemberDTO d : conversationMember) {
             conversationSession.putIfAbsent(d.getConversationId().getId(), ConcurrentHashMap.newKeySet());
-            Set<WebSocketSession> chatRoom = conversationSession.get(d.getConversationId());
+            Set<WebSocketSession> chatRoom = conversationSession.get(d.getConversationId().getId());
 
             chatRoom.add(session);
         }    
@@ -81,7 +81,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
         
         for (WebSocketSession c : chat) {
             if(c.isOpen()) {
-                session.sendMessage(message);
+                c.sendMessage(message);
             }
         }
 
@@ -90,6 +90,6 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {       
         
-
+        conversationSession.values().forEach(chatRoom -> chatRoom.remove(session));
     }
 }

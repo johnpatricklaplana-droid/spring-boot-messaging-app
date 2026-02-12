@@ -106,12 +106,16 @@
 .you {
     width: fit-content;
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: end;
+    max-width: 50%;
+    gap: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .you p {
-    text-align: end;
+    text-align: start;
     background-color: blue;
     padding: 10px;
     border-radius: 5px;
@@ -120,8 +124,8 @@
 
 .youProfile {
     width: 50px;
+    min-width: 50px;
     height: 40px;
-    margin: 10px;
     background-size: cover;
     border: 1px solid white;
     border-radius: 5px;
@@ -135,7 +139,11 @@
 .kachat {
     width: fit-content;
     display: flex;
-    align-items: center;
+    align-items: start;
+    max-width: 50%;
+    gap: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .kachat p {
@@ -143,12 +151,13 @@
     border-radius: 5px;
     padding: 10px;
     color: white;
+    background-color: red;
 }
 
 .kachatProfile {
     width: 50px;
+    min-width: 50px;
     height: 40px;
-    margin: 10px;
     background-size: cover;
     border: 1px solid white;
     border-radius: 5px;
@@ -195,4 +204,14 @@
 
 .chatInputboxContainer p:hover {
     background-color: lightgray;
+}
+
+@media (max-width: 500px) {
+    .you p {
+        font-size: small;
+    }
+
+    .kachat p {
+        font-size: small;
+    }
 }

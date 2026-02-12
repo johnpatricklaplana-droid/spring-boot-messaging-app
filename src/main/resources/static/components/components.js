@@ -47,7 +47,7 @@ export function searchResult(peoples) {
         li.className = "userListFromSearch";
         const span = document.createElement("span");
         li.innerText = person.username;
-        span.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
+        span.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
         li.appendChild(span);
         ul.appendChild(li);
     });
@@ -57,9 +57,15 @@ export async function displayConversation (messages, friendId) {
 
     const currentUserId = currentUser.id;
 
+    const conversationContainer = document.querySelector(".conversationContainer");
+
     const conversation = document.querySelector(".conversation");
 
     document.querySelectorAll(".youContainer").forEach(element => {
+        element.remove();
+    });
+
+    document.querySelectorAll(".kachatContainer").forEach(element => {
         element.remove();
     });
    
@@ -76,12 +82,14 @@ export async function displayConversation (messages, friendId) {
             youMessage.innerText = m.textMessage;
 
             const youProfile = document.createElement("img");
+            youProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${currentUserId}.png")`;
             youProfile.className = "youProfile";
 
             conversation.appendChild(youContainer);
             youContainer.appendChild(you);
             you.appendChild(youMessage);
             you.appendChild(youProfile);
+            conversationContainer.scrollTop = conversation.scrollHeight;
         } else if (m.senderId.id === Number(friendId)) {
             
             const kachatContainer = document.createElement("div");
@@ -91,6 +99,7 @@ export async function displayConversation (messages, friendId) {
             kachat.className = "kachat";
 
             const kachatProfile = document.createElement("img");
+            kachatProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${friendId}.png")`;
             kachatProfile.className = "kachatProfile";
 
             const kaChatMessage = document.createElement("p");
@@ -100,6 +109,7 @@ export async function displayConversation (messages, friendId) {
             kachatContainer.appendChild(kachat);
             kachat.appendChild(kachatProfile);
             kachat.appendChild(kaChatMessage);
+            conversationContainer.scrollTop = conversation.scrollHeight;
         }
     });
 }
@@ -124,7 +134,7 @@ export async function displayFriendList(friendList) {
 
             const h1 = document.createElement("h1");
 
-            profilepicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${friend.userId.id}.png")`;
+            profilepicture.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${friend.userId.id}.png")`;
             h1.innerText = friend.userId.username;
             friendEl.dataset.friendId = friend.userId.id;
             friendEl.dataset.conversationId = friend.conversationId.id;
