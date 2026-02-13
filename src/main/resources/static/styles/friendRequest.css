@@ -1,17 +1,24 @@
 .friendrequestsContainer {
-    background-color: white;
-    height: 85vh;
+    background-color: black;
+    height: 100vh;
     padding: 10px;
-    width: 400px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     box-shadow: 1px 1px 8px gray;
-    border-radius: 10px;
     gap: 10px;
     display: none;
     overflow: auto;
     scrollbar-width: none;
+}
+
+.friendrequestsContainer h1 {
+    color: white;
+}
+
+.friendrequestsContainer h3 {
+    color: white;
 }
 
 .friendrequestsContainer hr {
@@ -27,7 +34,7 @@
 }
 
 .personRequestContainer:hover {
-    background-color: lightgray;
+    background-color: rgba(211, 211, 211, 0.155);
 }
 
 .personRequestContainer hr {
