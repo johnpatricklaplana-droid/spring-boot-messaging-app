@@ -56,8 +56,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
             Set<WebSocketSession> chatRoom = conversationSession.get(d.getConversationId().getId());
 
             chatRoom.add(session);
-        }    
-        
+        }      
     }
 
     @Override

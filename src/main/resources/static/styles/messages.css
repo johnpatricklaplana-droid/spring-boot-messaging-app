@@ -1,12 +1,10 @@
-
 .messagesContainer {
     width: 100%;
     height: 100%;
     scrollbar-width: none;
     background-color: rgba(0, 0, 0, 0.925);
     padding: 20px;
-    overflow: auto;
-    display: none;
+    overflow: auto; 
 }
 
 .friend {
