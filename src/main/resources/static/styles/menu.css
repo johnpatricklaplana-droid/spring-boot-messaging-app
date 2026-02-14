@@ -1,0 +1,70 @@
+.menuContainer {
+    padding: 20px;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    height: 100%;
+}
+
+.usernameInMenu {
+    color: white;
+}
+
+.menuContainer hr {
+    width: 100%;
+}
+
+
+.menuContainer h1 {
+    color: white;
+}
+
+.menuContainer h5 {
+    color: white;
+    font-size: larger;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.menuContainer h5:hover {
+    background-color: rgba(128, 128, 128, 0.329);
+}
+
+.menuContainer label {
+    color: white;
+}
+
+.menuContainer p {
+    color: white;
+}
+
+.userprofilePicInMenu {
+    width: 50px;
+    height: 40px;
+}
+
+.userWrapperInMenu {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.settingsWrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.settingsWrapper:hover {
+    background-color: rgba(128, 128, 128, 0.329);
+}
+
+@media (max-width: 500px) {
+    .menuContainer {
+        align-items: start;
+    }
+}

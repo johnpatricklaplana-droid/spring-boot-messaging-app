@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="styles/personProfile.css">
     <link rel="stylesheet" href="styles/friendRequest.css">
     <link rel="stylesheet" href="styles/bottomNavBar.css">
+    <link rel="stylesheet" href="styles/menu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 <body>
@@ -98,6 +99,23 @@
                     <input class="input messageInputField" type="text" name="" id="messageInputField">
                     <i class="sendMessage fa-solid fa-paper-plane"></i>
                 </div>
+            </div>
+
+            <div class="menuContainer">
+                <h1>Menu</h1>
+                <div class="userWrapperInMenu">
+                    <img class="userprofilePicInMenu" th:src="@{${imagePath}}" alt="">
+                    <h3 class="usernameInMenu">TODO: NAME OF THE USER</h3>
+                </div> 
+                <div class="settingsWrapper">
+                    <i class="fa-solid fa-gear"></i>
+                    <p>Settings</p>
+                </div>
+                <hr>
+                <h5>Friend Request</h5>
+                <h5>Archive</h5>
+                <label for="">groups</label>
+                <h5>Create Group chat</h5>
             </div>
             
             <div class="personProfile">

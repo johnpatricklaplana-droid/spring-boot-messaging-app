@@ -6,6 +6,7 @@
     background-color: rgba(0, 0, 0, 0.925);
     padding: 20px;
     overflow: auto;
+    display: none;
 }
 
 .friend {
