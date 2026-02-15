@@ -6,6 +6,7 @@
     display: none;
     justify-content: space-between;
     padding: 20px;
+    z-index: 0;
 }
 
 .iconsWrapperInBottomNavBar {

@@ -45,3 +45,19 @@ export async function update (url) {
         console.error(error);
     }
 }
+
+
+
+export async function readMessagesApi(url) {
+    
+    try {
+        const result = await fetch(url, {
+            method: "PUT"
+        });
+        
+        return result.status;
+    } catch (error) {   
+        console.error(error);
+    }
+
+};

@@ -2,7 +2,10 @@ package com.example.demo.Repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.example.demo.Model.Conversation;
 import com.example.demo.Model.Messages;
@@ -13,5 +16,16 @@ public interface MessagesRepository extends JpaRepository<Messages, Integer> {
     public List<Messages> findBysenderIdAndConversationId(User sentBy, Conversation conversationId);
 
     public List<Messages> findByConversationId(Conversation id);
+    
+    @Query("""
+            SELECT m FROM Messages m
+            WHERE m.conversationId = :conversationId
+            AND m.senderId = :userId
+            ORDER BY m.id DESC
+            """)
+    List<Messages> findByConversationIdAndUserId(
+        @Param("conversationId") Conversation conversationId,
+        @Param("userId") User userId,
+        Pageable pageable);
     
 }

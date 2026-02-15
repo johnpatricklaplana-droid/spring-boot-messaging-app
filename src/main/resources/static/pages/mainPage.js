@@ -8,6 +8,7 @@ import { update } from "/api/api.js";
 import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
 import { displayConversation } from "/components/components.js";
 import { displayFriendList } from "/components/components.js";
+import { readMessages } from "/service/readMessages.js";
 
 // GET USER
 // (() => {
@@ -276,7 +277,6 @@ import { displayFriendList } from "/components/components.js";
             document.querySelector(".personProfile").style.display = "none";
             document.querySelector(".friendrequestsContainer").style.display = "none";
             document.querySelector(".messagesContainer").style.display = "none";
-            document.querySelector(".bottomNavbar").style.display = "none";
 
             const recieverProfile = document.querySelector(".recieverProfile");
             const friendProfile = document.querySelector(".friendProfile");
@@ -296,6 +296,8 @@ import { displayFriendList } from "/components/components.js";
             console.log(messages);
 
             displayConversation(messages, id);
+
+            readMessages(currentUser.id, conversationId);
         }
     });
 
@@ -341,7 +343,6 @@ import { displayFriendList } from "/components/components.js";
     eXbutton.addEventListener("click", () => {
         document.querySelector(".chatContainer").style.display = "none";
         document.querySelector(".messagesContainer").style.display = "block";
-        document.querySelector(".bottomNavbar").style.display = "flex";
     });
     
 }) ();
