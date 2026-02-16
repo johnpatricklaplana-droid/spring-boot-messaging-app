@@ -20,9 +20,14 @@ import lombok.Setter;
 @Setter
 @Table(name = "message_reads")
 public class ReadMessages {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer messageId;
+    Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "message_id")
+    Messages messageId;
     
     @ManyToOne
     @JoinColumn(name = "user_id")

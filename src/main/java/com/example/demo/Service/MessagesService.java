@@ -1,5 +1,6 @@
 package com.example.demo.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.Model.Conversation;
 import com.example.demo.Model.Messages;
+import com.example.demo.Model.ReadMessages;
 import com.example.demo.Model.User;
 import com.example.demo.Repository.MessagesRepository;
+import com.example.demo.Repository.ReadMessagesRepository;
 
 import jakarta.persistence.EntityManager;
 
@@ -19,6 +22,9 @@ public class MessagesService  {
 
     @Autowired
     MessagesRepository messagesRepo;
+
+    @Autowired
+    ReadMessagesRepository readMessagesRepo;
 
     @Autowired
     EntityManager entityManager;
@@ -37,17 +43,18 @@ public class MessagesService  {
     public void seenMessages(Integer userId, Integer conversationId) {
 
         Pageable pageable = PageRequest.of(0, 1);
-        List<Messages> lastMessage = messagesRepo.findByConversationIdAndUserId(
+        List<Messages> lastMessage = messagesRepo.findByConversationId(
             entityManager.getReference(Conversation.class, conversationId), 
-            entityManager.getReference(User.class, userId),
             pageable
         );
 
-        for (Messages m : lastMessage) {
-            System.out.println(m.getId());
-            System.out.println(m.getSenderId());
-            System.out.println(m.getConversationId());
-        }
+        ReadMessages readM = new ReadMessages();
+    
+        readM.setMessageId(lastMessage.get(0));
+        readM.setUser(lastMessage.get(0).getSenderId());
+        readM.setReadAt(LocalDateTime.now());
+        
+        readMessagesRepo.save(readM);
 
     }
 

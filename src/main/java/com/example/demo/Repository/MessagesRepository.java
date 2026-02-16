@@ -20,12 +20,10 @@ public interface MessagesRepository extends JpaRepository<Messages, Integer> {
     @Query("""
             SELECT m FROM Messages m
             WHERE m.conversationId = :conversationId
-            AND m.senderId = :userId
             ORDER BY m.id DESC
             """)
-    List<Messages> findByConversationIdAndUserId(
+    List<Messages> findByConversationId(
         @Param("conversationId") Conversation conversationId,
-        @Param("userId") User userId,
         Pageable pageable);
     
 }
