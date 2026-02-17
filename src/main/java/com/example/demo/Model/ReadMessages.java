@@ -1,6 +1,5 @@
 package com.example.demo.Model;
 
-
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -25,13 +24,15 @@ public class ReadMessages {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "message_id")
-    Messages messageId;
+    Integer last_message_read;
     
     @ManyToOne
     @JoinColumn(name = "user_id")
     User user;
-    
+
+    @ManyToOne
+    @JoinColumn(name = "conversation_id")
+    Conversation conversation;
+
     LocalDateTime readAt;
 }

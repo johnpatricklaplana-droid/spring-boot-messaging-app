@@ -1,9 +1,15 @@
 import { readMessagesApi } from "/api/api.js";
+import { socket } from "/main.js";
 
 export async function readMessages(userId, conversationId) {
-    
-    const url = `http://192.168.100.241:8080/getReadMessages/${userId}/${conversationId}`;
-    readMessagesApi(url);
+
+    const message = {
+        type: "seen_message",
+        userId: userId,
+        conversationId: conversationId
+    };
+
+    socket.send(JSON.stringify(message));
     
 }
 
