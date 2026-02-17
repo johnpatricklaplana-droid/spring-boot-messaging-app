@@ -50,12 +50,16 @@ public class MessagesService  {
 
         ReadMessages readM = new ReadMessages();
     
-        readM.setLast_message_read(lastMessage.get(0).getId());
+        readM.setLastMessageRead(lastMessage.get(0).getId());
         readM.setUser(entityManager.getReference(User.class, userId));
         readM.setConversation(entityManager.getReference(Conversation.class, conversationId));
         readM.setReadAt(LocalDateTime.now());
         
-        readMessagesRepo.save(readM);
+        try {
+            readMessagesRepo.save(readM);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

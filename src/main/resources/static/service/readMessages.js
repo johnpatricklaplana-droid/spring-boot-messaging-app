@@ -1,4 +1,3 @@
-import { readMessagesApi } from "/api/api.js";
 import { socket } from "/main.js";
 
 export async function readMessages(userId, conversationId) {
@@ -9,7 +8,8 @@ export async function readMessages(userId, conversationId) {
         conversationId: conversationId
     };
 
-    socket.send(JSON.stringify(message));
+    socket.send(JSON.stringify(message));    
+   
     
 }
 

@@ -11,13 +11,12 @@ import com.example.demo.Model.ReadMessages;
 
 public interface ReadMessagesRepository extends JpaRepository<ReadMessages, Integer> {
 
-    @Query(
-    value = """
+    @Query(value = """
     SELECT DISTINCT ON (user_id) *
     FROM message_reads
     WHERE conversation_id = :conversationId
     ORDER BY user_id, last_message_read DESC
-    """
+    """, nativeQuery = true
     )
 List<ReadMessages> findByConversationId(@Param("conversationId") int conversationId, Pageable pageable);
 

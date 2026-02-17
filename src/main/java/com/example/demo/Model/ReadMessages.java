@@ -24,7 +24,7 @@ public class ReadMessages {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    Integer last_message_read;
+    Integer lastMessageRead;
     
     @ManyToOne
     @JoinColumn(name = "user_id")

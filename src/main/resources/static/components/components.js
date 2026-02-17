@@ -47,13 +47,13 @@ export function searchResult(peoples) {
         li.className = "userListFromSearch";
         const span = document.createElement("span");
         li.innerText = person.username;
-        span.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
+        span.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
         li.appendChild(span);
         ul.appendChild(li);
     });
 }
 
-export async function displayConversation (messages, friendId) {
+export async function displayConversation (messages, friendId, peopleWhoSeenTheMessage) {
 
     const currentUserId = currentUser.id;
 
@@ -84,15 +84,20 @@ export async function displayConversation (messages, friendId) {
             const peopleWhoSeenMessagesListContainer = document.createElement("div");
             peopleWhoSeenMessagesListContainer.className = "peopleWhoSeenMessagesListContainer";
 
-            const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
-            profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
-            profileOfpeopleWhoSeenTheMessage.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${currentUserId}.png")`;
+            peopleWhoSeenTheMessage.forEach(person => {
+                if(person.lastMessageRead >= m.id) {
+                    const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
+                    profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
+                    profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.241:8080/getProfilePic/${person.user.id}.png`;
+                    peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
+                }
+            });
 
             const youMessage = document.createElement("p");
             youMessage.innerText = m.textMessage;
 
             const youProfile = document.createElement("img");
-            youProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${currentUserId}.png")`;
+            youProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${currentUserId}.png")`;
             youProfile.className = "youProfile";
 
             conversation.appendChild(youContainer);
@@ -101,7 +106,6 @@ export async function displayConversation (messages, friendId) {
             messageAndProfileWrapper.appendChild(youMessage);
             messageAndProfileWrapper.appendChild(youProfile);
             you.appendChild(peopleWhoSeenMessagesListContainer);
-            peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
             conversationContainer.scrollTop = conversation.scrollHeight;
         } else if (m.senderId.id === Number(friendId)) {
             
@@ -119,10 +123,10 @@ export async function displayConversation (messages, friendId) {
 
             const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
             profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
-            profileOfpeopleWhoSeenTheMessage.src = "http://192.168.100.17:8080/getProfilePic/1.png";
+            profileOfpeopleWhoSeenTheMessage.src = "http://192.168.100.241:8080/getProfilePic/1.png";
 
             const kachatProfile = document.createElement("img");
-            kachatProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${friendId}.png")`;
+            kachatProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${friendId}.png")`;
             kachatProfile.className = "kachatProfile";
 
             const kaChatMessage = document.createElement("p");
@@ -160,7 +164,7 @@ export async function displayFriendList(friendList) {
 
             const h1 = document.createElement("h1");
 
-            profilepicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${friend.userId.id}.png")`;
+            profilepicture.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${friend.userId.id}.png")`;
             h1.innerText = friend.userId.username;
             friendEl.dataset.friendId = friend.userId.id;
             friendEl.dataset.conversationId = friend.conversationId.id;

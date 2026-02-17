@@ -81,7 +81,6 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {       
-        
         conversationSession.values().forEach(chatRoom -> chatRoom.remove(session));
     }
 }

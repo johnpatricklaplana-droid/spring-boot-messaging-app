@@ -17,10 +17,13 @@ public class ReadMessagesService {
     ReadMessagesRepository readMessagesRepository;
 
     public List<ReadMessages> getPeopleWhoSeenTheMessage(int conversaionId) {
-        Pageable pageable = PageRequest.of(0, 1);
+        Pageable pageable = PageRequest.of(0, 10);
         List<ReadMessages> readMessages = readMessagesRepository.findByConversationId(conversaionId, pageable);
 
-        System.out.println(readMessages.get(0));
+        for (ReadMessages readMessages2 : readMessages) {
+            System.out.println(readMessages2.getLastMessageRead()); 
+            System.out.println(readMessages2.getUser().getId());
+        }
         return readMessages;
     }
 
