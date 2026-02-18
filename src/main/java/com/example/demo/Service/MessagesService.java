@@ -40,7 +40,7 @@ public class MessagesService  {
 
     }
 
-    public void seenMessages(Integer userId, Integer conversationId) {
+    public ReadMessages seenMessages(Integer userId, Integer conversationId) {
 
         Pageable pageable = PageRequest.of(0, 1);
         List<Messages> lastMessage = messagesRepo.findByConversationId(
@@ -50,15 +50,21 @@ public class MessagesService  {
 
         ReadMessages readM = new ReadMessages();
     
-        readM.setLastMessageRead(lastMessage.get(0).getId());
-        readM.setUser(entityManager.getReference(User.class, userId));
-        readM.setConversation(entityManager.getReference(Conversation.class, conversationId));
-        readM.setReadAt(LocalDateTime.now());
+        try {
+            readM.setLastMessageRead(lastMessage.get(0).getId());
+            readM.setUser(entityManager.getReference(User.class, userId));
+            readM.setConversation(entityManager.getReference(Conversation.class, conversationId));
+            readM.setReadAt(LocalDateTime.now());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         
         try {
             readMessagesRepo.save(readM);
+            return readM;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
 
     }

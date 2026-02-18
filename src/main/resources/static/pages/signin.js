@@ -38,12 +38,12 @@ import { validation } from "/utils/helper.js";
         signupErrorMessage(validInput);
         return;
     }
-        const url = `http://192.168.100.241:8080/signup`;
+        const url = `http://192.168.100.17:8080/signup`;
         const result = await post(userInfo, url);
         console.log(result);
         
         if(result == 200) {
-            window.location.href = "http://192.168.100.241:8080/loginPage.html";
+            window.location.href = "http://192.168.100.17:8080/loginPage.html";
         }
 
     });

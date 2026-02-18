@@ -19,7 +19,7 @@ import { socket } from "/main.js";
 //     const youProfile = document.querySelectorAll(".youProfile");
   
 //     youProfile.forEach(element => {
-//         element.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
+//         element.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
 //     });
     
 // }) ();
@@ -48,7 +48,7 @@ import { socket } from "/main.js";
         
         searchResultContainer.style.display = "block";
 
-        const url = `http://192.168.100.241:8080/search/${name}`; 
+        const url = `http://192.168.100.17:8080/search/${name}`; 
         const result = await get(url);
         
         if(!result.length) {
@@ -122,7 +122,7 @@ import { socket } from "/main.js";
         const personProfilePicture = document.querySelector(".personProfilePicture");
         const personName = document.querySelector(".personName");
 
-        personProfilePicture.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
+        personProfilePicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
         personName.innerText = person.username;
     })
 }) ();
@@ -135,7 +135,7 @@ import { socket } from "/main.js";
         const requestTo = event.target.dataset.personId;
         const requestFrom = currentUser.id;    
 
-        const url = `http://192.168.100.241:8080/addFriend/${requestTo}/${requestFrom}`;
+        const url = `http://192.168.100.17:8080/addFriend/${requestTo}/${requestFrom}`;
         const result = await post(null, url);
         
         if (result == 200) {
@@ -157,7 +157,7 @@ import { socket } from "/main.js";
       
         const currentUserId = currentUser.id;
 
-        const url = `http://192.168.100.241:8080/getFriendRequest/${currentUserId}`;
+        const url = `http://192.168.100.17:8080/getFriendRequest/${currentUserId}`;
         const result = await get(url);
 
         const friendrequestsContainer = document.querySelector(".friendrequestsContainer");
@@ -170,7 +170,7 @@ import { socket } from "/main.js";
             divpersonRequestContainer.className = "personRequestContainer";
 
             const divpersonRequestProfilePicture = document.createElement("div");
-            divpersonRequestProfilePicture.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
+            divpersonRequestProfilePicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
             divpersonRequestProfilePicture.className = "personRequestProfilePicture";
             divpersonRequestProfilePicture.classList.add("profile");
 
@@ -232,7 +232,7 @@ import { socket } from "/main.js";
             const idFromFriendRequest = event.target.dataset.personID; 
             const currentUserId = currentUser.id; 
             
-            const url = `http://192.168.100.241:8080/acceptFriendRequest/${idFromFriendRequest}/${currentUserId}`;
+            const url = `http://192.168.100.17:8080/acceptFriendRequest/${idFromFriendRequest}/${currentUserId}`;
             const result = await update(url);
             console.log(result);
             
@@ -274,7 +274,7 @@ import { socket } from "/main.js";
             console.log(conversationId);
             const friendInfo = getUser(id);   
 
-            document.querySelector(".chatContainer").style.display = "flex";
+            document.querySelector(".chatContainer").classList.add("show");
             document.querySelector(".personProfile").style.display = "none";
             document.querySelector(".friendrequestsContainer").style.display = "none";
             document.querySelector(".messagesContainer").style.display = "none";
@@ -286,17 +286,17 @@ import { socket } from "/main.js";
             const kachatProfile = document.querySelectorAll(".kachatProfile");
             
             friendProfile.dataset.friendId = id;
-            recieverProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
-            friendProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
-            kachatProfile.forEach(el => el.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`);
+            recieverProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
+            friendProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
+            kachatProfile.forEach(el => el.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`);
 
             recivierName.innerText = friendInfo.username;
             recivierNameTop.innerText = friendInfo.username;
             
-            const messages = await (await fetch(`http://192.168.100.241:8080/getMessages/${conversationId}`)).json();
+            const messages = await (await fetch(`http://192.168.100.17:8080/getMessages/${conversationId}`)).json();
             console.log(messages);
 
-            const peopleWhoSeenTheMessage = await (await fetch(`http://192.168.100.241:8080/getPeopleWhoSeenTheMessage/${conversationId}`)).json();
+            const peopleWhoSeenTheMessage = await (await fetch(`http://192.168.100.17:8080/getPeopleWhoSeenTheMessage/${conversationId}`)).json();
             console.log(peopleWhoSeenTheMessage);
             displayConversation(messages, id, peopleWhoSeenTheMessage);
 
@@ -344,7 +344,7 @@ import { socket } from "/main.js";
     if(!eXbutton) return;
 
     eXbutton.addEventListener("click", () => {
-        document.querySelector(".chatContainer").style.display = "none";
+        document.querySelector(".chatContainer").classList.remove("show");
         document.querySelector(".messagesContainer").style.display = "block";
     });
     
@@ -361,7 +361,7 @@ import { socket } from "/main.js";
         const friend_id = document.querySelector(".friendProfile").dataset.friendId;
 
         const conversationId = await (await fetch(
-            `http://192.168.100.241:8080/getUserConversation/${currentUserId}/${friend_id}`
+            `http://192.168.100.17:8080/getUserConversation/${currentUserId}/${friend_id}`
         )).text();
         
         const textMessage = messageInputField.value.trim();
@@ -380,18 +380,34 @@ import { socket } from "/main.js";
 
     socket.onmessage = (event) => {
         const info = JSON.parse(event.data);
-        console.log(info);
-        showMessagesLive(info);
-        messageInputField.value = "";
+        if (info.type === "text_message") {
+            showMessagesLive(info);
+            messageInputField.value = "";
+            return;
+        }
+        
+        if (info.type === "seen_message") {
+            //TODO: 
+            return;
+        }
     };
 
 }) ();
 
-function showMessagesLive (info) {
+async function showMessagesLive (info) {
+    console.log("right?");
 
-    const friendId = document.querySelector(".friendProfile").dataset.friendId;
+    const chatContainer = document.querySelector(".chatContainer");
 
     const currentUserId = currentUser.id;
+
+    if(chatContainer.classList.contains("show")) {
+        const seenMessagesLive = await fetch(`http://192.168.100.17:8080/seenMessagesLive/${currentUserId}/${info.conversation_id}`, { method: "POST" });
+    }
+
+    const peopleWhoSeenTheMessage = await (await fetch(`http://192.168.100.17:8080/getPeopleWhoSeenTheMessage/${info.conversation_id}`)).json();
+
+    const friendId = document.querySelector(".friendProfile").dataset.friendId;
 
     const conversationContainer = document.querySelector(".conversationContainer");
 
@@ -410,14 +426,21 @@ function showMessagesLive (info) {
         const peopleWhoSeenMessagesListContainer = document.createElement("div");
         peopleWhoSeenMessagesListContainer.className = "peopleWhoSeenMessagesListContainer";
 
-        const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
-        profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
+        peopleWhoSeenTheMessage.forEach(person => {
+            if (chatContainer.classList.contains("show")
+                && person.lastMessageRead >= info.message_id) {
+                const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
+                profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
+                profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${person.user.id}.png`;
+                peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
+            }
+        });
 
         const youMessage = document.createElement("p");
         youMessage.innerText = info.text_message;
 
         const youProfile = document.createElement("img");
-        youProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${currentUserId}.png")`;
+        youProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${currentUserId}.png")`;
         youProfile.className = "youProfile";
 
         conversation.appendChild(youContainer);
@@ -426,7 +449,6 @@ function showMessagesLive (info) {
         messageAndProfileWrapper.appendChild(youMessage);
         messageAndProfileWrapper.appendChild(youProfile);
         you.appendChild(peopleWhoSeenMessagesListContainer);
-        peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
         conversationContainer.scrollTop = conversation.scrollHeight;
     } else {
         if(friendId === info.sender) {
@@ -442,12 +464,19 @@ function showMessagesLive (info) {
             const peopleWhoSeenMessagesListContainer = document.createElement("div");
             peopleWhoSeenMessagesListContainer.className = "peopleWhoSeenMessagesListContainer";
 
-            const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
-            profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
-            profileOfpeopleWhoSeenTheMessage.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${info.sender}.png")`;
+            peopleWhoSeenTheMessage.forEach(person => {
+                console.log(chatContainer.classList.contains("show"));
+                if (chatContainer.classList.contains("show") && person.lastMessageRead >= info.message_id) {
+                    console.log("WHat is happening?");
+                    const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
+                    profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
+                    profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${person.user.id}.png`;
+                    peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
+                }
+            });
 
             const kachatProfile = document.createElement("img");
-            kachatProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${info.sender}.png")`;
+            kachatProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${info.sender}.png")`;
             kachatProfile.className = "kachatProfile";
 
             const kaChatMessage = document.createElement("p");
@@ -459,7 +488,6 @@ function showMessagesLive (info) {
             messageAndProfileWrapper.appendChild(kachatProfile);
             messageAndProfileWrapper.appendChild(kaChatMessage);
             kachat.appendChild(peopleWhoSeenMessagesListContainer);
-            peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
             conversationContainer.scrollTop = conversation.scrollHeight;
         }
     }
@@ -472,7 +500,7 @@ window.addEventListener("load", async () => {
     history.pushState(null, null, location.href);
     
     const friendList = await(await fetch(
-        `http://192.168.100.241:8080/getConversationList/${currentUserId}`
+        `http://192.168.100.17:8080/getConversationList/${currentUserId}`
     )).json();
 
     displayFriendList(friendList);

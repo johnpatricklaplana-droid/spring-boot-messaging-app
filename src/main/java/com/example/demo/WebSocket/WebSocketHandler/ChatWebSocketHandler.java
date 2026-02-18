@@ -15,8 +15,8 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.example.demo.DTO.ConversationMemberDTO;
 import com.example.demo.Service.ConversationService;
 import com.example.demo.Service.SendMessageLive;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import jakarta.persistence.EntityManager;
 
@@ -58,8 +58,8 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         
-        JsonNode messageObject = mapper.readTree(message.getPayload());
-
+        ObjectNode messageObject = (ObjectNode) mapper.readTree(message.getPayload());
+        
         String type = messageObject.get("type").asText();
 
         switch (type) {
@@ -67,7 +67,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
                 sendMessageLive.handleTextMessageType(messageObject, message, conversationSession);
                 break;
             case "seen_message":
-                sendMessageLive.handleSeenMessageLive(messageObject, message);
+                sendMessageLive.handleSeenMessageLive(messageObject, message, conversationSession);
                 break;
             case "who_seen_message":
                 sendMessageLive.whoSeenTheMessageLive();
