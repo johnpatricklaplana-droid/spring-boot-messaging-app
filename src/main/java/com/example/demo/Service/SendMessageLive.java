@@ -73,6 +73,7 @@ public class SendMessageLive {
         
             messageObject.put("lastMessageRead", readM.getLastMessageRead());
             messageObject.put("type", "seen_message");
+            messageObject.put("lastMessageRead", readM.getLastMessageRead());
         } catch (Exception e) {
             e.printStackTrace();
         }

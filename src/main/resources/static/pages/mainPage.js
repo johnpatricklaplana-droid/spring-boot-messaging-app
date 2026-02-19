@@ -387,22 +387,57 @@ import { socket } from "/main.js";
         }
         
         if (info.type === "seen_message") {
-            //TODO: 
+            seenMessageInRealTime(info);
             return;
         }
     };
 
 }) ();
 
-async function showMessagesLive (info) {
-    console.log("right?");
+function seenMessageInRealTime(info) {
+      
+    const you = document.querySelectorAll(".you");
+    you.forEach(element => {
+        const message = element.querySelectorAll("p");
+        message.forEach(m => {
+            const peopleWhoSeenTheMessage = JSON.parse(sessionStorage.getItem(m.dataset.messageId)) || [];
+            if (!peopleWhoSeenTheMessage.includes(Number(info.userId))) {
+                const peopleWhoSeenMessagesListContainer = element.querySelector(".peopleWhoSeenMessagesListContainer");
+                const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
+                profileOfpeopleWhoSeenTheMessage.dataset.seenerId = info.userId;
+                profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
+                profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${info.userId}.png`;
+                peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
+            }
+        });
+    });
 
+    const kachat = document.querySelectorAll(".kachat");
+    kachat.forEach(element => {
+        const message = element.querySelectorAll("p");
+        message.forEach(m => {
+            const peopleWhoSeenTheMessage = JSON.parse(sessionStorage.getItem(m.dataset.messageId)) || [];
+            if (!peopleWhoSeenTheMessage.includes(Number(info.userId))) {
+                const peopleWhoSeenMessagesListContainer = element.querySelector(".peopleWhoSeenMessagesListContainer");
+                const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
+                profileOfpeopleWhoSeenTheMessage.dataset.seenerId = info.userId;
+                profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
+                profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${info.userId}.png`;
+                peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
+            }
+        });
+    });
+    
+}
+
+async function showMessagesLive (info) {
+     console.log(info);
     const chatContainer = document.querySelector(".chatContainer");
 
     const currentUserId = currentUser.id;
 
     if(chatContainer.classList.contains("show")) {
-        const seenMessagesLive = await fetch(`http://192.168.100.17:8080/seenMessagesLive/${currentUserId}/${info.conversation_id}`, { method: "POST" });
+        await fetch(`http://192.168.100.17:8080/seenMessagesLive/${currentUserId}/${info.conversation_id}`, { method: "POST" });
     }
 
     const peopleWhoSeenTheMessage = await (await fetch(`http://192.168.100.17:8080/getPeopleWhoSeenTheMessage/${info.conversation_id}`)).json();
@@ -426,22 +461,30 @@ async function showMessagesLive (info) {
         const peopleWhoSeenMessagesListContainer = document.createElement("div");
         peopleWhoSeenMessagesListContainer.className = "peopleWhoSeenMessagesListContainer";
 
+        const youMessage = document.createElement("p");
+        youMessage.innerText = info.text_message;
+        youMessage.dataset.messageId = info.message_id;
+
+        const youProfile = document.createElement("img");
+        youProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${currentUserId}.png")`;
+        youProfile.className = "youProfile";
+
+        const arrayOfPeopleWhoSeenTheMessage = [];
+
         peopleWhoSeenTheMessage.forEach(person => {
             if (chatContainer.classList.contains("show")
                 && person.lastMessageRead >= info.message_id) {
                 const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
+                profileOfpeopleWhoSeenTheMessage.dataset.seenerId = person.user.id;
+                arrayOfPeopleWhoSeenTheMessage.push(person.user.id);
                 profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
                 profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${person.user.id}.png`;
                 peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
             }
         });
-
-        const youMessage = document.createElement("p");
-        youMessage.innerText = info.text_message;
-
-        const youProfile = document.createElement("img");
-        youProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${currentUserId}.png")`;
-        youProfile.className = "youProfile";
+        console.log(arrayOfPeopleWhoSeenTheMessage);
+        console.log(info.message_id);
+        sessionStorage.setItem(info.message_id, JSON.stringify(arrayOfPeopleWhoSeenTheMessage));
 
         conversation.appendChild(youContainer);
         youContainer.appendChild(you);
@@ -464,16 +507,22 @@ async function showMessagesLive (info) {
             const peopleWhoSeenMessagesListContainer = document.createElement("div");
             peopleWhoSeenMessagesListContainer.className = "peopleWhoSeenMessagesListContainer";
 
+            const arrayOfPeopleWhoSeenTheMessage = [];
+
             peopleWhoSeenTheMessage.forEach(person => {
                 console.log(chatContainer.classList.contains("show"));
                 if (chatContainer.classList.contains("show") && person.lastMessageRead >= info.message_id) {
                     console.log("WHat is happening?");
                     const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
+                    profileOfpeopleWhoSeenTheMessage.dataset.seenerId = person.user.id;
+                    arrayOfPeopleWhoSeenTheMessage.push(person.user.id);
                     profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
                     profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${person.user.id}.png`;
                     peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
                 }
             });
+
+            sessionStorage.setItem(info.message_id, JSON.stringify(arrayOfPeopleWhoSeenTheMessage));
 
             const kachatProfile = document.createElement("img");
             kachatProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${info.sender}.png")`;
@@ -481,6 +530,7 @@ async function showMessagesLive (info) {
 
             const kaChatMessage = document.createElement("p");
             kaChatMessage.innerText = info.text_message;
+            kaChatMessage.dataset.messageId = info.message_id;
 
             conversation.appendChild(kachatContainer);
             kachatContainer.appendChild(kachat);
