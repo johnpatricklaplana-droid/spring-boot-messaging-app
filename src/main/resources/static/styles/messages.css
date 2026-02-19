@@ -7,6 +7,34 @@
     overflow: auto; 
 }
 
+.nameAndLastMessageWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    max-height: 50px;
+    max-width: 900px;
+}
+
+.nameAndLastMessageWrapper h1 {
+    color: rgba(255, 255, 255, 0.596);
+    font-weight: 100;
+    font-family: sans-serif;
+    font-size: 20px;
+}
+
+.lastMessage {
+    color: rgba(255, 255, 255, 0.596);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.lastMessage.notSeenYet {
+    color: white;
+}
+
 .friend {
     height: 12%;
     width: 100%;
@@ -24,13 +52,7 @@
 .profilePicAndNameWrapper {
     display: flex;
     align-items: center;
-}
-
-.profilePicAndNameWrapper h1 {
-    font-weight: 100;
-    font-family: sans-serif;
-    color: white;
-    font-size: 20px;
+    gap: 10px;
 }
 
 .fa-ellipsis {
@@ -42,14 +64,9 @@
 .friend .profilepicture {
     width: 60px;
     height: 50px;
+    min-width: 60px;
     border-radius: 5px;
     background-size: cover;
-}
-
-.friend h1 {
-    margin-left: 10px;
-    font-weight: 100;
-    color: rgba(255, 255, 255, 0.596);
 }
 
 .friend:hover {
@@ -74,4 +91,10 @@
 
 .threeDonContentContainer h5:hover {
     background-color: rgba(211, 211, 211, 0.397);
+}
+
+@media (max-width: 480px) {
+    .nameAndLastMessageWrapper {
+        max-width: 200px;
+    }
 }

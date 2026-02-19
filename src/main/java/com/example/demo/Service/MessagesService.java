@@ -14,6 +14,7 @@ import com.example.demo.Model.ReadMessages;
 import com.example.demo.Model.User;
 import com.example.demo.Repository.MessagesRepository;
 import com.example.demo.Repository.ReadMessagesRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.persistence.EntityManager;
 
@@ -75,6 +76,26 @@ public class MessagesService  {
             entityManager.getReference(Conversation.class, conversationId)
         );
         
+    }
+
+    public Messages getLastMessage(int conversationId, int userId) {
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        Pageable pageable = PageRequest.of(0, 1);
+        List<Messages> lastMessage = messagesRepo.findByConversationId(
+            entityManager.getReference(Conversation.class, conversationId),
+            pageable
+        );
+        
+        Pageable pageableForLastMessageRead = PageRequest.of(0, 10);
+        List<ReadMessages> lastMessageRead = readMessagesRepo.findByConversationId(conversationId, pageableForLastMessageRead);
+        for (ReadMessages readMessages : lastMessageRead) {
+            System.out.println(readMessages.getUser().getId());
+            System.out.println(readMessages.getLastMessageRead());
+        }
+
+        return lastMessage.get(0);
     }
     
 }

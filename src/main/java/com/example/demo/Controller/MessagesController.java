@@ -27,4 +27,9 @@ public class MessagesController {
         messageService.seenMessages(userId, conversationId);
     }
 
+    @GetMapping("getLastMessages/{conversationId}/{userId}")
+    public Messages getLastMessage (@PathVariable int conversationId, @PathVariable int userId) {
+        return messageService.getLastMessage(conversationId, userId);
+    }
+
 }

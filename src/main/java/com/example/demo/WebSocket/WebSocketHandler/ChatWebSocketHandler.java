@@ -69,9 +69,6 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
             case "seen_message":
                 sendMessageLive.handleSeenMessageLive(messageObject, message, conversationSession);
                 break;
-            case "who_seen_message":
-                sendMessageLive.whoSeenTheMessageLive();
-                break;
             default:
                 // Handle unknown message type if necessary
                 break;

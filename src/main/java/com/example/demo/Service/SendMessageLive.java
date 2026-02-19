@@ -85,8 +85,4 @@ public class SendMessageLive {
         }
     }
 
-    public void whoSeenTheMessageLive () {
-        //TODO: implement this method to send the list of users who have seen the message in real-time
-    }
-
 }

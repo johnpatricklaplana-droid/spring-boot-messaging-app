@@ -166,8 +166,8 @@ export async function displayFriendList(friendList) {
 
     const currentUserId = currentUser.id;
 
-    friendList.forEach(friend => {
-
+    friendList.forEach(async friend => {
+        console.log(friend);
         if (friend.userId.id != currentUserId) {
             const messagesContainer = document.querySelector(".messagesContainer");
 
@@ -180,13 +180,32 @@ export async function displayFriendList(friendList) {
             const profilepicture = document.createElement("img");
             profilepicture.className = "profilepicture";
 
+            const nameAndLastMessageWrapper = document.createElement("div");
+            nameAndLastMessageWrapper.className = "nameAndLastMessageWrapper";
+
             const h1 = document.createElement("h1");
+
+            const lastMessage = document.createElement("p");
+            lastMessage.className = "lastMessage";
+
+            const lastMessageInAConversation = await (await fetch(`http://192.168.100.17:8080/getLastMessages/${friend.conversationId.id}/${currentUserId}`)).json();
+            console.log(lastMessageInAConversation);
+            const whoSentTheLastMessage = document.createElement("span");
+            whoSentTheLastMessage.className = "whoSentTheLastMessage";
+            whoSentTheLastMessage.innerText = lastMessageInAConversation.senderId.username + ": ";
+            lastMessage.appendChild(whoSentTheLastMessage); 
+
+            lastMessage.append(lastMessageInAConversation.textMessage);
 
             profilepicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${friend.userId.id}.png")`;
             h1.innerText = friend.userId.username;
             friendEl.dataset.friendId = friend.userId.id;
             friendEl.dataset.conversationId = friend.conversationId.id;
+
+            //TODO: explain what this one do 
             addRelationship(friend.userId.id);
+
+            //TODO: explain what this one do
             addUser(friend.userId);
 
             const i = document.createElement("i");
@@ -195,7 +214,9 @@ export async function displayFriendList(friendList) {
 
             friendEl.appendChild(profilePicAndNameWrapper);
             profilePicAndNameWrapper.appendChild(profilepicture);
-            profilePicAndNameWrapper.appendChild(h1);
+            profilePicAndNameWrapper.appendChild(nameAndLastMessageWrapper);
+            nameAndLastMessageWrapper.appendChild(h1);
+            nameAndLastMessageWrapper.appendChild(lastMessage);
             friendEl.appendChild(i);
             messagesContainer.appendChild(friendEl);
         }
