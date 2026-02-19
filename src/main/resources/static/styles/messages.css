@@ -35,6 +35,10 @@
     color: white;
 }
 
+.nameAndLastMessageWrapper h1.notSeenYet {
+    color: white;
+}
+
 .friend {
     height: 12%;
     width: 100%;

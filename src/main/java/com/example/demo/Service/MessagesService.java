@@ -1,13 +1,16 @@
 package com.example.demo.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.DTO.MessagesAndLastMessageReadDTO;
 import com.example.demo.Model.Conversation;
 import com.example.demo.Model.Messages;
 import com.example.demo.Model.ReadMessages;
@@ -15,6 +18,7 @@ import com.example.demo.Model.User;
 import com.example.demo.Repository.MessagesRepository;
 import com.example.demo.Repository.ReadMessagesRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import jakarta.persistence.EntityManager;
 
@@ -78,24 +82,38 @@ public class MessagesService  {
         
     }
 
-    public Messages getLastMessage(int conversationId, int userId) {
-
-        ObjectMapper mapper = new ObjectMapper();
+    public MessagesAndLastMessageReadDTO getLastMessage(int conversationId) {
 
         Pageable pageable = PageRequest.of(0, 1);
         List<Messages> lastMessage = messagesRepo.findByConversationId(
             entityManager.getReference(Conversation.class, conversationId),
             pageable
         );
+
+        Messages realOne = lastMessage.get(0);
+
+        MessagesAndLastMessageReadDTO dto = new MessagesAndLastMessageReadDTO();
+        dto.setMessageId(realOne.getId());
+        dto.setConversation(realOne.getConversationId());
+        dto.setSenderId(realOne.getSenderId());
+        dto.setSentAt(realOne.getSentAt());
+        dto.setTextMessage(realOne.getTextMessage());
+
+        Map<Integer, String> idk = new HashMap<>();
         
         Pageable pageableForLastMessageRead = PageRequest.of(0, 10);
         List<ReadMessages> lastMessageRead = readMessagesRepo.findByConversationId(conversationId, pageableForLastMessageRead);
         for (ReadMessages readMessages : lastMessageRead) {
-            System.out.println(readMessages.getUser().getId());
-            System.out.println(readMessages.getLastMessageRead());
+            if(readMessages.getLastMessageRead() >= realOne.getId()) {
+                idk.put(readMessages.getUser().getId(), "read");
+            } else {
+                idk.put(readMessages.getUser().getId(), "not_read");
+            }
         }
 
-        return lastMessage.get(0);
+        dto.setStatus(idk);
+
+        return dto;
     }
     
 }
