@@ -18,7 +18,7 @@ public interface ReadMessagesRepository extends JpaRepository<ReadMessages, Inte
     ORDER BY user_id, last_message_read DESC
     """, nativeQuery = true
     )
-List<ReadMessages> findByConversationId(@Param("conversationId") int conversationId, Pageable pageable);
+List<ReadMessages> findByConversationId(@Param("conversationId") int conversationId);
 
     
 }

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DTO.MessagesAndLastMessageReadDTO;
-import com.example.demo.Model.Messages;
 import com.example.demo.Service.MessagesService;
 
 @RestController
@@ -19,7 +18,7 @@ public class MessagesController {
     MessagesService messageService;
     
     @GetMapping("getMessages/{conversationId}")
-    public List<Messages> getMessages (@PathVariable int conversationId) {
+    public List<MessagesAndLastMessageReadDTO> getMessages (@PathVariable int conversationId) {
         return  messageService.getMessages(conversationId);
     }
 

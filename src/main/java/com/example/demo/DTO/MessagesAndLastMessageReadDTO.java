@@ -24,5 +24,5 @@ public class MessagesAndLastMessageReadDTO {
     private Conversation conversation;
 
     //Read Status
-    private Map<Integer, String> status;
+    private Map<Integer, String> peopleWhoSeenTheMessage;
 } 

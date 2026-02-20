@@ -1,6 +1,7 @@
 package com.example.demo.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,12 +75,40 @@ public class MessagesService  {
 
     }
 
-    public List<Messages> getMessages(int conversationId) {
+    public List<MessagesAndLastMessageReadDTO> getMessages(int conversationId) {
+
+        List<MessagesAndLastMessageReadDTO> DTO = new ArrayList<>();
        
-        return messagesRepo.findByConversationId(
+        List<Messages> messages = messagesRepo.findByConversationId(
             entityManager.getReference(Conversation.class, conversationId)
         );
+
+        List<ReadMessages> lastMessageRead = readMessagesRepo.findByConversationId(conversationId);
+
+        for (Messages m: messages) {
+            MessagesAndLastMessageReadDTO dto = new MessagesAndLastMessageReadDTO();
+
+            Map<Integer, String> peopleWhoSeenTheMessage = new HashMap<>();
+
+            dto.setMessageId(m.getId());
+            dto.setSenderId(m.getSenderId());
+            dto.setSentAt(m.getSentAt());
+            dto.setTextMessage(m.getTextMessage());
+
+            for (ReadMessages readM : lastMessageRead) {
+                if(readM.getLastMessageRead() >= m.getId()) {
+                    peopleWhoSeenTheMessage.put(readM.getUser().getId(), "read");
+                } else {
+                    peopleWhoSeenTheMessage.put(readM.getUser().getId(), "not_read");
+                }
+            }
+            dto.setPeopleWhoSeenTheMessage(peopleWhoSeenTheMessage);
+            dto.setConversation(m.getConversationId());
+            
+            DTO.add(dto);
+        }        
         
+        return DTO;
     }
 
     public MessagesAndLastMessageReadDTO getLastMessage(int conversationId) {
@@ -101,8 +130,7 @@ public class MessagesService  {
 
         Map<Integer, String> idk = new HashMap<>();
         
-        Pageable pageableForLastMessageRead = PageRequest.of(0, 10);
-        List<ReadMessages> lastMessageRead = readMessagesRepo.findByConversationId(conversationId, pageableForLastMessageRead);
+        List<ReadMessages> lastMessageRead = readMessagesRepo.findByConversationId(conversationId);
         for (ReadMessages readMessages : lastMessageRead) {
             if(readMessages.getLastMessageRead() >= realOne.getId()) {
                 idk.put(readMessages.getUser().getId(), "read");
@@ -111,7 +139,7 @@ public class MessagesService  {
             }
         }
 
-        dto.setStatus(idk);
+        dto.setPeopleWhoSeenTheMessage(idk);
 
         return dto;
     }

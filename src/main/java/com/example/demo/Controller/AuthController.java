@@ -22,6 +22,7 @@ import com.example.demo.Exceptions.UserAlreadyExistsException;
 import com.example.demo.Exceptions.UserDontExistsException;
 import com.example.demo.Model.User;
 import com.example.demo.Service.AuthService;
+import com.example.demo.Service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -30,6 +31,9 @@ public class AuthController {
 
     @Autowired
     AuthService service;
+
+    @Autowired
+    UserService userServie;
 
     @PostMapping("/signup")
     @ResponseBody
@@ -41,8 +45,6 @@ public class AuthController {
     @PostMapping("/login")
     @ResponseBody
     public ResponseEntity<String> logIn (@RequestBody User user) {
-
-        System.out.println("what is your problem?");
     
         String token = service.loginUser(user);
   
@@ -63,10 +65,12 @@ public class AuthController {
     @GetMapping("/index")
     public String serveMainPage (Model model, HttpServletRequest request) {
 
-        String userId = service.isAuthorized(request); 
-
+        String userId = service.isAuthorized(request);
+        User user = userServie.getUser(Integer.parseInt(userId));
+       
         model.addAttribute("imagePath", "/getProfilePic/" + userId + ".png");
         model.addAttribute("userId", userId);
+        model.addAttribute("email", user.getEmail());
 
         return "index";
     }

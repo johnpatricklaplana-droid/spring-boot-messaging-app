@@ -58,12 +58,7 @@
     padding: 10px;
     border-radius: 5px;
     padding-left: 0;
-}
-
-.iconsWrapperInBottomNavBar i,
-.iconsWrapperInBottomNavBar span {
-    color: rgba(255, 255, 255, 0.372);
-}
+}   
 
 .iconsWrapperInBottomNavBar {
     border-radius: 5px;

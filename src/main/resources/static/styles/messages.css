@@ -1,8 +1,9 @@
 .messagesContainer {
     width: 100%;
     height: 100%;
+    max-height: 100%;
     scrollbar-width: none;
-    background-color: rgba(0, 0, 0, 0.925);
+    background-color: rgb(216, 216, 216);
     padding: 20px;
     overflow: auto; 
 }
@@ -17,22 +18,21 @@
 }
 
 .nameAndLastMessageWrapper h1 {
-    color: rgba(255, 255, 255, 0.596);
     font-weight: 100;
     font-family: sans-serif;
     font-size: 20px;
 }
 
 .lastMessage {
-    color: rgba(255, 255, 255, 0.596);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
+    font-weight: 100;
 }
 
 .lastMessage.notSeenYet {
-    color: white;
+    color: green;
 }
 
 .nameAndLastMessageWrapper h1.notSeenYet {
@@ -49,7 +49,7 @@
     padding: 10px;
     justify-content: space-between;
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.829);
+    background-color: white;
     margin-top: 10px;
 }
 
@@ -62,14 +62,13 @@
 .fa-ellipsis {
     font-size: 30px;
     font-weight: 100;
-    color: rgba(255, 255, 255, 0.596);
 }
 
 .friend .profilepicture {
-    width: 60px;
+    width: 50px;
     height: 50px;
-    min-width: 60px;
-    border-radius: 5px;
+    min-width: 50px;
+    border-radius: 50%;
     background-size: cover;
 }
 
