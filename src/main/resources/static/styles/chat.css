@@ -114,7 +114,7 @@
     flex-direction: column;
     align-items: start;
     justify-content: end;
-    max-width: 50%;
+    max-width: 80%;
     gap: 5px;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -126,18 +126,20 @@
 }
 
 .profileOfpeopleWhoSeenTheMessage {
-    width: 10px;
-    height: 10px;
+    width: 15px;
+    height: 15px;
     border-radius: 50%;
+    margin-left: 2px;
 }
 
 .you p {
     text-align: start;
-    background-color: blue;
+    background-color: rgb(1, 96, 134);
     padding: 10px;
     border-radius: 5px;
     color: white;
     max-width: inherit;
+    word-break: break-all;
 }
 
 .youProfile {
@@ -159,7 +161,7 @@
     display: flex;
     flex-direction: column;
     align-items: end;
-    max-width: 50%;
+    max-width: 80%;
     gap: 5px;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -170,7 +172,8 @@
     border-radius: 5px;
     padding: 10px;
     color: white;
-    background-color: red;
+    background-color: rgba(255, 255, 255, 0.409);
+    word-break: break-all;
 }
 
 .kachatProfile {
