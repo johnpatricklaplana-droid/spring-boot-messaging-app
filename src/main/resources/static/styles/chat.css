@@ -194,6 +194,7 @@
     justify-content: space-evenly;
     gap: 10px;
     height: 10vh;
+    width: 80%;
 }
 
 .Inputfieldicons {
@@ -235,4 +236,8 @@
     .kachat p {
         font-size: small;
     }
+
+        .chatInputboxContainer {
+            width: 100%;
+        }
 }

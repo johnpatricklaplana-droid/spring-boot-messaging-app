@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="styles/friendRequest.css">
     <link rel="stylesheet" href="styles/bottomNavBar.css">
     <link rel="stylesheet" href="styles/menu.css">
+    <link rel="stylesheet" href="styles/conversationSettings.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 <body>
@@ -61,6 +62,37 @@
                 </div>
                 <img class="userprofile" th:attr="data-user-id=${userId}" th:src="@{${imagePath}}">
             </div> 
+
+            <div class="conversationsettings">
+                <img class="conversationProfileOrFriendProfile" src="" alt="">
+                <h1>conversation name or friend name</h1>
+                <div class="someButtons">
+                    <button>Add</button>
+                    <button>Nicknames</button>
+                    <button>Search</button>
+                </div>
+            
+                <div class="more">
+                    <label for="">3 members</label>
+                    <div class="iWrappers">
+                        <i class="fa-solid fa-users"></i> <span>See chat members</span>
+                    </div>
+                    <label for="">Chat info</label>
+                    <div class="iWrappers">
+                        <i class="fa-regular fa-image"></i> <span>View media, files and links</span>
+                    </div>
+                    <label for="">Actions</label>
+                    <div class="iWrappers">
+                        <i class="fa-solid fa-bell"></i> <span>Mute chat</span>
+                    </div>
+                    <div class="iWrappers">
+                        <i class="fa-solid fa-volume-low"></i> <span>Notification <span>On</span></span>
+                    </div>
+                    <div class="iWrappers">
+                        <i class="leave_chat fa-solid fa-arrow-right-from-bracket"></i> <span class="leave_chat">leave chat</span>
+                    </div>
+                </div>
+            </div>
             
             <div class="messagesContainer" id="messagesContainer">
                 <!-- DESIGN REFERENCE FOR MESSAGES LIST  -->
@@ -106,11 +138,11 @@
                                     <img class="youProfile" src="" alt="">
                                 </div>
                                 <div class="peopleWhoSeenMessagesListContainer">
-                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.241:8080/getProfilePic/1.png" alt="">
-                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.241:8080/getProfilePic/1.png" alt="">
-                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.241:8080/getProfilePic/1.png" alt="">
-                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.241:8080/getProfilePic/1.png" alt="">
-                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.241:8080/getProfilePic/1.png" alt="">
+                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.17:8080/getProfilePic/1.png" alt="">
+                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.17:8080/getProfilePic/1.png" alt="">
+                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.17:8080/getProfilePic/1.png" alt="">
+                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.17:8080/getProfilePic/1.png" alt="">
+                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.17:8080/getProfilePic/1.png" alt="">
                                 </div>
                             </div>
                         </div> -->
@@ -123,11 +155,11 @@
                                     <p>fdskjf lksdaj flkds jaflksadjf</p>
                                 </div>
                                 <div class="peopleWhoSeenMessagesListContainer">
-                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.241:8080/getProfilePic/1.png" alt="">
-                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.241:8080/getProfilePic/1.png" alt="">
-                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.241:8080/getProfilePic/1.png" alt="">
-                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.241:8080/getProfilePic/1.png" alt="">
-                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.241:8080/getProfilePic/1.png" alt="">
+                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.17:8080/getProfilePic/1.png" alt="">
+                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.17:8080/getProfilePic/1.png" alt="">
+                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.17:8080/getProfilePic/1.png" alt="">
+                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.17:8080/getProfilePic/1.png" alt="">
+                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.17:8080/getProfilePic/1.png" alt="">
                                 </div>
                             </div>
                         </div> -->
@@ -196,7 +228,7 @@
                     <i class="bottonNavBarMenu fa-solid fa-bars"></i>
                     <span class="menuButtonInBottomNavBar">Menu</span>
                 </div>
-            </nav>
+            </nav>    
         </div>
 
         <div class="threeDonContentContainer">

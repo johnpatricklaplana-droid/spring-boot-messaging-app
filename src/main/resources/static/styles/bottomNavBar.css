@@ -9,6 +9,14 @@
     z-index: 0;
 }
 
+.bottomNavbar.hide {
+    display: none;
+}
+
+.bottomNavbar.show {
+    display: block;
+}
+
 .iconsWrapperInBottomNavBar {
     display: flex;
     flex-direction: column;
