@@ -16,8 +16,7 @@ public class UserService {
     
     public User getUser (int userId) {
         User user = authRepo.findById(userId).
-                orElseThrow(() -> new RuntimeException("user not found"));
+            orElseThrow(() -> new RuntimeException("user not found"));
         return user;
     }
-
 } 

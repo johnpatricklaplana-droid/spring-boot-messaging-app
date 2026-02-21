@@ -165,9 +165,8 @@ export async function displayConversation (messages, friendId) {
 export async function displayFriendList(friendList) {
 
     const currentUserId = currentUser.id;
-
+    console.log(friendList);
     friendList.forEach(async friend => {
-        console.log(friend);
         if (friend.userId.id != currentUserId) {
             const messagesContainer = document.querySelector(".messagesContainer");
 

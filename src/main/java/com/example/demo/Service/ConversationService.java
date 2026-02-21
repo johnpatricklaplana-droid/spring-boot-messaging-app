@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.DTO.ConversationMemberDTO;
+import com.example.demo.Model.Conversation;
 import com.example.demo.Model.ConversationMember;
 import com.example.demo.Model.User;
 import com.example.demo.Repository.ConversationMemberRepository;
+import com.example.demo.Repository.ConversationRepository;
 import com.example.demo.Repository.MessagesRepository;
 
 import jakarta.persistence.EntityManager;
@@ -26,6 +28,9 @@ public class ConversationService {
 
     @Autowired
     MessagesRepository messagesRepo;
+
+    @Autowired
+    ConversationRepository convoRepo;
     
     public List<ConversationMemberDTO> getConversationId (int userId) {
        
@@ -65,57 +70,25 @@ public class ConversationService {
                 return cm.getConversationId().getId();
             }
         }
-
         return null;
     }
 
-    // public List<List<MessagesDTO>> getUserConversationList(int userId) {
+    public List<Conversation> getConversationList(int userId) {
         
-    //     List<ConversationMember> member = convoMemberRepo.findByUserId(entityManager.getReference(User.class, userId));
+        List<Conversation> conversationWithItsMembers = new ArrayList<>();
 
-    //     List<List<MessagesDTO>> conversationList = new ArrayList<>();
-
-    //     for (ConversationMember cm : member) {
-    //         List<MessagesDTO> dtoList = new ArrayList<>();
-
-    //         for(Messages messages: messagesRepo.findByConversationId(cm.getConversationId())) {
-    //             MessagesDTO dto = new MessagesDTO();
-    //             dto.setId(messages.getId());
-    //             dto.setConversationId(messages.getConversationId().getId());
-    //             dto.setSenderId(messages.getSenderId().getId());
-    //             dto.setSentAt(messages.getSentAt());
-    //             dto.setTextMessage(messages.getTextMessage());
-    //             dtoList.add(dto);
-    //         }
-    //         conversationList.add(dtoList);
-    //     }
-
-    //     return conversationList;
-
-    // }
-
-    public List<ConversationMemberDTO> getConversationList(int userId) {
-        
+        //get user conversation ids using userId
         List<ConversationMember> convomember = convoMemberRepo.findByUserId(
             entityManager.getReference(User.class, userId)
         );
-
-        List<ConversationMemberDTO> convoMemberDTO = new ArrayList<>();
         
-        for (ConversationMember cm : convomember) {
-            List<ConversationMember> convom = convoMemberRepo.findByConversationId(
-                cm.getConversationId()
+        for (ConversationMember convo: convomember) {
+            conversationWithItsMembers.add(
+                convoRepo.findById(convo.getConversationId().getId())
+                .orElseThrow(() -> new RuntimeException("conversation not found"))
             );
-
-            for (ConversationMember convo : convom) {
-                ConversationMemberDTO dto = new ConversationMemberDTO();
-                dto.setConversationId(convo.getConversationId());
-                dto.setUserId(convo.getUserId());
-                convoMemberDTO.add(dto);
-            }
         }
-
-        return convoMemberDTO;
+        
+        return conversationWithItsMembers;
     }
-
 }
