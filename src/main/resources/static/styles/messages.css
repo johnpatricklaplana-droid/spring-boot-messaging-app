@@ -3,7 +3,8 @@
     height: 100%;
     max-height: 100%;
     scrollbar-width: none;
-    background-color: rgb(216, 216, 216);
+    background-color: aliceblue;
+    background-color: black;
     padding: 20px;
     overflow: auto; 
 }
@@ -21,6 +22,7 @@
     font-weight: 100;
     font-family: sans-serif;
     font-size: 20px;
+    color: white;
 }
 
 .lastMessage {
@@ -29,6 +31,7 @@
     text-overflow: ellipsis;
     max-width: 100%;
     font-weight: 100;
+    color: rgba(255, 255, 255, 0.737);
 }
 
 .lastMessage.notSeenYet {
@@ -49,7 +52,9 @@
     padding: 10px;
     justify-content: space-between;
     cursor: pointer;
-    background-color: white;
+    background: radial-gradient(circle at 0% 0%, rgb(0, 177, 0) 10%, transparent 60%),
+            radial-gradient(circle at 100% 0%, rgb(0, 71, 10) 20%, transparent 60%),
+            radial-gradient(circle at 50% 50%, rgb(1, 131, 38) 30%, transparent 60%);
     margin-top: 10px;
 }
 
@@ -62,6 +67,7 @@
 .fa-ellipsis {
     font-size: 30px;
     font-weight: 100;
+    color: white;
 }
 
 .friend .profilepicture {
@@ -73,7 +79,7 @@
 }
 
 .friend:hover {
-    background-color: aliceblue;
+    background-color: lightgray;
 }
 
 .threeDonContentContainer {

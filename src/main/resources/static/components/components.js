@@ -2,6 +2,7 @@ import { storageKeys } from "/constants/constants.js";
 import { addUser } from "/store/userstore.js";
 import { currentUser } from "/store/currentUser.js";
 import { addRelationship } from "/store/userstore.js";
+import { addConversation } from "/store/ConversationStore.js";
 
 (() => {
     let isOpen = false;
@@ -162,12 +163,23 @@ export async function displayConversation (messages, friendId) {
     });
 }
 
-export async function displayFriendList(friendList) {
+export async function displayFriendList(conversationList) {
 
     const currentUserId = currentUser.id;
-    console.log(friendList);
-    friendList.forEach(async friend => {
-        if (friend.userId.id != currentUserId) {
+    
+    conversationList.forEach(async friend => {
+
+        //check if the conversation is GROUP or PRIVATE
+        if(friend.members.length === 2) {
+
+            let friendId;
+           
+            friend.members.forEach(user => {
+                if(Number(user.id) != Number(currentUserId)) {
+                    friendId = user.id;
+                }
+            });
+
             const messagesContainer = document.querySelector(".messagesContainer");
 
             const friendEl = document.createElement("div");
@@ -209,27 +221,34 @@ export async function displayFriendList(friendList) {
                     h1.classList.add("notSeenYet");
                 }
                 lastMessage.append(lastMessageInAConversation.textMessage);
-            } catch (error) { 
-                const whoSentTheLastMessage = document.createElement("span");
-                whoSentTheLastMessage.className = "whoSentTheLastMessage";
+                } catch (error) { 
+                    const whoSentTheLastMessage = document.createElement("span");
+                    whoSentTheLastMessage.className = "whoSentTheLastMessage";
 
-                whoSentTheLastMessage.innerText = "system: ";
-                lastMessage.appendChild(whoSentTheLastMessage);
-                lastMessage.append("you are now connected to hey daddy");
-                
-                console.error("ERROR HAPPENS: " + error);
-            }
+                    whoSentTheLastMessage.innerText = "system: ";
+                    lastMessage.appendChild(whoSentTheLastMessage);
+                    lastMessage.append("you are now connected to hey daddy");
 
-            profilepicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${friend.userId.id}.png")`;
-            h1.innerText = friend.userId.username;
-            friendEl.dataset.friendId = friend.userId.id;
-            friendEl.dataset.conversationId = friend.conversationId.id;
+                    console.error("ERROR HAPPENS: " + error);
+                } 
 
-            //TODO: explain what this one do 
-            addRelationship(friend.userId.id);
+            profilepicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${friendId}.png")`;
+            h1.innerText = friend.conversationName;
+            friendEl.dataset.conversationId = friend.id;
+            friendEl.dataset.friendId = friendId;
+             
+            // TODO: use friend id as key and
+            // store the current users id as value
+            // to know  that they're friends
+            addRelationship(friendId);
 
-            //TODO: explain what this one do
-            addUser(friend.userId);
+            //find the friend id
+            friend.members.forEach(user => {
+                if(Number(user.id) != Number(currentUserId)) {
+                    // add the friends info to a hashmap 
+                    addUser(user);
+                }
+            });
 
             const i = document.createElement("i");
             i.className = "fa-ellipsis";
@@ -242,7 +261,10 @@ export async function displayFriendList(friendList) {
             nameAndLastMessageWrapper.appendChild(lastMessage);
             friendEl.appendChild(i);
             messagesContainer.appendChild(friendEl);
+        } else {
+            //TODO: 
         }
+        
     });
 }
 

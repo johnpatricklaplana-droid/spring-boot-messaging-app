@@ -271,9 +271,9 @@ import { socket } from "/main.js";
             
             const id = event.target.closest(".friend").dataset.friendId;
             const conversationId = event.target.closest(".friend").dataset.conversationId;
-            console.log(conversationId);
+            
             const friendInfo = getUser(id);   
-
+             
             document.querySelector(".chatContainer").classList.add("show");
             document.querySelector(".personProfile").style.display = "none";
             document.querySelector(".friendrequestsContainer").style.display = "none";
@@ -359,10 +359,8 @@ import { socket } from "/main.js";
 
         const friend_id = document.querySelector(".friendProfile").dataset.friendId;
 
-        const conversationId = await (await fetch(
-            `http://192.168.100.17:8080/getUserConversation/${currentUserId}/${friend_id}`
-        )).text();
-        
+        const conversationId = document.querySelector(".recieverProfile").dataset.conversationId;
+
         const textMessage = messageInputField.value.trim();
     
         const sendTextMessage = {
