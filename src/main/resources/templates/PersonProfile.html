@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friend request</title>
+    <link rel="stylesheet" href="/styles/personProfile.css">
+    <link rel="stylesheet" href="/styles/navbar.css">
+    <link rel="stylesheet" href="/styles/sidebar.css">
+    <link rel="stylesheet" href="/styles/body.css">
+    <link rel="stylesheet" href="/styles/bottomNavBar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+    <div class="box-shadow container sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-envelope"></i>
+            <h1>Hey daddy</h1>
+        </div>
+        <div class="notif-profile-container">
+            <hr>
+            <div class="iconsWrapper">
+                <div class="accountsInSideBar">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Accounts</span>
+                </div>
+                <div class="settings">
+                    <i class="fa-regular fa-gear"></i>
+                    <span>Settings</span>
+                </div>
+                <div class="messagesIcon">
+                    <i class="fa-regular fa-envelope"></i>
+                    <span>Messages</span>
+                </div>
+                <div class="FriendRequestIconAndLabelContainer">
+                    <i class="fa-solid fa-user-group"></i>
+                    <span>Friend Request</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="requestBodyContainer">
+        <div class="navbar">
+            <h1>Messages</h1>
+            <div class="navbarSearchAndButtonContainer">
+                <input type="search" name="" class="input searchPeople" placeholder="Search some people">
+                <button class="btn box-shadow navbarSearchButton">Search</button>
+                <div class="searchResultContainer">
+                    <h1 class="noResultFoundMessage">No result found</h1>
+                    <ul class="userFromSearchResult">
+    
+                    </ul>
+                </div>
+            </div>
+            <img class="userprofile" th:attr="data-user-id=${userId}" th:src="@{${imagePath}}">
+        </div>
+    
+        <div class="personProfile">
+            <img class="profile personProfilePicture" th:src="@{${imagePathForFriend}}"></img>
+            <h1 class="personName" th:text="${name}">john Patrick laplana</h1>
+            <div class="buttonsContainer">
+                <button class="addButton" th:attr="data-user-id=${userId}">Add</button>
+                <button class="messageButton" th:attr="data-user-id=${userId}">Message</button>
+            </div>                                   
+            <hr>
+            <p class="title">You can message this person without adding them as a friend.</p>
+            <p class="bodyText">Adding them as a friend lets you save the conversation, get faster access to their profile,
+                and
+                unlock more messaging
+                features.</p>
+        </div>
+    
+        <nav class="bottomNavbar">
+            <div class="chatButtonInBottomNavBar iconsWrapperInBottomNavBar">
+                <i class="fa-regular fa-message"></i>
+                <span>Chats</span>
+            </div>
+            <div class="iconsWrapperInBottomNavBar">
+                <i class="fa-solid fa-question"></i>
+                <span>I don't know</span>
+            </div>
+            <div class="menuButtonInBottomNavBar iconsWrapperInBottomNavBar">
+                <i class="bottonNavBarMenu fa-solid fa-bars"></i>
+                <span class="menuButtonInBottomNavBar">Menu</span>
+            </div>
+        </nav>
+    </div>
+
+    <script type="module" src="/pages/mainPage.js"></script>
+</body>
+</html>

@@ -71,79 +71,83 @@ import { socket } from "/main.js";
         if (!event.target.classList.contains("userListFromSearch")) {
             return;
         } 
-
+        
         history.pushState({page: "peopleFromSearchResult"}, null, "");
       
-        const messageButton = document.querySelector(".messageButton");
-        messageButton.style.display = "block";
+        // const messageButton = document.querySelector(".messageButton");
+        // messageButton.style.display = "block";
 
-        const addButton = document.querySelector(".addButton");
-        addButton.style.display = "block";
-        addButton.innerText = "Add";
-        addButton.style.backgroundColor = "rgb(21, 187, 242)";
-        addButton.disabled = false;
-        addButton.style.pointerEvents = "auto";
-        addButton.style.cursor = "pointer";
-        addButton.style.display = "block";
-
-        const id = event.target.dataset.personId
-
-        // check if current user is checking their profile
-        if(currentUser.id === id) {
-            addButton.style.display = "none";
-            messageButton.style.display = "none";
-        }
-
-        if(isFriendWithCurrentUser(id) === currentUser.id) {
-            addButton.style.backgroundColor = "white";
-            addButton.innerText = "friends";
-            addButton.style.opacity = "1";
-            addButton.style.color = "black";
-            addButton.disabled = true;
-            addButton.style.pointerEvents = "none";
-            addButton.style.borderColor = "black";
-            addButton.style.cursor = "not-allowed";
-        }   
-
-        document.querySelector(".chatContainer").style.display = "none";
-        document.querySelector(".friendrequestsContainer").style.display = "none";
-        document.querySelector(".messagesContainer").style.display = "none";
-        document.querySelector(".bottomNavbar").style.display = "none";
-
-        const personProfile = document.querySelector(".personProfile");
+        // const addButton = document.querySelector(".addButton");
+        // addButton.style.display = "block";
+        // addButton.innerText = "Add";
+        // addButton.style.backgroundColor = "rgb(21, 187, 242)";
+        // addButton.disabled = false;
+        // addButton.style.pointerEvents = "auto";
+        // addButton.style.cursor = "pointer";
+        // addButton.style.display = "block";
       
-        document.querySelector(".addButton").dataset.personId = id;
-
-        document.querySelector(".searchResultContainer").style.display = "none";
-        personProfile.style.display = "flex";
+        const id = event.target.dataset.personId
         
-        const person = getUser(id);
-        
-        const personProfilePicture = document.querySelector(".personProfilePicture");
-        const personName = document.querySelector(".personName");
+        const page = window.location.href = `http://192.168.100.17:8080/personprofile/${id}`;
+        console.log(id);
+        // check if current user is checking their profile
+        // if(currentUser.id === id) {
+        //     addButton.style.display = "none";
+        //     messageButton.style.display = "none";
+        // }
 
-        personProfilePicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
-        personName.innerText = person.username;
+        // if(isFriendWithCurrentUser(id) === currentUser.id) {
+        //     addButton.style.backgroundColor = "white";
+        //     addButton.innerText = "friends";
+        //     addButton.style.opacity = "1";
+        //     addButton.style.color = "black";
+        //     addButton.disabled = true;
+        //     addButton.style.pointerEvents = "none";
+        //     addButton.style.borderColor = "black";
+        //     addButton.style.cursor = "not-allowed";
+        // }   
+
+        // document.querySelector(".chatContainer").style.display = "none";
+        // document.querySelector(".friendrequestsContainer").style.display = "none";
+        // document.querySelector(".messagesContainer").style.display = "none";
+        // document.querySelector(".bottomNavbar").style.display = "none";
+
+        // const personProfile = document.querySelector(".personProfile");
+      
+        // document.querySelector(".addButton").dataset.personId = id;
+
+        // document.querySelector(".searchResultContainer").style.display = "none";
+        // personProfile.style.display = "flex";
+        
+        // const person = getUser(id);
+        
+        // const personProfilePicture = document.querySelector(".personProfilePicture");
+        // const personName = document.querySelector(".personName");
+
+        // personProfilePicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
+        // personName.innerText = person.username;
     })
 }) ();
 
 (() => {
     const addButton = document.querySelector(".addButton");
 
-    addButton.addEventListener("click", async (event) => {
+    if(addButton) {
+        addButton.addEventListener("click", async (event) => {
 
-        const requestTo = event.target.dataset.personId;
-        const requestFrom = currentUser.id;    
+            const requestTo = event.target.dataset.personId;
+            const requestFrom = currentUser.id;
 
-        const url = `http://192.168.100.17:8080/addFriend/${requestTo}/${requestFrom}`;
-        const result = await post(null, url);
-        
-        if (result == 200) {
-            addButton.innerText = "request sent";
-            addButton.style.backgroundColor = "white";
-        }
-        
-    });
+            const url = `http://192.168.100.17:8080/addFriend/${requestTo}/${requestFrom}`;
+            const result = await post(null, url);
+
+            if (result == 200) {
+                addButton.innerText = "request sent";
+                addButton.style.backgroundColor = "white";
+            }
+
+        });
+    }
 
 }) ();
 
@@ -639,9 +643,9 @@ window.addEventListener("popstate", (event)=> {
     
     menuButtonInBottomNavBar.addEventListener("click", ()=> {
         
-        document.querySelector(".menuContainer").style.display = "flex";
-        document.querySelector(".messagesContainer").style.display = "none";
-        document.querySelector(".chatContainer").style.display = "none";
+        const userId = currentUser.id;
+         
+        window.location.href = `http://192.168.100.17:8080/menu/${userId}`;
 
     }); 
     

@@ -7,15 +7,15 @@
 body {
     height: 100vh;
     background-color: #f4f7fb;
+    display: flex;
 }
 
 .requestBodyContainer {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    width: 80%;
-    position: absolute;
-    right: 0;
+    width: 80vw;
+    background-color: red;
 }
 
 .MainContentContainer {

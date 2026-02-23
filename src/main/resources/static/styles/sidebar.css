@@ -10,8 +10,6 @@
             #018b2a;
     z-index: 10;
     border-radius: 0;
-    left: 0;
-    position: absolute;
     border-top: none;
     border-left: none;
     border-color: white;
@@ -108,7 +106,7 @@
     }
 
     .requestBodyContainer {
-        width: 100vw;
+        width: 100vw !important;
     }
 
     .navbar h1 {

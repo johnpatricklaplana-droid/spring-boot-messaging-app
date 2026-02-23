@@ -75,6 +75,26 @@ public class AuthController {
         return "index";
     }
 
+    @GetMapping("/personprofile/{userId}")
+    public String PersonProfile (Model model, @PathVariable int userId) {
+        model.addAttribute("name", null);
+        model.addAttribute("userId", userId);
+        model.addAttribute("imagePathForFriend", "/getProfilePic/" + userId + ".png");
+         
+        return "PersonProfile";
+    }
+
+    @GetMapping("/menu/{currentUserId}")
+    public  String menu (Model model, @PathVariable int currentUserId) {
+        User user = userServie.getUser(currentUserId);
+
+        model.addAttribute("imagePathMenu", "/getProfile/" + currentUserId + ".png");
+        model.addAttribute("email", user.getEmail());
+        model.addAttribute("userId", currentUserId);
+
+        return "Menu";
+    }
+
     @GetMapping("/search/{name}")
     @ResponseBody
     public List<UserDTO> searchUser (@PathVariable String name) {
