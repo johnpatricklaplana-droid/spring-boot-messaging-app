@@ -61,7 +61,7 @@
         <div class="menuContainer">
             <h1>Menu</h1>
             <div class="userWrapperInMenu">
-                <img class="userprofilePicInMenu" th:src="@{${imagePathMenu}}" alt="">
+                <img class="userprofilePicInMenu" th:src="@{${imagePath}}" alt="">
                 <h3 th:text="${email}" th:attr="data-user-id=${userId}" class="usernameInMenu"></h3>
             </div>
             <div class="settingsWrapper">
@@ -78,7 +78,7 @@
         <nav class="bottomNavbar">
             <div class="chatButtonInBottomNavBar iconsWrapperInBottomNavBar">
                 <i class="fa-regular fa-message"></i>
-                <span>Chats</span>
+                <a href="http://192.168.100.241:8080/index">Chats</a>
             </div>
             <div class="iconsWrapperInBottomNavBar">
                 <i class="fa-solid fa-question"></i>

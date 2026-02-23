@@ -55,8 +55,8 @@
     
                     </ul>
                 </div>
-            </div>
-            <img class="userprofile" th:attr="data-user-id=${userId}" th:src="@{${imagePath}}">
+            </div>                                                                    
+            <img class="userprofile" th:attr="data-user-id=${currentUserId}" th:src="@{${imagePath}}"> 
         </div>
     
         <div class="personProfile">
@@ -73,21 +73,6 @@
                 unlock more messaging
                 features.</p>
         </div>
-    
-        <nav class="bottomNavbar">
-            <div class="chatButtonInBottomNavBar iconsWrapperInBottomNavBar">
-                <i class="fa-regular fa-message"></i>
-                <span>Chats</span>
-            </div>
-            <div class="iconsWrapperInBottomNavBar">
-                <i class="fa-solid fa-question"></i>
-                <span>I don't know</span>
-            </div>
-            <div class="menuButtonInBottomNavBar iconsWrapperInBottomNavBar">
-                <i class="bottonNavBarMenu fa-solid fa-bars"></i>
-                <span class="menuButtonInBottomNavBar">Menu</span>
-            </div>
-        </nav>
     </div>
 
     <script type="module" src="/pages/mainPage.js"></script>

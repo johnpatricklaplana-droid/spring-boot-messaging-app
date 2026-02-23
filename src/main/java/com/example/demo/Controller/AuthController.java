@@ -75,8 +75,11 @@ public class AuthController {
         return "index";
     }
 
-    @GetMapping("/personprofile/{userId}")
-    public String PersonProfile (Model model, @PathVariable int userId) {
+    @GetMapping("/personprofile/{userId}/{currentUserId}")
+    public String PersonProfile (Model model, @PathVariable int userId, @PathVariable int currentUserId) {
+        model.addAttribute("imagePath", "/getProfilePic/" + currentUserId + ".png");
+        model.addAttribute("currentUserId", currentUserId);
+
         model.addAttribute("name", null);
         model.addAttribute("userId", userId);
         model.addAttribute("imagePathForFriend", "/getProfilePic/" + userId + ".png");
@@ -88,7 +91,7 @@ public class AuthController {
     public  String menu (Model model, @PathVariable int currentUserId) {
         User user = userServie.getUser(currentUserId);
 
-        model.addAttribute("imagePathMenu", "/getProfile/" + currentUserId + ".png");
+        model.addAttribute("imagePath", "/getProfilePic/" + currentUserId + ".png");
         model.addAttribute("email", user.getEmail());
         model.addAttribute("userId", currentUserId);
 

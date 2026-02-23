@@ -85,4 +85,18 @@ public class SendMessageLive {
         }
     }
 
+    public void showTypingEndicator(ObjectNode messageObject, Map<Integer,Set<WebSocketSession>> conversationSession) throws java.io.IOException {
+        
+        int conversation_id = messageObject.get("conversation_id").asInt();
+          
+        Set<WebSocketSession> chat = conversationSession.get(conversation_id);
+        
+        for (WebSocketSession user : chat) {
+            if(user.isOpen()) {
+                user.sendMessage(new TextMessage(" { \"type\": \"typing\" }"));
+            }
+        }
+
+    }
+
 }

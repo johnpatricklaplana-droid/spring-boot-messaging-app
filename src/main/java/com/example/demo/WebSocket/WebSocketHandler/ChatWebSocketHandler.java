@@ -69,6 +69,10 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
             case "seen_message":
                 sendMessageLive.handleSeenMessageLive(messageObject, message, conversationSession);
                 break;
+            case "typing":
+                System.out.println("flkjsaflkdsjfklsdja");
+                sendMessageLive.showTypingEndicator(messageObject, conversationSession);
+                break;
             default:
                 // Handle unknown message type if necessary
                 break;
