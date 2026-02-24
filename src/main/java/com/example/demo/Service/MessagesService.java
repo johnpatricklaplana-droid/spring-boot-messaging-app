@@ -18,8 +18,6 @@ import com.example.demo.Model.ReadMessages;
 import com.example.demo.Model.User;
 import com.example.demo.Repository.MessagesRepository;
 import com.example.demo.Repository.ReadMessagesRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import jakarta.persistence.EntityManager;
 
@@ -142,6 +140,10 @@ public class MessagesService  {
         dto.setPeopleWhoSeenTheMessage(idk);
 
         return dto;
+    }
+
+    public void deleteMessage(int messageId) {
+        messagesRepo.deleteById(messageId);
     }
     
 }

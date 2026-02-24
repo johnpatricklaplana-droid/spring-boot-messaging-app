@@ -20,6 +20,18 @@ export async function post (requestBody, url, credentials = "omit") {
 
 }
 
+export async function deleteMessage(url) {
+    try {
+        const result = await fetch(url, {
+            method: "DELETE"
+        });
+        const response = await result.json();
+        console.log(response);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 export async function get (url) {
     try {
         const result = await fetch(url, {

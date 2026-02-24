@@ -3,6 +3,7 @@ package com.example.demo.Service;
 import java.security.Key;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
@@ -13,7 +14,8 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
     
-    private static final String SECRET_KEY = "my-super-secret-key-1234567890123456"; // at least 32 bytes for HS256
+    @Value("${jwt.secret}")
+    private String SECRET_KEY; 
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());

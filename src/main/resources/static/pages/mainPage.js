@@ -1,5 +1,5 @@
 import { getCurrentUser } from "/service/userServices.js";
-import { get } from "/api/api.js";
+import { get, deleteMessage } from "/api/api.js";
 import { searchResult } from "/components/components.js";
 import { addUser, getUser } from "/store/userstore.js";
 import { post } from "/api/api.js";
@@ -19,7 +19,7 @@ import { socket } from "/main.js";
 //     const youProfile = document.querySelectorAll(".youProfile");
   
 //     youProfile.forEach(element => {
-//         element.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
+//         element.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
 //     });
     
 // }) ();
@@ -48,7 +48,7 @@ import { socket } from "/main.js";
         
         searchResultContainer.style.display = "block";
 
-        const url = `http://192.168.100.241:8080/search/${name}`; 
+        const url = `http://192.168.100.17:8080/search/${name}`; 
         const result = await get(url);
         
         if(!result.length) {
@@ -71,6 +71,8 @@ import { socket } from "/main.js";
         if (!event.target.classList.contains("userListFromSearch")) {
             return;
         } 
+        
+        history.pushState({page: "peopleFromSearchResult"}, null, "");
       
         // const messageButton = document.querySelector(".messageButton");
         // messageButton.style.display = "block";
@@ -85,10 +87,8 @@ import { socket } from "/main.js";
         // addButton.style.display = "block";
       
         const id = event.target.dataset.personId
-
-        const currentUserId = currentUser.id;
         
-        const page = window.location.href = `http://192.168.100.241:8080/personprofile/${id}/${currentUserId}`;
+        const page = window.location.href = `http://192.168.100.17:8080/personprofile/${id}`;
         console.log(id);
         // check if current user is checking their profile
         // if(currentUser.id === id) {
@@ -124,7 +124,7 @@ import { socket } from "/main.js";
         // const personProfilePicture = document.querySelector(".personProfilePicture");
         // const personName = document.querySelector(".personName");
 
-        // personProfilePicture.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
+        // personProfilePicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
         // personName.innerText = person.username;
     })
 }) ();
@@ -138,7 +138,7 @@ import { socket } from "/main.js";
             const requestTo = event.target.dataset.personId;
             const requestFrom = currentUser.id;
 
-            const url = `http://192.168.100.241:8080/addFriend/${requestTo}/${requestFrom}`;
+            const url = `http://192.168.100.17:8080/addFriend/${requestTo}/${requestFrom}`;
             const result = await post(null, url);
 
             if (result == 200) {
@@ -161,7 +161,7 @@ import { socket } from "/main.js";
       
         const currentUserId = currentUser.id;
 
-        const url = `http://192.168.100.241:8080/getFriendRequest/${currentUserId}`;
+        const url = `http://192.168.100.17:8080/getFriendRequest/${currentUserId}`;
         const result = await get(url);
 
         const friendrequestsContainer = document.querySelector(".friendrequestsContainer");
@@ -174,7 +174,7 @@ import { socket } from "/main.js";
             divpersonRequestContainer.className = "personRequestContainer";
 
             const divpersonRequestProfilePicture = document.createElement("div");
-            divpersonRequestProfilePicture.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
+            divpersonRequestProfilePicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
             divpersonRequestProfilePicture.className = "personRequestProfilePicture";
             divpersonRequestProfilePicture.classList.add("profile");
 
@@ -236,7 +236,7 @@ import { socket } from "/main.js";
             const idFromFriendRequest = event.target.dataset.personID; 
             const currentUserId = currentUser.id; 
             
-            const url = `http://192.168.100.241:8080/acceptFriendRequest/${idFromFriendRequest}/${currentUserId}`;
+            const url = `http://192.168.100.17:8080/acceptFriendRequest/${idFromFriendRequest}/${currentUserId}`;
             const result = await update(url);
             
             if (result == 200) {
@@ -288,14 +288,14 @@ import { socket } from "/main.js";
             const kachatProfile = document.querySelectorAll(".kachatProfile");
             
             friendProfile.dataset.friendId = id;
-            recieverProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
-            friendProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
-            kachatProfile.forEach(el => el.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`);
+            recieverProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
+            friendProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
+            kachatProfile.forEach(el => el.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`);
 
             recivierName.innerText = friendInfo.username;
             recivierNameTop.innerText = friendInfo.username;
             
-            const messages = await (await fetch(`http://192.168.100.241:8080/getMessages/${conversationId}`)).json();
+            const messages = await (await fetch(`http://192.168.100.17:8080/getMessages/${conversationId}`)).json();
             console.log(messages);
 
             displayConversation(messages, id);
@@ -361,7 +361,7 @@ import { socket } from "/main.js";
         const friend_id = document.querySelector(".friendProfile").dataset.friendId;
 
         const conversationId = document.querySelector(".recieverProfile").dataset.conversationId;
-        
+
         const textMessage = messageInputField.value.trim();
     
         const sendTextMessage = {
@@ -415,13 +415,8 @@ function typing_indicator () {
 
     typing_indicator_container.classList.add("show");
 
-    const conversation = document.querySelector(".conversation");
-
-    conversation.style.marginBottom = 0;
-
     setTimeout(() => {
         typing_indicator_container.classList.remove("show");
-        conversation.style.marginBottom = 10 + "vh";
     }, 1000);
 }
 
@@ -462,7 +457,7 @@ function seenMessageInRealTime(info) {
             const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
             profileOfpeopleWhoSeenTheMessage.dataset.seenerId = info.userId;
             profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
-            profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.241:8080/getProfilePic/${info.userId}.png`;
+            profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${info.userId}.png`;
             peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
 
             peopleWhoSeenTheMessage.push(info.userId);
@@ -482,7 +477,7 @@ function seenMessageInRealTime(info) {
             const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
             profileOfpeopleWhoSeenTheMessage.dataset.seenerId = info.userId;
             profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
-            profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.241:8080/getProfilePic/${info.userId}.png`;
+            profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${info.userId}.png`;
             peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
         } 
     });   
@@ -499,11 +494,11 @@ async function showMessagesLive (info) {
     // if chat is open and
     // the conversation id of the chat is senders conversation id seen the message
     if(chatContainer.classList.contains("show") && conversationId === info.conversation_id) {
-        await fetch(`http://192.168.100.241:8080/seenMessagesLive/${currentUserId}/${info.conversation_id}`, { method: "POST" });
+        await fetch(`http://192.168.100.17:8080/seenMessagesLive/${currentUserId}/${info.conversation_id}`, { method: "POST" });
     }
 
     //get people who seen this message
-    const peopleWhoSeenTheMessage = await (await fetch(`http://192.168.100.241:8080/getPeopleWhoSeenTheMessage/${info.conversation_id}`)).json();
+    const peopleWhoSeenTheMessage = await (await fetch(`http://192.168.100.17:8080/getPeopleWhoSeenTheMessage/${info.conversation_id}`)).json();
 
     const conversationContainer = document.querySelector(".conversationContainer");
 
@@ -512,6 +507,7 @@ async function showMessagesLive (info) {
     if (Number(info.sender) === Number(currentUserId)) {
         const youContainer = document.createElement("div");
         youContainer.className = "youContainer";
+        youContainer.classList.add("messageContainer");
 
         const you = document.createElement("div");
         you.className = "you";
@@ -519,16 +515,31 @@ async function showMessagesLive (info) {
         const messageAndProfileWrapper = document.createElement("div");
         messageAndProfileWrapper.className = "messageAndProfileWrapper";
 
+        const threeDotInMessage = document.createElement("i");
+        threeDotInMessage.className = "fa-solid";
+        threeDotInMessage.classList.add("fa-ellipsis");
+        threeDotInMessage.classList.add("threeDotInMessage");
+
+        const emoji = document.createElement("i");
+        emoji.className = "fa-solid";
+        emoji.classList.add("fa-face-grin");
+        emoji.classList.add("emojiInMessage");
+
+        const reply = document.createElement("i");
+        reply.className = "fa-solid";
+        reply.classList.add("fa-reply");
+        reply.classList.add("replyInMessage");
+
         const peopleWhoSeenMessagesListContainer = document.createElement("div");
         peopleWhoSeenMessagesListContainer.className = "peopleWhoSeenMessagesListContainer";
 
         const youMessage = document.createElement("p");
         youMessage.className = "youMessage";
-        youMessage.innerText = info.text_message;
+        youMessage.classList = "message";
         youMessage.dataset.messageId = info.message_id;
 
         const youProfile = document.createElement("img");
-        youProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${currentUserId}.png")`;
+        youProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${currentUserId}.png")`;
         youProfile.className = "youProfile";
 
         // List of userId who seen this message 
@@ -545,7 +556,7 @@ async function showMessagesLive (info) {
                 profileOfpeopleWhoSeenTheMessage.dataset.seenerId = person.user.id;
                 arrayOfPeopleWhoSeenTheMessage.push(JSON.stringify(person.user.id));
                 profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
-                profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.241:8080/getProfilePic/${person.user.id}.png`;
+                profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${person.user.id}.png`;
                 peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
             }
         });
@@ -557,6 +568,10 @@ async function showMessagesLive (info) {
         youContainer.appendChild(you);
         you.appendChild(messageAndProfileWrapper);
         messageAndProfileWrapper.appendChild(youMessage);
+        youMessage.appendChild(threeDotInMessage);
+        youMessage.appendChild(emoji);
+        youMessage.appendChild(reply);
+        youMessage.append(info.text_message);
         messageAndProfileWrapper.appendChild(youProfile);
         you.appendChild(peopleWhoSeenMessagesListContainer);
         conversationContainer.scrollTop = conversation.scrollHeight;
@@ -583,12 +598,28 @@ async function showMessagesLive (info) {
             if (conversationId === info.conversation_id) {
                 const kachatContainer = document.createElement("div");
                 kachatContainer.className = "kachatContainer";
+                kachatContainer.classList.add("messageContainer");
 
                 const kachat = document.createElement("div");
                 kachat.className = "kachat";
 
                 const messageAndProfileWrapper = document.createElement("div");
                 messageAndProfileWrapper.className = "messageAndProfileWrapper";
+
+                const threeDotInMessage = document.createElement("i");
+                threeDotInMessage.className = "fa-solid";
+                threeDotInMessage.classList.add("fa-ellipsis");
+                threeDotInMessage.classList.add("threeDotInMessage");
+
+                const emoji = document.createElement("i");
+                emoji.className = "fa-solid";
+                emoji.classList.add("fa-face-grin");
+                emoji.classList.add("emojiInMessage");
+
+                const reply = document.createElement("i");
+                reply.className = "fa-solid";
+                reply.classList.add("fa-reply");
+                reply.classList.add("replyInMessage");
 
                 const peopleWhoSeenMessagesListContainer = document.createElement("div");
                 peopleWhoSeenMessagesListContainer.className = "peopleWhoSeenMessagesListContainer";
@@ -605,7 +636,7 @@ async function showMessagesLive (info) {
                         profileOfpeopleWhoSeenTheMessage.dataset.seenerId = person.user.id;
                         arrayOfPeopleWhoSeenTheMessage.push(JSON.stringify(person.user.id));
                         profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
-                        profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.241:8080/getProfilePic/${person.user.id}.png`;
+                        profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${person.user.id}.png`;
                         peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
                     }
 
@@ -614,11 +645,12 @@ async function showMessagesLive (info) {
                 sessionStorage.setItem(info.message_id, JSON.stringify(arrayOfPeopleWhoSeenTheMessage));
 
                 const kachatProfile = document.createElement("img");
-                kachatProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${info.sender}.png")`;
+                kachatProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${info.sender}.png")`;
                 kachatProfile.className = "kachatProfile";
 
                 const kaChatMessage = document.createElement("p");
                 kaChatMessage.className = "kaChatMessage";
+                kaChatMessage.classList = "message";
                 kaChatMessage.innerText = info.text_message;
                 kaChatMessage.dataset.messageId = info.message_id;
 
@@ -627,6 +659,9 @@ async function showMessagesLive (info) {
                 kachat.appendChild(messageAndProfileWrapper);
                 messageAndProfileWrapper.appendChild(kachatProfile);
                 messageAndProfileWrapper.appendChild(kaChatMessage);
+                kaChatMessage.appendChild(reply);
+                kaChatMessage.appendChild(emoji);
+                kaChatMessage.appendChild(threeDotInMessage);
                 kachat.appendChild(peopleWhoSeenMessagesListContainer);
                 conversationContainer.scrollTop = conversation.scrollHeight;
             }
@@ -653,7 +688,7 @@ window.addEventListener("load", async () => {
     history.pushState(null, null, location.href);
     
     const friendList = await(await fetch(
-        `http://192.168.100.241:8080/getConversationList/${currentUserId}`
+        `http://192.168.100.17:8080/getConversationList/${currentUserId}`
     )).json();
 
     displayFriendList(friendList);
@@ -698,12 +733,13 @@ window.addEventListener("popstate", (event)=> {
         
         const userId = currentUser.id;
          
-        window.location.href = `http://192.168.100.241:8080/menu/${userId}`;
+        window.location.href = `http://192.168.100.17:8080/menu/${userId}`;
 
     }); 
     
     chatButtonInBottomNavBar.addEventListener("click", ()=> {
         
+        document.querySelector(".menuContainer").style.display = "none";
         document.querySelector(".messagesContainer").style.display = "block";
         document.querySelector(".chatContainer").style.display = "none";
 
@@ -747,3 +783,111 @@ window.addEventListener("popstate", (event)=> {
     });
 
 }) ();
+
+(() => {
+    const overlayToClosePopUp = document.querySelector(".overlayToClosePopUp");
+
+    const yesButtonInDeletePopUp = document.querySelector(".yesButtonInDeletePopUp");
+
+    const morePopUp = document.querySelector(".morePopUp");
+
+    document.addEventListener("click", (event) => {
+        if(event.target.classList.contains("threeDotInMessage")) {
+            morePopUp.classList.add("show");
+            yesButtonInDeletePopUp.dataset.messageId = event.target.closest(".message").dataset.messageId;
+            
+            overlayToClosePopUp.classList.add("on");
+        }
+    });
+
+}) ();
+
+//close pop ups
+(() => {
+    const overlayToClosePopUp = document.querySelector(".overlayToClosePopUp");
+
+    overlayToClosePopUp.addEventListener("click", () => {
+        document.querySelector(".morePopUp").classList.remove("show");
+        setTimeout(() => {
+            overlayToClosePopUp.classList.remove("on");
+        }, 500);
+    });
+
+}) ();
+
+//TODO
+(() => {
+    
+    const deleteMessageButton = document.querySelector(".deleteMessage");
+
+    const overlayToClosePopUp = document.querySelector(".overlayToClosePopUp");
+
+    deleteMessageButton.addEventListener("click", () => {
+        position();
+        document.querySelector(".morePopUp").classList.remove("show");
+        document.querySelector(".deleteMessagePopUp").classList.add("show");
+        overlayToClosePopUp.classList.remove("on");
+    });
+
+}) ();
+
+(() => {
+
+    const noButtonInDeletePopUp = document.querySelector(".noButtonInDeletePopUp");
+
+    noButtonInDeletePopUp.addEventListener("click", () => {
+        document.querySelector(".deleteMessagePopUp").classList.remove("show");
+    });
+
+}) ();
+
+(() => {
+ 
+    const yesButtonInDeletePopUp = document.querySelector(".yesButtonInDeletePopUp");
+
+    yesButtonInDeletePopUp.addEventListener("click", (event) => {
+
+        document.querySelector(".deleteMessagePopUp").classList.remove("show");
+
+        const message_id = event.target.dataset.messageId;
+
+        try {
+            const url = `http://192.168.100.17:8080/messages/${message_id}`;
+            deleteMessage(url);
+
+            const message = document.querySelector(`.message[data-message-id="${message_id}"]`);
+            
+            const messageContainer = message.closest(".messageContainer");
+            messageContainer.style.opacity = "0"; 
+            messageContainer.style.transform = "translateX(-100%)";
+
+            setTimeout(() => {
+                messageContainer.remove();
+            }, 1000);
+        } catch (error) {
+            console.log("ERRO HAPPENS: " + error);
+        }
+
+
+    });
+
+}) ();
+
+function position () {
+    const conversationContainer = document.querySelector(".conversationContainer");
+
+    const conversationContLeft = conversationContainer.getBoundingClientRect().left;
+    const conversationContTop = conversationContainer.getBoundingClientRect().top;
+
+    const conversationContWidth = conversationContainer.getBoundingClientRect().width;
+    const conversationContHeight = conversationContainer.getBoundingClientRect().height;
+
+    const deleteMessagePopUp = document.querySelector(".deleteMessagePopUp");
+    console.log(conversationContWidth / 2);
+    const top = (conversationContHeight / 2) + conversationContTop;
+    const left = (conversationContWidth / 2) + conversationContLeft;
+    console.log(left);
+
+    deleteMessagePopUp.style.setProperty("--xpos", left + "px");
+    deleteMessagePopUp.style.setProperty("--ypos", top + "px");
+}

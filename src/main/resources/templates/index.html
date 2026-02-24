@@ -15,6 +15,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 <body>
+        <div class="overlayToClosePopUp"></div>
+
+        <div class="morePopUp">
+            <label for="">More</label>
+            <div class="forwardMessage">
+                <i class="fa-solid fa-forward"></i>
+                <span>forward</span>
+            </div>
+            <div>
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span>edit</span>
+            </div>
+            <div class="deleteMessage">
+                <i class="fa-solid fa-trash"></i>
+                <span>Delete</span>
+            </div>
+        </div>
+
+        <div class="deleteMessagePopUp">
+            <p>Are you sure about this?</p>
+            <div>
+                <button class="yesButtonInDeletePopUp">yes</button>
+                <button class="noButtonInDeletePopUp">no</button>
+            </div>
+        </div>
 
         <div class="box-shadow container sidebar">
             <div class="logo">
@@ -132,15 +157,18 @@
                         <!-- <div class="youContainer">
                             <div class="you">
                                 <div class="messageAndProfileWrapper">
+                                    <i id="threeDotInMessage" class="fa-solid fa-ellipsis"></i>
+                                    <i id="emojiInMessage" class="fa-solid fa-face-grin"></i>
+                                    <i id="replyInMessage" class="fa-solid fa-reply"></i>
                                     <p>fdskjf lksdaj flkds jaflksadjf</p>
                                     <img class="youProfile" src="" alt="">
                                 </div>
                                 <div class="peopleWhoSeenMessagesListContainer">
-                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.241:8080/getProfilePic/1.png" alt="">
-                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.241:8080/getProfilePic/1.png" alt="">
-                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.241:8080/getProfilePic/1.png" alt="">
-                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.241:8080/getProfilePic/1.png" alt="">
-                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.241:8080/getProfilePic/1.png" alt="">
+                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.17:8080/getProfilePic/1.png" alt="">
+                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.17:8080/getProfilePic/1.png" alt="">
+                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.17:8080/getProfilePic/1.png" alt="">
+                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.17:8080/getProfilePic/1.png" alt="">
+                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.17:8080/getProfilePic/1.png" alt="">
                                 </div>
                             </div>
                         </div> -->
@@ -151,13 +179,16 @@
                                 <div class="messageAndProfileWrapper">
                                     <img class="kachatProfile" src="" alt="">
                                     <p>fdskjf lksdaj flkds jaflksadjf</p>
+                                    <i id="replyInMessage" class="fa-solid fa-reply"></i>
+                                    <i id="emojiInMessage" class="fa-solid fa-face-grin"></i>
+                                    <i id="threeDotInMessage" class="fa-solid fa-ellipsis"></i>
                                 </div>
                                 <div class="peopleWhoSeenMessagesListContainer">
-                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.241:8080/getProfilePic/1.png" alt="">
-                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.241:8080/getProfilePic/1.png" alt="">
-                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.241:8080/getProfilePic/1.png" alt="">
-                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.241:8080/getProfilePic/1.png" alt="">
-                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.241:8080/getProfilePic/1.png" alt="">
+                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.17:8080/getProfilePic/1.png" alt="">
+                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.17:8080/getProfilePic/1.png" alt="">
+                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.17:8080/getProfilePic/1.png" alt="">
+                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.17:8080/getProfilePic/1.png" alt="">
+                                    <img class="profileOfpeopleWhoSeenTheMessage" src="http://192.168.100.17:8080/getProfilePic/1.png" alt="">
                                 </div>
                             </div>
                         </div> -->
@@ -185,6 +216,8 @@
                             <label for="">more</label>
                         </div>
                     </div>
+
+                    
                 </div>
 
                 <div class="chatInputboxContainer">
@@ -201,7 +234,7 @@
             <nav class="bottomNavbar">
                 <div class="chatButtonInBottomNavBar iconsWrapperInBottomNavBar">
                     <i class="fa-regular fa-message"></i>
-                    <a href="http://192.168.100.241:8080/index">Chats</a>
+                    <a href="http://192.168.100.17:8080/index">Chats</a>
                 </div>
                 <div class="iconsWrapperInBottomNavBar">
                     <i class="fa-solid fa-question"></i>

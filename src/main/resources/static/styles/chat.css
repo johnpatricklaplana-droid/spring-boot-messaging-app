@@ -117,6 +117,7 @@
 .youContainer { 
     display: flex;
     justify-content: end;
+    transition: all 1s ease-out;
 }
 
 .you {
@@ -145,13 +146,16 @@
 }
 
 .you p {
-    text-align: start;
+    text-align: center;
     background-color: rgb(1, 96, 134);
     padding: 10px;
     border-radius: 20px;
     color: white;
     max-width: inherit;
     word-break: break-all;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .youProfile {
@@ -166,6 +170,7 @@
 .kachatContainer {
     display: flex;
     justify-content: start;
+    transition: all 1s ease-out;
 }
 
 .kachat {
@@ -186,6 +191,9 @@
     color: white;
     background-color: gray;
     word-break: break-all;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .kachatProfile {
@@ -296,6 +304,93 @@
 
 .labelAndIconWrapper label {
     color: white;
+}
+
+.morePopUp {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: black;
+    padding: 10px;
+    border-radius: 10px;
+    width: 80%;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -100%);
+    transition: width, height, opacity, transform .5s ease-in-out;
+    z-index: 20;
+}
+
+.morePopUp.show {
+    opacity: 1;
+    transform: translateY(0);
+    transform: translate(-50%, -50%);
+    pointer-events: all;
+}
+
+.morePopUp div {
+    margin: 20px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.morePopUp div:hover {
+    background-color: gray;
+}
+
+.morePopUp label {
+    color: white;
+    font: larger;
+}
+
+.morePopUp span {
+    color: white;
+}
+
+.morePopUp i {
+    color: white;
+}
+
+.iconsContainer {
+    display: flex;
+    align-items: center;
+}
+
+.deleteMessagePopUp {
+    padding: 10px;
+    border: 10px;
+    background-color: green;
+    position: absolute;
+    top: var(--ypos);
+    left: var(--xpos);
+    transform: translate(-50%, -150%);
+    width: 80vw;
+    border: 1px solid white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity, transform 1s ease-in-out;
+}
+
+.deleteMessagePopUp.show {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    pointer-events: all;
+}
+
+.deleteMessagePopUp button {
+    padding: 10px;
+    border-radius: 5px;
+    width: 100px;
+    margin: 10px;
+}
+
+.yesButtonInDeletePopUp {
+    background-color: red;
 }
 
 @keyframes wave {

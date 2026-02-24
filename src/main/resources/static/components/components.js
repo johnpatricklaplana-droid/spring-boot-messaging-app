@@ -48,18 +48,18 @@ export function searchResult(peoples) {
         li.className = "userListFromSearch";
         const span = document.createElement("span");
         li.innerText = person.username;
-        span.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
+        span.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
         li.appendChild(span);
         ul.appendChild(li);
     });
 }
 
 export async function displayConversation (messages, friendId) {
-    console.log(messages);
+
     const currentUserId = currentUser.id;
 
     const conversationContainer = document.querySelector(".conversationContainer");
-
+    
     const conversation = document.querySelector(".conversation");
 
     document.querySelectorAll(".youContainer").forEach(element => {
@@ -75,6 +75,7 @@ export async function displayConversation (messages, friendId) {
         if (m.senderId.id === Number(currentUserId)) {
             const youContainer = document.createElement("div");
             youContainer.className = "youContainer";
+            youContainer.classList.add("messageContainer");
 
             const you = document.createElement("div");
             you.className = "you";
@@ -82,11 +83,26 @@ export async function displayConversation (messages, friendId) {
             const messageAndProfileWrapper = document.createElement("div");
             messageAndProfileWrapper.className = "messageAndProfileWrapper";
 
+            const threeDotInMessage = document.createElement("i");
+            threeDotInMessage.className = "fa-solid";
+            threeDotInMessage.classList.add("fa-ellipsis");
+            threeDotInMessage.classList.add("threeDotInMessage");
+
+            const emoji = document.createElement("i");
+            emoji.className = "fa-solid";
+            emoji.classList.add("fa-face-grin");
+            emoji.classList.add("emojiInMessage");
+
+            const reply = document.createElement("i");
+            reply.className = "fa-solid";
+            reply.classList.add("fa-reply");
+            reply.classList.add("replyInMessage");
+
             const peopleWhoSeenMessagesListContainer = document.createElement("div");
             peopleWhoSeenMessagesListContainer.className = "peopleWhoSeenMessagesListContainer";
 
             const youMessage = document.createElement("p");
-            youMessage.innerText = m.textMessage;
+            youMessage.classList = "message";
             youMessage.dataset.messageId = m.MessageId;
 
             const arrayOfPeopleWhoSeenTheMessage = [];
@@ -97,7 +113,7 @@ export async function displayConversation (messages, friendId) {
                 profileOfpeopleWhoSeenTheMessage.dataset.seenerId = user_id;
                 arrayOfPeopleWhoSeenTheMessage.push(user_id);
                 profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
-                profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.241:8080/getProfilePic/${user_id}.png`;
+                profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${user_id}.png`;
                 peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
                 }
             });
@@ -105,13 +121,17 @@ export async function displayConversation (messages, friendId) {
             sessionStorage.setItem(m.MessageId, JSON.stringify(arrayOfPeopleWhoSeenTheMessage));
 
             const youProfile = document.createElement("img");
-            youProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${currentUserId}.png")`;
+            youProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${currentUserId}.png")`;
             youProfile.className = "youProfile";
 
             conversation.appendChild(youContainer);
             youContainer.appendChild(you);
             you.appendChild(messageAndProfileWrapper);
             messageAndProfileWrapper.appendChild(youMessage);
+            youMessage.appendChild(threeDotInMessage);
+            youMessage.appendChild(emoji);
+            youMessage.appendChild(reply);
+            youMessage.append(m.textMessage);
             messageAndProfileWrapper.appendChild(youProfile);
             you.appendChild(peopleWhoSeenMessagesListContainer);
             conversationContainer.scrollTop = conversation.scrollHeight;
@@ -119,6 +139,7 @@ export async function displayConversation (messages, friendId) {
             
             const kachatContainer = document.createElement("div");
             kachatContainer.className = "kachatContainer";
+            kachatContainer.classList.add("messageContainer");
 
             const kachat = document.createElement("div");
             kachat.className = "kachat";
@@ -126,14 +147,30 @@ export async function displayConversation (messages, friendId) {
             const messageAndProfileWrapper = document.createElement("div");
             messageAndProfileWrapper.className = "messageAndProfileWrapper";
 
+            const threeDotInMessage = document.createElement("i");
+            threeDotInMessage.className = "fa-solid";
+            threeDotInMessage.classList.add("fa-ellipsis");
+            threeDotInMessage.classList.add("threeDotInMessage");
+
+            const emoji = document.createElement("i");
+            emoji.className = "fa-solid";
+            emoji.classList.add("fa-face-grin");
+            emoji.classList.add("emojiInMessage");
+
+            const reply = document.createElement("i");
+            reply.className = "fa-solid";
+            reply.classList.add("fa-reply");
+            reply.classList.add("replyInMessage");
+
             const peopleWhoSeenMessagesListContainer = document.createElement("div");
             peopleWhoSeenMessagesListContainer.className = "peopleWhoSeenMessagesListContainer";
 
             const kachatProfile = document.createElement("img");
-            kachatProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${friendId}.png")`;
+            kachatProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${friendId}.png")`;
             kachatProfile.className = "kachatProfile";
 
             const kaChatMessage = document.createElement("p");
+            kaChatMessage.classList = "message";
             kaChatMessage.innerText = m.textMessage;
             kaChatMessage.dataset.messageId = m.MessageId;
 
@@ -145,7 +182,7 @@ export async function displayConversation (messages, friendId) {
                     profileOfpeopleWhoSeenTheMessage.dataset.seenerId = user_id;
                     arrayOfPeopleWhoSeenTheMessage.push(user_id);
                     profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
-                    profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.241:8080/getProfilePic/${user_id}.png`;
+                    profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${user_id}.png`;
                     peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
                 } 
             });
@@ -157,6 +194,9 @@ export async function displayConversation (messages, friendId) {
             kachat.appendChild(messageAndProfileWrapper);
             messageAndProfileWrapper.appendChild(kachatProfile);
             messageAndProfileWrapper.appendChild(kaChatMessage);
+            kaChatMessage.appendChild(reply);
+            kaChatMessage.appendChild(emoji);
+            kaChatMessage.appendChild(threeDotInMessage);
             kachat.appendChild(peopleWhoSeenMessagesListContainer);
             conversationContainer.scrollTop = conversation.scrollHeight;
         }
@@ -200,7 +240,7 @@ export async function displayFriendList(conversationList) {
             lastMessage.className = "lastMessage";
 
             try {
-                const lastMessageInAConversation = await (await fetch(`http://192.168.100.241:8080/getLastMessages/${friend.conversationId.id}`)).json();
+                const lastMessageInAConversation = await (await fetch(`http://192.168.100.17:8080/getLastMessages/${friend.conversationId.id}`)).json();
 
                 const whoSentTheLastMessage = document.createElement("span");
                 whoSentTheLastMessage.className = "whoSentTheLastMessage";
@@ -232,7 +272,7 @@ export async function displayFriendList(conversationList) {
                     console.error("ERROR HAPPENS: " + error);
                 } 
 
-            profilepicture.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${friendId}.png")`;
+            profilepicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${friendId}.png")`;
             h1.innerText = friend.conversationName;
             friendEl.dataset.conversationId = friend.id;
             friendEl.dataset.friendId = friendId;
