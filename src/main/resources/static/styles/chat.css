@@ -138,6 +138,15 @@
     align-items: center;
 }
 
+
+/* TODO: MAKE THE PROFILE OF PEOPLE WHO SEEN THE MESSAGE NOT BAD
+.peopleWhoSeenMessagesListContainer {
+    display: flex;
+    gap: 3px;
+    background-color: red;
+    width: 100%;
+} */
+
 .profileOfpeopleWhoSeenTheMessage {
     width: 15px;
     height: 15px;
@@ -391,6 +400,67 @@
 
 .yesButtonInDeletePopUp {
     background-color: red;
+}
+
+.EditPopUp {
+    position: absolute;
+    top: var(--ypos);
+    left: var(--xpos);
+    transform: translate(-50%, -50%);
+    background-color: red;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    flex-direction: column;
+    border-radius: 10px;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 10;
+}
+
+.EditPopUp.show {
+    pointer-events: all;
+    opacity: 1;
+}
+
+.EditPopUp h3 {
+    width: 100%;
+    text-align: start;
+}
+
+.EditPopUp input {
+    height: 50px;
+    width: 100%;
+}
+
+.EditPopUp button {
+    padding: 10px;
+    border-radius: 5px;
+    border-style: none;
+    width: 100px;
+}
+
+.buttonsInEditPopUp {
+    display: flex;
+    gap: 10px;
+}
+
+.saveEditButton {
+    background-color: rgb(51, 120, 230);
+}
+
+.iconsWrapperInMessages {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.iconsWrapperInMessages.show {
+    opacity: 1;
+    pointer-events: all;
 }
 
 @keyframes wave {

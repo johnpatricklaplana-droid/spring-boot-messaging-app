@@ -83,20 +83,27 @@ export async function displayConversation (messages, friendId) {
             const messageAndProfileWrapper = document.createElement("div");
             messageAndProfileWrapper.className = "messageAndProfileWrapper";
 
+            const iconsWrapper = document.createElement("div");
+            iconsWrapper.className = "iconsWrapperInMessages";
+            iconsWrapper.dataset.messageId = m.MessageId;
+
             const threeDotInMessage = document.createElement("i");
             threeDotInMessage.className = "fa-solid";
             threeDotInMessage.classList.add("fa-ellipsis");
             threeDotInMessage.classList.add("threeDotInMessage");
+            threeDotInMessage.dataset.messageId = m.MessageId;
 
             const emoji = document.createElement("i");
             emoji.className = "fa-solid";
             emoji.classList.add("fa-face-grin");
             emoji.classList.add("emojiInMessage");
+            emoji.dataset.messageId = m.MessageId;
 
             const reply = document.createElement("i");
             reply.className = "fa-solid";
             reply.classList.add("fa-reply");
             reply.classList.add("replyInMessage");
+            reply.dataset.messageId = m.MessageId;
 
             const peopleWhoSeenMessagesListContainer = document.createElement("div");
             peopleWhoSeenMessagesListContainer.className = "peopleWhoSeenMessagesListContainer";
@@ -104,6 +111,7 @@ export async function displayConversation (messages, friendId) {
             const youMessage = document.createElement("p");
             youMessage.classList = "message";
             youMessage.dataset.messageId = m.MessageId;
+            youMessage.innerText = m.textMessage;
 
             const arrayOfPeopleWhoSeenTheMessage = [];
          
@@ -127,11 +135,11 @@ export async function displayConversation (messages, friendId) {
             conversation.appendChild(youContainer);
             youContainer.appendChild(you);
             you.appendChild(messageAndProfileWrapper);
+            messageAndProfileWrapper.appendChild(iconsWrapper);
+            iconsWrapper.appendChild(threeDotInMessage);
+            iconsWrapper.appendChild(emoji);
+            iconsWrapper.appendChild(reply);
             messageAndProfileWrapper.appendChild(youMessage);
-            youMessage.appendChild(threeDotInMessage);
-            youMessage.appendChild(emoji);
-            youMessage.appendChild(reply);
-            youMessage.append(m.textMessage);
             messageAndProfileWrapper.appendChild(youProfile);
             you.appendChild(peopleWhoSeenMessagesListContainer);
             conversationContainer.scrollTop = conversation.scrollHeight;
@@ -147,20 +155,27 @@ export async function displayConversation (messages, friendId) {
             const messageAndProfileWrapper = document.createElement("div");
             messageAndProfileWrapper.className = "messageAndProfileWrapper";
 
+            const iconsWrapper = document.createElement("div");
+            iconsWrapper.className = "iconsWrapperInMessages";
+            iconsWrapper.dataset.messageId = m.MessageId;
+
             const threeDotInMessage = document.createElement("i");
             threeDotInMessage.className = "fa-solid";
             threeDotInMessage.classList.add("fa-ellipsis");
             threeDotInMessage.classList.add("threeDotInMessage");
+            threeDotInMessage.dataset.messageId = m.MessageId;
 
             const emoji = document.createElement("i");
             emoji.className = "fa-solid";
             emoji.classList.add("fa-face-grin");
             emoji.classList.add("emojiInMessage");
+            emoji.dataset.messageId = m.MessageId;
 
             const reply = document.createElement("i");
             reply.className = "fa-solid";
             reply.classList.add("fa-reply");
             reply.classList.add("replyInMessage");
+            reply.dataset.messageId = m.MessageId;
 
             const peopleWhoSeenMessagesListContainer = document.createElement("div");
             peopleWhoSeenMessagesListContainer.className = "peopleWhoSeenMessagesListContainer";
@@ -194,9 +209,10 @@ export async function displayConversation (messages, friendId) {
             kachat.appendChild(messageAndProfileWrapper);
             messageAndProfileWrapper.appendChild(kachatProfile);
             messageAndProfileWrapper.appendChild(kaChatMessage);
-            kaChatMessage.appendChild(reply);
-            kaChatMessage.appendChild(emoji);
-            kaChatMessage.appendChild(threeDotInMessage);
+            messageAndProfileWrapper.appendChild(iconsWrapper);
+            iconsWrapper.appendChild(reply);
+            iconsWrapper.appendChild(emoji);
+            iconsWrapper.appendChild(threeDotInMessage);
             kachat.appendChild(peopleWhoSeenMessagesListContainer);
             conversationContainer.scrollTop = conversation.scrollHeight;
         }
@@ -308,7 +324,24 @@ export async function displayFriendList(conversationList) {
     });
 }
 
+export function editMessageLive (info) {
 
+    const messageId = info.id;
+    
+    const textMessage = document.querySelector(`.message[data-message-id="${messageId}"]`);
+    
+    textMessage.innerText = info.textMessage;
+}
 
+export function deleteMessageLive (message_id) {
+    const message = document.querySelector(`.message[data-message-id="${message_id}"]`);
 
+    const messageContainer = message.closest(".messageContainer");
+    messageContainer.style.opacity = "0";
+    messageContainer.style.transform = "translateX(-100%)";
+
+    setTimeout(() => {
+        messageContainer.remove();
+    }, 1000);
+}
 

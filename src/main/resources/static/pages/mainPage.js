@@ -237,7 +237,8 @@ import { socket } from "/main.js";
             const currentUserId = currentUser.id; 
             
             const url = `http://192.168.100.17:8080/acceptFriendRequest/${idFromFriendRequest}/${currentUserId}`;
-            const result = await update(url);
+            const requestMethod = "PUT";
+            const result = await update(url, requestMethod);
             
             if (result == 200) {
                 const requestContainer = event.target.closest(".personRequestContainer");
@@ -376,28 +377,9 @@ import { socket } from "/main.js";
  
     });
 
-    socket.onmessage = (event) => {
-        const info = JSON.parse(event.data);
-        if (info.type === "text_message") {
-            showMessagesLive(info);
-            messageInputField.value = "";
-            return;
-        }
-        
-        if (info.type === "seen_message") {
-            seenMessageInRealTime(info);
-            return;
-        }
-
-        if(info.type === "typing") {
-            typing_indicator();
-            return;
-        }
-    };
-
 }) ();
 
-function typing_indicator () {
+export function typing_indicator () {
 
     const typingSound = document.querySelector(".typingSound");
 
@@ -440,247 +422,6 @@ function typing_indicator () {
     });
 
 }) ();
-
-function seenMessageInRealTime(info) {
-
-    const conversationId = document.querySelector(".recieverProfile").dataset.conversationId;
-
-    const you = document.querySelectorAll(".you");
-    you.forEach(element => {
-        const message = element.querySelector("p");
-       
-        const peopleWhoSeenTheMessage = JSON.parse(sessionStorage.getItem(message.dataset.messageId)) || [];
-        if (!peopleWhoSeenTheMessage.includes(info.userId)
-            && info.conversationId === conversationId) {
-
-            const peopleWhoSeenMessagesListContainer = element.querySelector(".peopleWhoSeenMessagesListContainer");
-            const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
-            profileOfpeopleWhoSeenTheMessage.dataset.seenerId = info.userId;
-            profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
-            profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${info.userId}.png`;
-            peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
-
-            peopleWhoSeenTheMessage.push(info.userId);
-            sessionStorage.setItem(message.dataset.messageId, JSON.stringify(peopleWhoSeenTheMessage));
-        }
-    });
-
-    //I DON'T KNOW WHY THIS WORKS WHEN IT SHOULDN'T
-    const kachat = document.querySelectorAll(".kachat");
-    kachat.forEach(element => {
-        const message = element.querySelector("p");
-            
-        const peopleWhoSeenTheMessage = JSON.parse(sessionStorage.getItem(message.dataset.messageId)) || [];
-        if (!peopleWhoSeenTheMessage.includes(info.userId)
-            && info.conversationId === conversationId) {
-            const peopleWhoSeenMessagesListContainer = element.querySelector(".peopleWhoSeenMessagesListContainer");
-            const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
-            profileOfpeopleWhoSeenTheMessage.dataset.seenerId = info.userId;
-            profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
-            profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${info.userId}.png`;
-            peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
-        } 
-    });   
-}
-
-async function showMessagesLive (info) {
-    console.log(info);
-    const chatContainer = document.querySelector(".chatContainer");
-
-    const currentUserId = currentUser.id;
-
-    const conversationId = document.querySelector(".recieverProfile").dataset.conversationId;
-
-    // if chat is open and
-    // the conversation id of the chat is senders conversation id seen the message
-    if(chatContainer.classList.contains("show") && conversationId === info.conversation_id) {
-        await fetch(`http://192.168.100.17:8080/seenMessagesLive/${currentUserId}/${info.conversation_id}`, { method: "POST" });
-    }
-
-    //get people who seen this message
-    const peopleWhoSeenTheMessage = await (await fetch(`http://192.168.100.17:8080/getPeopleWhoSeenTheMessage/${info.conversation_id}`)).json();
-
-    const conversationContainer = document.querySelector(".conversationContainer");
-
-    const conversation = document.querySelector(".conversation");
-
-    if (Number(info.sender) === Number(currentUserId)) {
-        const youContainer = document.createElement("div");
-        youContainer.className = "youContainer";
-        youContainer.classList.add("messageContainer");
-
-        const you = document.createElement("div");
-        you.className = "you";
-
-        const messageAndProfileWrapper = document.createElement("div");
-        messageAndProfileWrapper.className = "messageAndProfileWrapper";
-
-        const threeDotInMessage = document.createElement("i");
-        threeDotInMessage.className = "fa-solid";
-        threeDotInMessage.classList.add("fa-ellipsis");
-        threeDotInMessage.classList.add("threeDotInMessage");
-
-        const emoji = document.createElement("i");
-        emoji.className = "fa-solid";
-        emoji.classList.add("fa-face-grin");
-        emoji.classList.add("emojiInMessage");
-
-        const reply = document.createElement("i");
-        reply.className = "fa-solid";
-        reply.classList.add("fa-reply");
-        reply.classList.add("replyInMessage");
-
-        const peopleWhoSeenMessagesListContainer = document.createElement("div");
-        peopleWhoSeenMessagesListContainer.className = "peopleWhoSeenMessagesListContainer";
-
-        const youMessage = document.createElement("p");
-        youMessage.className = "youMessage";
-        youMessage.classList = "message";
-        youMessage.dataset.messageId = info.message_id;
-
-        const youProfile = document.createElement("img");
-        youProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${currentUserId}.png")`;
-        youProfile.className = "youProfile";
-
-        // List of userId who seen this message 
-        const arrayOfPeopleWhoSeenTheMessage = [];
-
-        // append the profile of a user if there last message read is >= to this message id
-        // and there chat is open
-        peopleWhoSeenTheMessage.forEach(person => {
-            if (chatContainer.classList.contains("show")
-                && person.lastMessageRead >= info.message_id
-                && conversationId === info.conversation_id) 
-            {
-                const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
-                profileOfpeopleWhoSeenTheMessage.dataset.seenerId = person.user.id;
-                arrayOfPeopleWhoSeenTheMessage.push(JSON.stringify(person.user.id));
-                profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
-                profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${person.user.id}.png`;
-                peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
-            }
-        });
-
-        //add List Of userId who seen this messages to the session storage using the message id as key
-        sessionStorage.setItem(info.message_id, JSON.stringify(arrayOfPeopleWhoSeenTheMessage));
-
-        conversation.appendChild(youContainer);
-        youContainer.appendChild(you);
-        you.appendChild(messageAndProfileWrapper);
-        messageAndProfileWrapper.appendChild(youMessage);
-        youMessage.appendChild(threeDotInMessage);
-        youMessage.appendChild(emoji);
-        youMessage.appendChild(reply);
-        youMessage.append(info.text_message);
-        messageAndProfileWrapper.appendChild(youProfile);
-        you.appendChild(peopleWhoSeenMessagesListContainer);
-        conversationContainer.scrollTop = conversation.scrollHeight;
-        
-        const friends = document.querySelectorAll(".friend");
-        //TODO: change the who sent the last message to the name of the sender 
-        friends.forEach(f => {
-            const lastMessage = f.querySelector(".lastMessage");
-            const whoSentTheLastMessage = f.querySelector(".whoSentTheLastMessage");
-           
-            if (f.dataset.conversationId === info.conversation_id) {
-                lastMessage.innerText = "";
-                if(info.sender === currentUserId) {      
-                    whoSentTheLastMessage.innerText = "you: ";
-                } else {
-                    whoSentTheLastMessage.innerText = info.sender;
-                }
-                lastMessage.appendChild(whoSentTheLastMessage);
-                lastMessage.append(info.text_message);
-            }
-        });
-    } else {
-        //check if senders conversation id is equal to the conversation id of the chat currently open
-            if (conversationId === info.conversation_id) {
-                const kachatContainer = document.createElement("div");
-                kachatContainer.className = "kachatContainer";
-                kachatContainer.classList.add("messageContainer");
-
-                const kachat = document.createElement("div");
-                kachat.className = "kachat";
-
-                const messageAndProfileWrapper = document.createElement("div");
-                messageAndProfileWrapper.className = "messageAndProfileWrapper";
-
-                const threeDotInMessage = document.createElement("i");
-                threeDotInMessage.className = "fa-solid";
-                threeDotInMessage.classList.add("fa-ellipsis");
-                threeDotInMessage.classList.add("threeDotInMessage");
-
-                const emoji = document.createElement("i");
-                emoji.className = "fa-solid";
-                emoji.classList.add("fa-face-grin");
-                emoji.classList.add("emojiInMessage");
-
-                const reply = document.createElement("i");
-                reply.className = "fa-solid";
-                reply.classList.add("fa-reply");
-                reply.classList.add("replyInMessage");
-
-                const peopleWhoSeenMessagesListContainer = document.createElement("div");
-                peopleWhoSeenMessagesListContainer.className = "peopleWhoSeenMessagesListContainer";
-
-                const arrayOfPeopleWhoSeenTheMessage = [];
-
-                peopleWhoSeenTheMessage.forEach(person => {
-
-                    if (chatContainer.classList.contains("show") 
-                        && person.lastMessageRead >= info.message_id
-                        && conversationId === info.conversation_id) 
-                    {
-                        const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
-                        profileOfpeopleWhoSeenTheMessage.dataset.seenerId = person.user.id;
-                        arrayOfPeopleWhoSeenTheMessage.push(JSON.stringify(person.user.id));
-                        profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
-                        profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${person.user.id}.png`;
-                        peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
-                    }
-
-                });
-
-                sessionStorage.setItem(info.message_id, JSON.stringify(arrayOfPeopleWhoSeenTheMessage));
-
-                const kachatProfile = document.createElement("img");
-                kachatProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${info.sender}.png")`;
-                kachatProfile.className = "kachatProfile";
-
-                const kaChatMessage = document.createElement("p");
-                kaChatMessage.className = "kaChatMessage";
-                kaChatMessage.classList = "message";
-                kaChatMessage.innerText = info.text_message;
-                kaChatMessage.dataset.messageId = info.message_id;
-
-                conversation.appendChild(kachatContainer);
-                kachatContainer.appendChild(kachat);
-                kachat.appendChild(messageAndProfileWrapper);
-                messageAndProfileWrapper.appendChild(kachatProfile);
-                messageAndProfileWrapper.appendChild(kaChatMessage);
-                kaChatMessage.appendChild(reply);
-                kaChatMessage.appendChild(emoji);
-                kaChatMessage.appendChild(threeDotInMessage);
-                kachat.appendChild(peopleWhoSeenMessagesListContainer);
-                conversationContainer.scrollTop = conversation.scrollHeight;
-            }
-
-            const friends = document.querySelectorAll(".friend");
- 
-            // append the last message to the friend who has conversation id = senders conversation id
-            friends.forEach(f => {
-                const lastMessage = f.querySelector(".lastMessage");
-                const whoSentTheLastMessage = f.querySelector(".whoSentTheLastMessage");
-                if (f.dataset.conversationId === info.conversation_id) {
-                    lastMessage.innerText = "";
-                    whoSentTheLastMessage.innerText = info.sender + ": ";
-                    lastMessage.appendChild(whoSentTheLastMessage);
-                    lastMessage.append(info.text_message);
-                }
-            });
-    }
-}
 
 window.addEventListener("load", async () => {
     const currentUserId = currentUser.id;
@@ -788,14 +529,15 @@ window.addEventListener("popstate", (event)=> {
     const overlayToClosePopUp = document.querySelector(".overlayToClosePopUp");
 
     const yesButtonInDeletePopUp = document.querySelector(".yesButtonInDeletePopUp");
+    const editMessage = document.querySelector(".editMessage");
 
     const morePopUp = document.querySelector(".morePopUp");
 
     document.addEventListener("click", (event) => {
         if(event.target.classList.contains("threeDotInMessage")) {
             morePopUp.classList.add("show");
-            yesButtonInDeletePopUp.dataset.messageId = event.target.closest(".message").dataset.messageId;
-            
+            yesButtonInDeletePopUp.dataset.messageId = event.target.dataset.messageId;
+            editMessage.dataset.messageId = event.target.dataset.messageId;
             overlayToClosePopUp.classList.add("on");
         }
     });
@@ -823,7 +565,7 @@ window.addEventListener("popstate", (event)=> {
     const overlayToClosePopUp = document.querySelector(".overlayToClosePopUp");
 
     deleteMessageButton.addEventListener("click", () => {
-        position();
+        position(document.querySelector(".deleteMessagePopUp"));
         document.querySelector(".morePopUp").classList.remove("show");
         document.querySelector(".deleteMessagePopUp").classList.add("show");
         overlayToClosePopUp.classList.remove("on");
@@ -851,43 +593,113 @@ window.addEventListener("popstate", (event)=> {
 
         const message_id = event.target.dataset.messageId;
 
-        try {
-            const url = `http://192.168.100.17:8080/messages/${message_id}`;
-            deleteMessage(url);
+        const payload = {
+            type: "delete_message",
+            message_id: message_id,
+            conversation_id: document.querySelector(".recieverProfile").dataset.conversationId
+        };
+  
+        socket.send(JSON.stringify(payload));
+    });
 
-            const message = document.querySelector(`.message[data-message-id="${message_id}"]`);
-            
-            const messageContainer = message.closest(".messageContainer");
-            messageContainer.style.opacity = "0"; 
-            messageContainer.style.transform = "translateX(-100%)";
+}) ();
 
-            setTimeout(() => {
-                messageContainer.remove();
-            }, 1000);
-        } catch (error) {
-            console.log("ERRO HAPPENS: " + error);
-        }
+function position (element) {
+    const conversationContainer = document.querySelector(".conversationContainer");
+ 
+    // conversation container distance from left and top
+    const conversationContLeft = conversationContainer.getBoundingClientRect().left;
+    const conversationContTop = conversationContainer.getBoundingClientRect().top;
 
+    // conversation container width and height
+    const conversationContWidth = conversationContainer.getBoundingClientRect().width;
+    const conversationContHeight = conversationContainer.getBoundingClientRect().height;
+
+    const top = (conversationContHeight / 2) + conversationContTop;
+    const left = (conversationContWidth / 2) + conversationContLeft;
+
+    element.style.setProperty("--xpos", left + "px");
+    element.style.setProperty("--ypos", top + "px");
+}
+
+(() => {
+
+    const editMessage = document.querySelector(".editMessage");
+
+    // const messageInputField = document.querySelector(".messageInputField");
+
+    editMessage.addEventListener("click", (event) => {
+
+        const editPopUpEl = document.querySelector(".EditPopUp");
+        const textBox = editPopUpEl.querySelector("input");
+
+        position(editPopUpEl);
+
+        const messageId = event.target.dataset.messageId;
+
+        document.querySelector(".saveEditButton").dataset.messageId = messageId;
+
+        const messageEl = document.querySelector(`.message[data-message-id="${messageId}"]`);
+
+        editPopUpEl.classList.add("show");
+
+        const textMessage = messageEl.innerText;
+        textBox.value = textMessage;
+        textBox.focus();
+
+        document.querySelector(".morePopUp").classList.remove("show");
 
     });
 
 }) ();
 
-function position () {
-    const conversationContainer = document.querySelector(".conversationContainer");
+(() => {
 
-    const conversationContLeft = conversationContainer.getBoundingClientRect().left;
-    const conversationContTop = conversationContainer.getBoundingClientRect().top;
+    const saveEditButton = document.querySelector(".saveEditButton");
+    const editInput = document.querySelector(".editInput");
 
-    const conversationContWidth = conversationContainer.getBoundingClientRect().width;
-    const conversationContHeight = conversationContainer.getBoundingClientRect().height;
+    saveEditButton.addEventListener("click", (event) => {
 
-    const deleteMessagePopUp = document.querySelector(".deleteMessagePopUp");
-    console.log(conversationContWidth / 2);
-    const top = (conversationContHeight / 2) + conversationContTop;
-    const left = (conversationContWidth / 2) + conversationContLeft;
-    console.log(left);
+        document.querySelector(".EditPopUp").classList.remove("show");
 
-    deleteMessagePopUp.style.setProperty("--xpos", left + "px");
-    deleteMessagePopUp.style.setProperty("--ypos", top + "px");
-}
+        const messageId = event.target.dataset.messageId;
+    
+        const body = {
+            type: "edit_message",
+            id: messageId,
+            textMessage: editInput.value.trim(),
+            conversation_id: document.querySelector(".recieverProfile").dataset.conversationId
+        };
+
+        socket.send(JSON.stringify(body));
+    });
+
+}) ();
+
+(() => {
+
+    const cancelEditButton = document.querySelector(".cancelEditButton");
+
+    cancelEditButton.addEventListener("click", () => {
+        document.querySelector(".EditPopUp").classList.remove("show");
+    });
+
+}) ();
+
+(() => {
+    
+    const conversation = document.querySelector(".conversation");
+
+    conversation.addEventListener("click", (event) => {
+
+        if (event.target.closest(".message")) {
+            const id = event.target.dataset.messageId;
+
+            const iconsWrapperEl = document.querySelector(`.iconsWrapperInMessages[data-message-id="${id}"]`);
+           
+            iconsWrapperEl.classList.add("show");
+
+        }
+    });
+
+}) ();

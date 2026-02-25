@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.DTO.MessagesAndLastMessageReadDTO;
+import com.example.demo.Exceptions.MessageNotFoundException;
 import com.example.demo.Model.Conversation;
 import com.example.demo.Model.Messages;
 import com.example.demo.Model.ReadMessages;
@@ -144,6 +145,13 @@ public class MessagesService  {
 
     public void deleteMessage(int messageId) {
         messagesRepo.deleteById(messageId);
+    }
+
+    public void editMessage(int messageId, String textMessage) {
+        messagesRepo.findById(messageId)
+            .orElseThrow(() -> new MessageNotFoundException("{ \"response\": \"message not found\" } "));
+
+        messagesRepo.editMessage(messageId, textMessage);
     }
     
 }

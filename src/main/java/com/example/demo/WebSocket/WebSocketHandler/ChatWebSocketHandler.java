@@ -14,6 +14,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.example.demo.DTO.ConversationMemberDTO;
 import com.example.demo.Service.ConversationService;
+import com.example.demo.Service.MessagesService;
 import com.example.demo.Service.SendMessageLive;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -35,6 +36,9 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
     @Autowired
     SendMessageLive sendMessageLive;
+
+    @Autowired
+    MessagesService messageService;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -63,21 +67,43 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
         String type = messageObject.get("type").asText();
 
         switch (type) {
-            case "text_message":
-                sendMessageLive.handleTextMessageType(messageObject, message, conversationSession);
-                break;
-            case "seen_message":
-                sendMessageLive.handleSeenMessageLive(messageObject, message, conversationSession);
-                break;
-            case "typing":
-                System.out.println("flkjsaflkdsjfklsdja");
-                sendMessageLive.showTypingEndicator(messageObject, conversationSession);
-                break;
-            default:
-                // Handle unknown message type if necessary
-                break;
-        }
+            case "text_message" -> sendMessageLive.handleTextMessageType(messageObject, message, conversationSession);
+            case "seen_message" -> sendMessageLive.handleSeenMessageLive(messageObject, message, conversationSession);
+            case "typing" -> sendMessageLive.showTypingEndicator(messageObject, conversationSession);
+            case "edit_message" -> { 
+                int conversation_id = messageObject.get("conversation_id").asInt();
+                int messageId = messageObject.get("id").asInt();
+                String textMessage = messageObject.get("textMessage").asText();
+                messageService.editMessage(messageId, textMessage);
 
+                Set<WebSocketSession> chat = conversationSession.get(conversation_id);
+
+                for (WebSocketSession member: chat) {
+                    if(member.isOpen()) {
+                        member.sendMessage(message);
+                    }
+                }
+            }
+            case "delete_message" -> {
+                int messageId = messageObject.get("message_id").asInt();
+                int conversationId = messageObject.get("conversation_id").asInt();
+
+                Set<WebSocketSession> chat = conversationSession.get(conversationId);
+
+                messageService.deleteMessage(messageId);
+
+                for (WebSocketSession member : chat) {
+                    if(member.isOpen()) {
+                        member.sendMessage(message);
+                    }
+                }
+                
+            }
+            default -> {
+                // Handle unknown message type if necessary
+            }
+        }
+        
     }
 
     @Override

@@ -45,13 +45,16 @@ export async function get (url) {
     }
 }
 
-export async function update (url) {
+export async function update (url, requestMethod, body) {
     try {
         const result = await fetch(url, {
-            method: "PUT"
+            method: requestMethod,
+            body: JSON.stringify(body),
+            headers: {
+                "Content-Type": "application/json"
+            }
         });
-        const response = await result.json();
-    
+        console.log(result.json());
         return result.status;
     } catch (error) {   
         console.error(error);
