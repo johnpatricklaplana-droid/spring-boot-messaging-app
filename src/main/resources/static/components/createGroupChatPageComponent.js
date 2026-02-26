@@ -1,7 +1,7 @@
 export function friendListInCreateGroupChat (friendList) {
 
     const createGroupChatContainer = document.querySelector(".createGroupChatContainer");
-
+      console.log(friendList);
     friendList.forEach(friend => {
         const friendWrapper = document.createElement("div");
         friendWrapper.className = "friendWrapper";
@@ -14,9 +14,10 @@ export function friendListInCreateGroupChat (friendList) {
 
         const name = document.createElement("h1");
 
-        if (friendList.requestFrom === null) {
+        if (friend.requestFrom === null) {
             name.innerText = friend.requestTo.username;
         } else {
+            console.log("why here ?????");
             name.innerText = friend.requestFrom.username;
         }
 

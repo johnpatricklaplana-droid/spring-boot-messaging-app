@@ -5,25 +5,23 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    background: radial-gradient(circle at 0% 0%, rgb(0, 59, 8) 30%, transparent 60%),
-                radial-gradient(circle at 100% 0%, rgb(0, 125, 17) 20%, transparent 60%),
-                radial-gradient(circle at 50% 50%, rgb(57, 127, 0) 100%, transparent 60%);
+    background-color: rgb(133, 21, 238);
     gap: 10px;
     border-left: none;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid rgb(255, 174, 0);;
 }
 
 .navbar h1 {
-    color: white;
+    color: rgb(255, 174, 0);;
 }
 
 .searchPeople {
     width: 100%;
     border-radius: 40px;
     border-style: none; 
-    background-color: transparent;
+    background-color: rgb(255, 174, 0);;
     backdrop-filter: blur(15px);
-    border: 1px solid white;
+    border: 1px solid rgb(255, 174, 0);;
     color: white;
 }
 

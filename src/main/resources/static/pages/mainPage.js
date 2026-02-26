@@ -698,7 +698,9 @@ window.addEventListener("popstate", (event)=> {
     console.log(createGroupChat);
     createGroupChat.addEventListener("click", () => {
         
-        
+        const currentUserId = currentUser.id;
+
+        window.location.href = `http://192.168.100.17:8080/create-group-chat/${currentUserId}`;
 
     });
 
