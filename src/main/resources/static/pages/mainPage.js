@@ -6,7 +6,7 @@ import { post } from "/api/api.js";
 import { currentUser } from "/store/currentUser.js";
 import { update } from "/api/api.js";
 import { addRelationship, isFriendWithCurrentUser } from "/store/userstore.js";
-import { displayConversation } from "/components/components.js";
+import { displayConversation, position } from "/components/components.js";
 import { displayFriendList } from "/components/components.js";
 import { readMessages } from "/service/readMessages.js";
 import { socket } from "/main.js";
@@ -502,28 +502,28 @@ window.addEventListener("popstate", (event)=> {
 
 }) ();
 
-(() => {
+// (() => {
 
-    let pressTimer;
+//     let pressTimer;
  
-    document.addEventListener("touchstart", (event) => {
-        const optionWhatToDoToAMessageContainer = document.querySelector(".optionWhatToDoToAMessageContainer");
+//     document.addEventListener("touchstart", (event) => {
+//         const optionWhatToDoToAMessageContainer = document.querySelector(".optionWhatToDoToAMessageContainer");
 
-        if(event.target.classList.contains("youMessage") || event.target.classList.contains("kaChatMessage")) {
-            pressTimer = setTimeout(() => {
-                optionWhatToDoToAMessageContainer.classList.add("show");
-            }, 2000);
-        }
+//         if(event.target.classList.contains("youMessage") || event.target.classList.contains("kaChatMessage")) {
+//             pressTimer = setTimeout(() => {
+//                 optionWhatToDoToAMessageContainer.classList.add("show");
+//             }, 2000);
+//         }
 
-    });
+//     });
 
-    document.addEventListener("touchend", (event) => {
-        if(event.target.classList.contains("youMessage") || event.target.classList.contains("kaChatMessage")) {
-            clearTimeout(pressTimer);
-        } 
-    });
+//     document.addEventListener("touchend", (event) => {
+//         if(event.target.classList.contains("youMessage") || event.target.classList.contains("kaChatMessage")) {
+//             clearTimeout(pressTimer);
+//         } 
+//     });
 
-}) ();
+// }) ();
 
 (() => {
     const overlayToClosePopUp = document.querySelector(".overlayToClosePopUp");
@@ -540,6 +540,7 @@ window.addEventListener("popstate", (event)=> {
             editMessage.dataset.messageId = event.target.dataset.messageId;
             overlayToClosePopUp.classList.add("on");
         }
+        position(morePopUp);
     });
 
 }) ();
@@ -596,31 +597,14 @@ window.addEventListener("popstate", (event)=> {
         const payload = {
             type: "delete_message",
             message_id: message_id,
-            conversation_id: document.querySelector(".recieverProfile").dataset.conversationId
+            conversation_id: document.querySelector(".recieverProfile").dataset.conversationId,
+            userId: currentUser.id
         };
   
         socket.send(JSON.stringify(payload));
     });
 
 }) ();
-
-function position (element) {
-    const conversationContainer = document.querySelector(".conversationContainer");
- 
-    // conversation container distance from left and top
-    const conversationContLeft = conversationContainer.getBoundingClientRect().left;
-    const conversationContTop = conversationContainer.getBoundingClientRect().top;
-
-    // conversation container width and height
-    const conversationContWidth = conversationContainer.getBoundingClientRect().width;
-    const conversationContHeight = conversationContainer.getBoundingClientRect().height;
-
-    const top = (conversationContHeight / 2) + conversationContTop;
-    const left = (conversationContWidth / 2) + conversationContLeft;
-
-    element.style.setProperty("--xpos", left + "px");
-    element.style.setProperty("--ypos", top + "px");
-}
 
 (() => {
 
@@ -694,6 +678,10 @@ function position (element) {
 
         if (event.target.closest(".message")) {
             const id = event.target.dataset.messageId;
+
+            if(!event.target.closest(".you")) {
+                return;
+            }
 
             const iconsWrapperEl = document.querySelector(`.iconsWrapperInMessages[data-message-id="${id}"]`);
            

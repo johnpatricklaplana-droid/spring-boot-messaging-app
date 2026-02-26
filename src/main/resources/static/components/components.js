@@ -345,3 +345,20 @@ export function deleteMessageLive (message_id) {
     }, 1000);
 }
 
+export function position(element) {
+    const conversationContainer = document.querySelector(".conversationContainer");
+
+    // conversation container distance from left and top
+    const conversationContLeft = conversationContainer.getBoundingClientRect().left;
+    const conversationContTop = conversationContainer.getBoundingClientRect().top;
+
+    // conversation container width and height
+    const conversationContWidth = conversationContainer.getBoundingClientRect().width;
+    const conversationContHeight = conversationContainer.getBoundingClientRect().height;
+
+    const top = (conversationContHeight / 2) + conversationContTop;
+    const left = (conversationContWidth / 2) + conversationContLeft;
+
+    element.style.setProperty("--xpos", left + "px");
+    element.style.setProperty("--ypos", top + "px");
+}

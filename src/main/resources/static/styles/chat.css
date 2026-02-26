@@ -167,6 +167,10 @@
     gap: 5px;
 }
 
+.you p:hover {
+    filter: brightness(.9);
+}
+
 .youProfile {
     width: 50px;
     min-width: 50px;
@@ -203,6 +207,10 @@
     display: flex;
     align-items: center;
     gap: 5px;
+}
+
+.kachat p:hover {
+    filter: brightness(.9);
 }
 
 .kachatProfile {
@@ -317,8 +325,8 @@
 
 .morePopUp {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: var(--ypos);
+    left: var(--xpos);
     background-color: black;
     padding: 10px;
     border-radius: 10px;

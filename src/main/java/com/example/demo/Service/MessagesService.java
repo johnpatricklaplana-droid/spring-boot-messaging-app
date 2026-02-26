@@ -143,7 +143,15 @@ public class MessagesService  {
         return dto;
     }
 
-    public void deleteMessage(int messageId) {
+    public void deleteMessage(int messageId, int userId) {
+
+        Messages message = messagesRepo.findById(messageId)
+            .orElseThrow(() -> new MessageNotFoundException("message not found"));
+
+        if(message.getSenderId().getId() != userId) {
+            return;
+        }
+
         messagesRepo.deleteById(messageId);
     }
 

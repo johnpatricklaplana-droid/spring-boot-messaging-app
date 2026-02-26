@@ -87,10 +87,11 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
             case "delete_message" -> {
                 int messageId = messageObject.get("message_id").asInt();
                 int conversationId = messageObject.get("conversation_id").asInt();
+                int userId = messageObject.get("userId").asInt();
 
                 Set<WebSocketSession> chat = conversationSession.get(conversationId);
 
-                messageService.deleteMessage(messageId);
+                messageService.deleteMessage(messageId, userId);
 
                 for (WebSocketSession member : chat) {
                     if(member.isOpen()) {
