@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Group Chat</title>
+    <link rel="stylesheet" href="http://192.168.100.17:8080/styles/body.css">
+    <link rel="stylesheet" href="http://192.168.100.17:8080/styles/sidebar.css">
+    <link rel="stylesheet" href="http://192.168.100.17:8080/styles/navbar.css">
+    <link rel="stylesheet" href="http://192.168.100.17:8080/styles/createGroupChat.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+    <div class="box-shadow container sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-envelope"></i>
+            <h1>Hey daddy</h1>
+        </div>
+        <div class="notif-profile-container">
+            <hr>
+            <div class="iconsWrapper">
+                <div id="createGroupChat" class="accountsInSideBar">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Create Group Chat</span>
+                </div>
+                <div class="settings">
+                    <i class="fa-regular fa-gear"></i>
+                    <span>Settings</span>
+                </div>
+                <div class="messagesIcon">
+                    <i class="fa-regular fa-envelope"></i>
+                    <span>Messages</span>
+                </div>
+                <div class="FriendRequestIconAndLabelContainer">
+                    <i class="fa-solid fa-user-group"></i>
+                    <span>Friend Request</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="requestBodyContainer">
+        <div class="navbar">
+            <h1>Messages</h1>
+            <div class="navbarSearchAndButtonContainer">
+                <input type="search" name="" class="input searchPeopleInCreateGroupChat" placeholder="Search some people">
+                <button class="btn box-shadow navbarSearchButton">Search</button>
+                <div class="searchResultContainer">
+                    <h1 class="noResultFoundMessage">No result found</h1>
+                    <ul class="userFromSearchResult">
+        
+                    </ul>
+                </div>
+            </div>
+            <img class="userprofile" th:attr="data-user-id=${userId}" th:src="@{${imagePath}}">
+        </div>
+
+        <div class="createGroupChatContainer">
+            <button class="goBackTomessageButtonInCreateGroupChat"><i class="fa-solid fa-hand-point-left"></i></button>
+            <label for="">Group name</label>
+            <input type="text" class="groupChatName" id="groupChatName" placeholder="Group chat name">
+            <label for="">Friends</label>
+
+            <!-- friend list design reference -->
+            <!-- <div class="friendWrapper">
+                <div class="">
+                    <img class="friendprofilepictureInCreateGroupChat" src="" alt="">
+                    <h1>djafkljaklfjds</h1>
+                </div>
+                <input type="checkbox" name="" class="checkBox" id="checkBox">
+            </div> -->
+
+            <button class="createGroupChat">Create</button>
+        </div>
+    </div>
+    
+    <script type="module" src="/pages/createGroupChatPage.js"></script>
+</body>
+</html>

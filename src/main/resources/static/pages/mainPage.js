@@ -691,3 +691,15 @@ window.addEventListener("popstate", (event)=> {
     });
 
 }) ();
+
+(() => {
+
+    const createGroupChat = document.getElementById("createGroupChat");
+    console.log(createGroupChat);
+    createGroupChat.addEventListener("click", () => {
+        
+        
+
+    });
+
+}) ();

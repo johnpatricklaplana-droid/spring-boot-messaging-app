@@ -27,7 +27,6 @@ body {
     display: flex;
     flex-direction: column;
     width: 80vw;
-    background-color: red;
 }
 
 .MainContentContainer {
