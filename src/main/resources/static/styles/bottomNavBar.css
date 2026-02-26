@@ -1,10 +1,6 @@
 .bottomNavbar {
     position: fixed;
     bottom: 0;
-    background: radial-gradient(circle at 0% 0%, rgb(2, 117, 2) 30%, transparent 60%),
-            radial-gradient(circle at 100% 0%, rgb(1, 114, 16) 30%, transparent 60%),
-            radial-gradient(circle at 50% 50%, rgb(0, 168, 48) 30%, transparent 60%),
-            #08ba14;
     width: 100%;
     display: none;
     justify-content: space-between;
@@ -29,12 +25,10 @@
 }
 
 .iconsWrapperInBottomNavBar span {
-    color: white;
     font-size: 10px;
 }
 
 .bottomNavbar i {
-    color: white;
     font-size: 15px;
 }
 

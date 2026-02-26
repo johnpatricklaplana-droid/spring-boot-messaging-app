@@ -291,7 +291,6 @@ import { socket } from "/main.js";
             friendProfile.dataset.friendId = id;
             recieverProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
             friendProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
-            kachatProfile.forEach(el => el.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`);
 
             recivierName.innerText = friendInfo.username;
             recivierNameTop.innerText = friendInfo.username;
@@ -431,7 +430,7 @@ window.addEventListener("load", async () => {
     const friendList = await(await fetch(
         `http://192.168.100.17:8080/getConversationList/${currentUserId}`
     )).json();
-
+    console.log(friendList);
     displayFriendList(friendList);
 
 });

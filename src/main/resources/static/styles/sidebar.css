@@ -4,22 +4,16 @@
     display: flex;
     flex-direction: column;
     gap: 30px;
-    background-color: rgb(133, 21, 238);
     z-index: 9;
     border-radius: 0;
     border-top: none;
     border-left: none;
-    border-color: rgb(255, 174, 0);
 }
 
 .logo {
     display: flex;
     align-items: center;
     gap: 10px;
-}
-
-.logo h1 {
-    color:rgb(255, 174, 0);;
 }
 
 .iconsWrapper {
@@ -30,16 +24,16 @@
 }
 
 .iconsWrapper div:hover {
-    background-color: rgba(0, 0, 0, 0.361);
+    filter: brightness(.9);
 }
 
 .iconsWrapper span {
-   color:rgb(255, 174, 0);;
+   
 }
 
 .fa-user {
     font-size: 30px;
-    color: rgb(255, 174, 0);
+    
 }
 
 .settings {
@@ -49,7 +43,7 @@
     cursor: pointer;
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid rgb(255, 174, 0);
+    border: 1px solid gray;
 }
 
 .accountsInSideBar {
@@ -59,12 +53,12 @@
     cursor: pointer;
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid rgb(255, 174, 0);
+    border: 1px solid gray;
 }
 
 .fa-gear {
     font-size: 30px;
-    color: rgb(255, 174, 0);;
+    color: gray;
 }
 
 .messagesIcon {
@@ -74,12 +68,12 @@
    cursor: pointer;
    padding: 10px;
    border-radius: 5px;
-   border: 1px solid rgb(255, 174, 0);;
+   border: 1px solid gray;
 }
 
 .fa-envelope {
     font-size: 30px;
-    color: rgb(255, 174, 0);;
+    color: gray;
 }
 
 .FriendRequestIconAndLabelContainer {
@@ -89,12 +83,12 @@
     cursor: pointer;
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid rgb(255, 174, 0);;
+    border: 1px solid gray;
 }
 
 .fa-user-group {
     font-size: 30px;
-    color: rgb(255, 174, 0);;
+    color: gray;
 }
 
 @media (max-width: 600px) {

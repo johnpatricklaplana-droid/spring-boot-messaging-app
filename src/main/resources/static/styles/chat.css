@@ -232,10 +232,6 @@
     gap: 10px;
     height: 10vh;
     width: 80%;
-    background: radial-gradient(circle at 0% 0%, rgb(2, 117, 2) 30%, transparent 60%),
-            radial-gradient(circle at 100% 0%, rgb(1, 114, 16) 30%, transparent 60%),
-            radial-gradient(circle at 50% 50%, rgb(0, 168, 48) 30%, transparent 60%),
-            #08ba14;
 }
 
 .Inputfieldicons {
@@ -249,11 +245,10 @@
     font-size: 20px;
     border-radius: 3px;
     padding: 3px;
-    color: white;
 }
 
 .sendMessage {
-    color: white;
+    
 }
 
 .Inputfieldicons i:hover {
@@ -266,7 +261,6 @@
     border-radius: 40px;
     background-color: transparent;
     backdrop-filter: blur(15px);
-    border: 1px solid white;
 }
 
 .chatInputboxContainer .sendMessage {
@@ -300,7 +294,6 @@
     z-index: 1;
     position: absolute;
     bottom: 0;
-    background-color: red;
     width: 100%;
     height: 10vh;
     padding: 10px;
@@ -320,14 +313,13 @@
 }
 
 .labelAndIconWrapper label {
-    color: white;
+  
 }
 
 .morePopUp {
     position: absolute;
     top: var(--ypos);
     left: var(--xpos);
-    background-color: black;
     padding: 10px;
     border-radius: 10px;
     width: 80%;
@@ -356,16 +348,16 @@
 }
 
 .morePopUp label {
-    color: white;
+   
     font: larger;
 }
 
 .morePopUp span {
-    color: white;
+    
 }
 
 .morePopUp i {
-    color: white;
+    
 }
 
 .iconsContainer {
@@ -376,13 +368,11 @@
 .deleteMessagePopUp {
     padding: 10px;
     border: 10px;
-    background-color: green;
     position: absolute;
     top: var(--ypos);
     left: var(--xpos);
     transform: translate(-50%, -150%);
     width: 80vw;
-    border: 1px solid white;
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -223,14 +223,14 @@ export async function displayFriendList(conversationList) {
 
     const currentUserId = currentUser.id;
     
-    conversationList.forEach(async friend => {
+    conversationList.forEach(async conversation => {
 
         //check if the conversation is GROUP or PRIVATE
-        if(friend.members.length === 2) {
+        if(conversation.members.length === 2) {
 
             let friendId;
            
-            friend.members.forEach(user => {
+            conversation.members.forEach(user => {
                 if(Number(user.id) != Number(currentUserId)) {
                     friendId = user.id;
                 }
@@ -289,8 +289,8 @@ export async function displayFriendList(conversationList) {
                 } 
 
             profilepicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${friendId}.png")`;
-            h1.innerText = friend.conversationName;
-            friendEl.dataset.conversationId = friend.id;
+            h1.innerText = conversation.conversationName;
+            friendEl.dataset.conversationId = conversation.id;
             friendEl.dataset.friendId = friendId;
              
             // TODO: use friend id as key and
@@ -299,7 +299,7 @@ export async function displayFriendList(conversationList) {
             addRelationship(friendId);
 
             //find the friend id
-            friend.members.forEach(user => {
+            conversation.members.forEach(user => {
                 if(Number(user.id) != Number(currentUserId)) {
                     // add the friends info to a hashmap 
                     addUser(user);
@@ -317,8 +317,81 @@ export async function displayFriendList(conversationList) {
             nameAndLastMessageWrapper.appendChild(lastMessage);
             friendEl.appendChild(i);
             messagesContainer.appendChild(friendEl);
-        } else {
-            //TODO: 
+        } else { 
+
+            addConversation(conversation);
+            
+            const messagesContainer = document.querySelector(".messagesContainer");
+
+            const friendEl = document.createElement("div");
+            friendEl.className = "friend";
+
+            const profilePicAndNameWrapper = document.createElement("div");
+            profilePicAndNameWrapper.className = "profilePicAndNameWrapper";
+
+            const profilepicture = document.createElement("img");
+            profilepicture.className = "profilepicture";
+
+            const nameAndLastMessageWrapper = document.createElement("div");
+            nameAndLastMessageWrapper.className = "nameAndLastMessageWrapper";
+
+            const h1 = document.createElement("h1");
+
+            const lastMessage = document.createElement("p");
+            lastMessage.className = "lastMessage";
+
+            // try {
+            //     const lastMessageInAConversation = await (await fetch(`http://192.168.100.17:8080/getLastMessages/${friend.conversationId.id}`)).json();
+
+            //     const whoSentTheLastMessage = document.createElement("span");
+            //     whoSentTheLastMessage.className = "whoSentTheLastMessage";
+
+            //     if (!lastMessageInAConversation) {
+            //         console.log("lastMessageInAConversationIsNullOrWhatEver");
+            //         return;
+            //     }
+
+            //     if (Number(currentUserId) === lastMessageInAConversation.senderId.id) {
+            //         whoSentTheLastMessage.innerText = "you: ";
+            //     } else {
+            //         whoSentTheLastMessage.innerText = lastMessageInAConversation.senderId.username + ": ";
+            //     }
+            //     lastMessage.appendChild(whoSentTheLastMessage);
+            //     if (lastMessageInAConversation.status[currentUserId] !== "read") {
+            //         lastMessage.classList.add("notSeenYet");
+            //         h1.classList.add("notSeenYet");
+            //     }
+            //     lastMessage.append(lastMessageInAConversation.textMessage);
+            // } catch (error) {
+            //     const whoSentTheLastMessage = document.createElement("span");
+            //     whoSentTheLastMessage.className = "whoSentTheLastMessage";
+
+            //     whoSentTheLastMessage.innerText = "system: ";
+            //     lastMessage.appendChild(whoSentTheLastMessage);
+            //     lastMessage.append("you are now connected to hey daddy");
+
+            //     console.error("ERROR HAPPENS: " + error);
+            // }
+
+            // profilepicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${friendId}.png")`;
+            h1.innerText = conversation.conversationName;
+            friendEl.dataset.conversationId = conversation.id;
+
+            // TODO: use friend id as key and
+            // store the current users id as value
+            // to know  that they're friends
+
+            const i = document.createElement("i");
+            i.className = "fa-ellipsis";
+            i.classList.add("fa-solid");
+
+            friendEl.appendChild(profilePicAndNameWrapper);
+            profilePicAndNameWrapper.appendChild(profilepicture);
+            profilePicAndNameWrapper.appendChild(nameAndLastMessageWrapper);
+            nameAndLastMessageWrapper.appendChild(h1);
+            nameAndLastMessageWrapper.appendChild(lastMessage);
+            friendEl.appendChild(i);
+            messagesContainer.appendChild(friendEl);
         }
         
     });

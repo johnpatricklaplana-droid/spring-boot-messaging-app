@@ -5,28 +5,15 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    background-color: rgb(133, 21, 238);
     gap: 10px;
     border-left: none;
-    border-bottom: 1px solid rgb(255, 174, 0);;
-}
-
-.navbar h1 {
-    color: rgb(255, 174, 0);;
 }
 
 .searchPeople {
     width: 100%;
     border-radius: 40px;
     border-style: none; 
-    background-color: rgb(255, 174, 0);;
     backdrop-filter: blur(15px);
-    border: 1px solid rgb(255, 174, 0);;
-    color: white;
-}
-
-.searchPeople::placeholder {
-    color: white;
 }
 
 .navbarSearchAndButtonContainer {
@@ -46,7 +33,6 @@
     width: 40px;
     max-width: 40px;
     cursor: pointer;
-    border: 1px solid white;
     border-radius: 50%;
 }
 
@@ -60,7 +46,6 @@
     position: absolute;
     left: 42%;
     top: 40px;
-    background-color: rgb(34, 33, 33);
     padding: 10px;
     transform: translate(-50%);
     width: 83%;
@@ -84,11 +69,10 @@
     padding-right: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
-    color: rgba(255, 255, 255, 0.596);
 }
 
 .searchResultContainer ul li:hover {
-    background-color: rgba(212, 208, 208, 0.215);
+    filter: brightness(.9);
 }
 
 .noResultFoundMessage {
