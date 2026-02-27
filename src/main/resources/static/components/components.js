@@ -201,7 +201,7 @@ function appendFriendMessage (m) {
 }
 
 export async function displayFriendList(conversationList) {
-    console.log(conversationList);
+    
     const currentUserId = currentUser.id;
     
     conversationList.forEach(async conversation => {
@@ -228,8 +228,8 @@ export async function displayFriendList(conversationList) {
         lastMessage.className = "lastMessage";
 
         try {
-            const lastMessageInAConversation = await (await fetch(`http://192.168.100.17:8080/getLastMessages/${friend.conversationId.id}`)).json();
-
+            const lastMessageInAConversation = await (await fetch(`http://192.168.100.17:8080/getLastMessages/${conversation.id}`)).json();
+            console.log(lastMessageInAConversation);
             const whoSentTheLastMessage = document.createElement("span");
             whoSentTheLastMessage.className = "whoSentTheLastMessage";
 
@@ -237,14 +237,17 @@ export async function displayFriendList(conversationList) {
                 console.log("lastMessageInAConversationIsNullOrWhatEver");
                 return;
             }
-
+            
             if (Number(currentUserId) === lastMessageInAConversation.senderId.id) {
                 whoSentTheLastMessage.innerText = "you: ";
             } else {
                 whoSentTheLastMessage.innerText = lastMessageInAConversation.senderId.username + ": ";
             }
             lastMessage.appendChild(whoSentTheLastMessage);
-            if (lastMessageInAConversation.status[currentUserId] !== "read") {
+            
+            // If current user don't seen the message yet 
+            // make the last message and conversation name font BOLD
+            if (lastMessageInAConversation.peopleWhoSeenTheMessage[Number(currentUserId)] !== "read") {
                 lastMessage.classList.add("notSeenYet");
                 h1.classList.add("notSeenYet");
             }
@@ -277,6 +280,7 @@ export async function displayFriendList(conversationList) {
             const i = document.createElement("i");
             i.className = "fa-ellipsis";
             i.classList.add("fa-solid");
+            i.classList.add("threeDotInConversationList");
 
             conversationEl.appendChild(profilePicAndNameWrapper);
             profilePicAndNameWrapper.appendChild(profilepicture);

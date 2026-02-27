@@ -227,7 +227,7 @@ import { getConversation } from "/store/ConversationStore.js";
 
 }) ();
 
-
+// accept friend request
 (() => {
 
     document.addEventListener("click", async (event) => {
@@ -267,6 +267,7 @@ import { getConversation } from "/store/ConversationStore.js";
     })
 }) ();
 
+// open chat
 (() => {
     
     document.addEventListener("click", async (event) => {
@@ -287,10 +288,9 @@ import { getConversation } from "/store/ConversationStore.js";
             const friendProfile = document.querySelector(".friendProfile");
             const recivierName = document.querySelector(".recivierName");
             const recivierNameTop = document.querySelector(".recivierNameTop");
-            // const kachatProfile = document.querySelectorAll(".kachatProfile");
 
             const messages = await (await fetch(`http://192.168.100.17:8080/getMessages/${conversationId}`)).json();
-            
+            console.log(messages);
             if(conversation.members.length === 2) {
                 conversation.members.forEach(member => {
                     if(Number(member.id) !== Number(currentUser.id)) {
@@ -322,7 +322,7 @@ import { getConversation } from "/store/ConversationStore.js";
     let isOpen = false;
     document.addEventListener("click", (event) => {
         
-        if (event.target.classList.contains("fa-ellipsis")) {
+        if (event.target.classList.contains("threeDotInConversationList")) {
             
             const threeDonContentContainer = document.querySelector(".threeDonContentContainer");
 
@@ -411,8 +411,6 @@ export function typing_indicator () {
         typing_indicator_container.classList.remove("show");
     }, 1000);
 }
-
-
 
 (() => {
 
@@ -626,6 +624,8 @@ window.addEventListener("popstate", (event)=> {
 
         const editPopUpEl = document.querySelector(".EditPopUp");
         const textBox = editPopUpEl.querySelector("input");
+
+        document.querySelector(".overlayToClosePopUp").classList.remove("on");
 
         position(editPopUpEl);
 

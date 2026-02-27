@@ -23,9 +23,18 @@ public interface MessagesRepository extends JpaRepository<Messages, Integer> {
     @Query("""
             SELECT m FROM Messages m
             WHERE m.conversationId = :conversationId
-            ORDER BY m.id DESC
+            ORDER BY m.id ASC
             """)
     List<Messages> findByConversationId(
+        @Param("conversationId") Conversation conversationId,
+        Pageable pageable);
+
+    @Query("""
+        SELECT m FROM Messages m
+        WHERE m.conversationId = :conversationId
+        ORDER BY m.id DESC
+        """)
+    List<Messages> getLastMessage(
         @Param("conversationId") Conversation conversationId,
         Pageable pageable);
 

@@ -9,14 +9,15 @@ export async function showMessagesLive (info) {
     const conversationId = document.querySelector(".recieverProfile").dataset.conversationId;
 
     // if chat is open and
-    // the conversation id of the chat is senders conversation id seen the message
-    if(chatContainer.classList.contains("show") && conversationId === info.conversation_id) {
+    // the conversation id of the chat is senders conversation id seen the message 
+    if(chatContainer.classList.contains("show") && Number(conversationId) === Number(info.conversation_id)) {
+        console.log("tell me why");
         await fetch(`http://192.168.100.17:8080/seenMessagesLive/${currentUserId}/${info.conversation_id}`, { method: "POST" });
     }
 
     //get people who seen this message
     const peopleWhoSeenTheMessage = await (await fetch(`http://192.168.100.17:8080/getPeopleWhoSeenTheMessage/${info.conversation_id}`)).json();
-
+     
     const conversationContainer = document.querySelector(".conversationContainer");
 
     const conversation = document.querySelector(".conversation");

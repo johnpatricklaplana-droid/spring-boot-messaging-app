@@ -48,7 +48,7 @@ public class MessagesService  {
     public ReadMessages seenMessages(Integer userId, Integer conversationId) {
 
         Pageable pageable = PageRequest.of(0, 1);
-        List<Messages> lastMessage = messagesRepo.findByConversationId(
+        List<Messages> lastMessage = messagesRepo.getLastMessage(
             entityManager.getReference(Conversation.class, conversationId), 
             pageable
         );
@@ -78,10 +78,12 @@ public class MessagesService  {
 
         List<MessagesAndLastMessageReadDTO> DTO = new ArrayList<>();
        
+        Pageable pageable = PageRequest.of(0, 20);
         List<Messages> messages = messagesRepo.findByConversationId(
-            entityManager.getReference(Conversation.class, conversationId)
+            entityManager.getReference(Conversation.class, conversationId),
+            pageable
         );
-
+      
         List<ReadMessages> lastMessageRead = readMessagesRepo.findByConversationId(conversationId);
 
         for (Messages m: messages) {
@@ -106,14 +108,13 @@ public class MessagesService  {
             
             DTO.add(dto);
         }        
-        
         return DTO;
     }
 
     public MessagesAndLastMessageReadDTO getLastMessage(int conversationId) {
 
         Pageable pageable = PageRequest.of(0, 1);
-        List<Messages> lastMessage = messagesRepo.findByConversationId(
+        List<Messages> lastMessage = messagesRepo.getLastMessage(
             entityManager.getReference(Conversation.class, conversationId),
             pageable
         );
