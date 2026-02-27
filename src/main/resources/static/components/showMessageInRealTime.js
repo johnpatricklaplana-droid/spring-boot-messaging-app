@@ -34,7 +34,7 @@ export async function showMessagesLive (info) {
 
         const iconsWrapper = document.createElement("div");
         iconsWrapper.className = "iconsWrapperInMessages"; 
-        iconsWrapper.dataset.messageId = m.MessageId;
+        iconsWrapper.dataset.messageId = info.MessageId;
 
         const threeDotInMessage = document.createElement("i");
         threeDotInMessage.className = "fa-solid";
@@ -119,87 +119,14 @@ export async function showMessagesLive (info) {
         });
     } else {
         //check if senders conversation id is equal to the conversation id of the chat currently open
-            if (conversationId === info.conversation_id) {
-                const kachatContainer = document.createElement("div");
-                kachatContainer.className = "kachatContainer";
-                kachatContainer.classList.add("messageContainer");
-
-                const kachat = document.createElement("div");
-                kachat.className = "kachat";
-
-                const messageAndProfileWrapper = document.createElement("div");
-                messageAndProfileWrapper.className = "messageAndProfileWrapper";
-
-                const iconsWrapper = document.createElement("div");
-                iconsWrapper.className = "iconsWrapperInMessages"; 
-                iconsWrapper.dataset.messageId = m.MessageId;
-
-                const threeDotInMessage = document.createElement("i");
-                threeDotInMessage.className = "fa-solid";
-                threeDotInMessage.classList.add("fa-ellipsis");
-                threeDotInMessage.classList.add("threeDotInMessage");
-                threeDotInMessage.dataset.messageId = info.message_id;
-
-                const emoji = document.createElement("i");
-                emoji.className = "fa-solid";
-                emoji.classList.add("fa-face-grin");
-                emoji.classList.add("emojiInMessage");
-                emoji.dataset.messageId = info.message_id;
-
-                const reply = document.createElement("i");
-                reply.className = "fa-solid";
-                reply.classList.add("fa-reply");
-                reply.classList.add("replyInMessage");
-                reply.dataset.messageId = info.message_id;
-
-                const peopleWhoSeenMessagesListContainer = document.createElement("div");
-                peopleWhoSeenMessagesListContainer.className = "peopleWhoSeenMessagesListContainer";
-
-                const arrayOfPeopleWhoSeenTheMessage = [];
-
-                peopleWhoSeenTheMessage.forEach(person => {
-
-                    if (chatContainer.classList.contains("show") 
-                        && person.lastMessageRead >= info.message_id
-                        && conversationId === info.conversation_id) 
-                    {
-                        const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
-                        profileOfpeopleWhoSeenTheMessage.dataset.seenerId = person.user.id;
-                        arrayOfPeopleWhoSeenTheMessage.push(JSON.stringify(person.user.id));
-                        profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
-                        profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${person.user.id}.png`;
-                        peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
-                    }
-
-                });
-
-                sessionStorage.setItem(info.message_id, JSON.stringify(arrayOfPeopleWhoSeenTheMessage));
-
-                const kachatProfile = document.createElement("img");
-                kachatProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${info.sender}.png")`;
-                kachatProfile.className = "kachatProfile";
-
-                const kaChatMessage = document.createElement("p");
-                kaChatMessage.className = "kaChatMessage";
-                kaChatMessage.classList = "message";
-                kaChatMessage.innerText = info.text_message;
-                kaChatMessage.dataset.messageId = info.message_id;
-
-                conversation.appendChild(kachatContainer);
-                kachatContainer.appendChild(kachat);
-                kachat.appendChild(messageAndProfileWrapper);
-                messageAndProfileWrapper.appendChild(kachatProfile);
-                messageAndProfileWrapper.appendChild(kaChatMessage);
-                messageAndProfileWrapper.appendChild(reply);
-                messageAndProfileWrapper.appendChild(emoji);
-                messageAndProfileWrapper.appendChild(threeDotInMessage);
-                kachat.appendChild(peopleWhoSeenMessagesListContainer);
-                conversationContainer.scrollTop = conversation.scrollHeight;
+            if (Number(conversationId) === Number(info.conversation_id)) {
+                appendFriendMessageLive(info, peopleWhoSeenTheMessage);
             }
 
+            // get all conversations
             const friends = document.querySelectorAll(".friend");
  
-            // append the last message to the friend who has conversation id = senders conversation id
+            // append the last message for each conversation
             friends.forEach(f => {
                 const lastMessage = f.querySelector(".lastMessage");
                 const whoSentTheLastMessage = f.querySelector(".whoSentTheLastMessage");
@@ -211,4 +138,89 @@ export async function showMessagesLive (info) {
                 }
             });
     }
+}
+
+function appendFriendMessageLive(info, peopleWhoSeenTheMessage) {
+    const chatContainer = document.querySelector(".chatContainer");
+
+    const conversationId = document.querySelector(".recieverProfile").dataset.conversationId;
+
+    const conversationContainer = document.querySelector(".conversationContainer");
+
+    const conversation = document.querySelector(".conversation");
+
+    const kachatContainer = document.createElement("div");
+    kachatContainer.className = "kachatContainer";
+    kachatContainer.classList.add("messageContainer");
+
+    const kachat = document.createElement("div");
+    kachat.className = "kachat";
+
+    const messageAndProfileWrapper = document.createElement("div");
+    messageAndProfileWrapper.className = "messageAndProfileWrapper";
+
+    const iconsWrapper = document.createElement("div");
+    iconsWrapper.className = "iconsWrapperInMessages";
+    iconsWrapper.dataset.messageId = info.MessageId;
+
+    const threeDotInMessage = document.createElement("i");
+    threeDotInMessage.className = "fa-solid";
+    threeDotInMessage.classList.add("fa-ellipsis");
+    threeDotInMessage.classList.add("threeDotInMessage");
+    threeDotInMessage.dataset.messageId = info.message_id;
+
+    const emoji = document.createElement("i");
+    emoji.className = "fa-solid";
+    emoji.classList.add("fa-face-grin");
+    emoji.classList.add("emojiInMessage");
+    emoji.dataset.messageId = info.message_id;
+
+    const reply = document.createElement("i");
+    reply.className = "fa-solid";
+    reply.classList.add("fa-reply");
+    reply.classList.add("replyInMessage");
+    reply.dataset.messageId = info.message_id;
+
+    const peopleWhoSeenMessagesListContainer = document.createElement("div");
+    peopleWhoSeenMessagesListContainer.className = "peopleWhoSeenMessagesListContainer";
+
+    const arrayOfPeopleWhoSeenTheMessage = [];
+
+    peopleWhoSeenTheMessage.forEach(person => {
+
+        if (chatContainer.classList.contains("show")
+            && person.lastMessageRead >= info.message_id
+            && conversationId === info.conversation_id) {
+            const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
+            profileOfpeopleWhoSeenTheMessage.dataset.seenerId = person.user.id;
+            arrayOfPeopleWhoSeenTheMessage.push(JSON.stringify(person.user.id));
+            profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
+            profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${person.user.id}.png`;
+            peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
+        }
+
+    });
+
+    sessionStorage.setItem(info.message_id, JSON.stringify(arrayOfPeopleWhoSeenTheMessage));
+
+    const kachatProfile = document.createElement("img");
+    kachatProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${info.sender}.png")`;
+    kachatProfile.className = "kachatProfile";
+
+    const kaChatMessage = document.createElement("p");
+    kaChatMessage.className = "kaChatMessage";
+    kaChatMessage.classList = "message";
+    kaChatMessage.innerText = info.text_message;
+    kaChatMessage.dataset.messageId = info.message_id;
+
+    conversation.appendChild(kachatContainer);
+    kachatContainer.appendChild(kachat);
+    kachat.appendChild(messageAndProfileWrapper);
+    messageAndProfileWrapper.appendChild(kachatProfile);
+    messageAndProfileWrapper.appendChild(kaChatMessage);
+    messageAndProfileWrapper.appendChild(reply);
+    messageAndProfileWrapper.appendChild(emoji);
+    messageAndProfileWrapper.appendChild(threeDotInMessage);
+    kachat.appendChild(peopleWhoSeenMessagesListContainer);
+    conversationContainer.scrollTop = conversation.scrollHeight;
 }

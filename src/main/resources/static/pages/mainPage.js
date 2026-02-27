@@ -1,7 +1,7 @@
 import { getCurrentUser } from "/service/userServices.js";
 import { get, deleteMessage } from "/api/api.js";
 import { searchResult } from "/components/components.js";
-import { addUser, getUser } from "/store/userstore.js";
+// import { addUser, getUser } from "/store/userstore.js";
 import { post } from "/api/api.js";
 import { currentUser } from "/store/currentUser.js";
 import { update } from "/api/api.js";
@@ -10,6 +10,7 @@ import { displayConversation, position } from "/components/components.js";
 import { displayFriendList } from "/components/components.js";
 import { readMessages } from "/service/readMessages.js";
 import { socket } from "/main.js";
+import { getConversation } from "/store/ConversationStore.js";
 
 // GET USER
 // (() => {
@@ -273,10 +274,10 @@ import { socket } from "/main.js";
 
             history.pushState({ page: "chat"}, null , "");
             
-            const id = event.target.closest(".friend").dataset.friendId;
             const conversationId = event.target.closest(".friend").dataset.conversationId;
             
-            const friendInfo = getUser(id);   
+            const conversation = getConversation(conversationId);
+            console.log(conversation);
              
             document.querySelector(".chatContainer").classList.add("show");
             document.querySelector(".messagesContainer").style.display = "none";
@@ -286,19 +287,29 @@ import { socket } from "/main.js";
             const friendProfile = document.querySelector(".friendProfile");
             const recivierName = document.querySelector(".recivierName");
             const recivierNameTop = document.querySelector(".recivierNameTop");
-            const kachatProfile = document.querySelectorAll(".kachatProfile");
-            
-            friendProfile.dataset.friendId = id;
-            recieverProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
-            friendProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
+            // const kachatProfile = document.querySelectorAll(".kachatProfile");
 
-            recivierName.innerText = friendInfo.username;
-            recivierNameTop.innerText = friendInfo.username;
-            
             const messages = await (await fetch(`http://192.168.100.17:8080/getMessages/${conversationId}`)).json();
-            console.log(messages);
+            
+            if(conversation.members.length === 2) {
+                conversation.members.forEach(member => {
+                    if(Number(member.id) !== Number(currentUser.id)) {
+                        friendProfile.dataset.friendId = member.id;
+                        recieverProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${member.id}.png")`;
+                        friendProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${member.id}.png")`;
+                        recivierName.innerText = member.username;
+                        recivierNameTop.innerText = member.username;
+                    }
+                    displayConversation(messages, conversation);
+                });
+            } else if(conversation.members.length > 2) {
+                // recieverProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${member.id}.png")`;
+                // friendProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${member.id}.png")`;
+                recivierName.innerText = conversation.conversationName;
+                recivierNameTop.innerText = conversation.conversationName;
 
-            displayConversation(messages, id);
+                displayConversation(messages, conversation);
+            }
 
             readMessages(currentUser.id, conversationId);
         }

@@ -4,40 +4,6 @@ import { currentUser } from "/store/currentUser.js";
 import { addRelationship } from "/store/userstore.js";
 import { addConversation } from "/store/ConversationStore.js";
 
-(() => {
-    let isOpen = false;
-    const notifBtn = document.querySelector(".notifBtn");
-
-    if(notifBtn) {
-
-    notifBtn.addEventListener("click", (e)=> {
-        e.stopPropagation();
-        if(!isOpen) {
-            document.querySelector(".notifDropdown").style.display = "block";
-            isOpen = true;
-        } else {
-            document.querySelector(".notifDropdown").style.display = "none";
-            isOpen = false;
-        }
-        
-    });     
-    
-    window.addEventListener("click", (event)=> {
-    event.stopPropagation();
-    if(isOpen === true &&
-       !event.target.classList.contains("notifDropdown") &&
-       !event.target.classList.contains("notificationHeader")) {
-
-        document.querySelector(".notifDropdown").style.display = "none";
-        isOpen = false;
-
-    } else {
-
-    }
-    })
-  }  
-} ) ();
-
 export function searchResult(peoples) {
     const ul = document.querySelector(".userFromSearchResult");
     peoples.forEach(person => {
@@ -54,13 +20,11 @@ export function searchResult(peoples) {
     });
 }
 
-export async function displayConversation (messages, friendId) {
+export async function displayConversation (messages) {
 
     const currentUserId = currentUser.id;
 
-    const conversationContainer = document.querySelector(".conversationContainer");
-    
-    const conversation = document.querySelector(".conversation");
+    const conversationId = document.querySelector(".recieverProfile").dataset.conversationId;
 
     document.querySelectorAll(".youContainer").forEach(element => {
         element.remove();
@@ -71,152 +35,169 @@ export async function displayConversation (messages, friendId) {
     });
     
     messages.forEach(m => {
-    
-        if (m.senderId.id === Number(currentUserId)) {
-            const youContainer = document.createElement("div");
-            youContainer.className = "youContainer";
-            youContainer.classList.add("messageContainer");
+        if (Number(m.senderId.id) === Number(currentUserId)) {
+            appendCurrentUserMessage(m);
+        } else if (Number(m.conversation.id) === Number(conversationId)) {
+            appendFriendMessage(m);
+        } 
+    });
+}
 
-            const you = document.createElement("div");
-            you.className = "you";
+function appendCurrentUserMessage (m) {
 
-            const messageAndProfileWrapper = document.createElement("div");
-            messageAndProfileWrapper.className = "messageAndProfileWrapper";
+    const conversationContainer = document.querySelector(".conversationContainer");
 
-            const iconsWrapper = document.createElement("div");
-            iconsWrapper.className = "iconsWrapperInMessages";
-            iconsWrapper.dataset.messageId = m.MessageId;
+    const conversationEl = document.querySelector(".conversation");
 
-            const threeDotInMessage = document.createElement("i");
-            threeDotInMessage.className = "fa-solid";
-            threeDotInMessage.classList.add("fa-ellipsis");
-            threeDotInMessage.classList.add("threeDotInMessage");
-            threeDotInMessage.dataset.messageId = m.MessageId;
+    const youContainer = document.createElement("div");
+    youContainer.className = "youContainer";
+    youContainer.classList.add("messageContainer");
 
-            const emoji = document.createElement("i");
-            emoji.className = "fa-solid";
-            emoji.classList.add("fa-face-grin");
-            emoji.classList.add("emojiInMessage");
-            emoji.dataset.messageId = m.MessageId;
+    const you = document.createElement("div");
+    you.className = "you";
 
-            const reply = document.createElement("i");
-            reply.className = "fa-solid";
-            reply.classList.add("fa-reply");
-            reply.classList.add("replyInMessage");
-            reply.dataset.messageId = m.MessageId;
+    const messageAndProfileWrapper = document.createElement("div");
+    messageAndProfileWrapper.className = "messageAndProfileWrapper";
 
-            const peopleWhoSeenMessagesListContainer = document.createElement("div");
-            peopleWhoSeenMessagesListContainer.className = "peopleWhoSeenMessagesListContainer";
+    const iconsWrapper = document.createElement("div");
+    iconsWrapper.className = "iconsWrapperInMessages";
+    iconsWrapper.dataset.messageId = m.MessageId;
 
-            const youMessage = document.createElement("p");
-            youMessage.classList = "message";
-            youMessage.dataset.messageId = m.MessageId;
-            youMessage.innerText = m.textMessage;
+    const threeDotInMessage = document.createElement("i");
+    threeDotInMessage.className = "fa-solid";
+    threeDotInMessage.classList.add("fa-ellipsis");
+    threeDotInMessage.classList.add("threeDotInMessage");
+    threeDotInMessage.dataset.messageId = m.MessageId;
 
-            const arrayOfPeopleWhoSeenTheMessage = [];
-         
-            Object.entries(m.peopleWhoSeenTheMessage).forEach(([user_id, readStatus]) => {
-                if(readStatus === "read") {
-                const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
-                profileOfpeopleWhoSeenTheMessage.dataset.seenerId = user_id;
-                arrayOfPeopleWhoSeenTheMessage.push(user_id);
-                profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
-                profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${user_id}.png`;
-                peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
-                }
-            });
+    const emoji = document.createElement("i");
+    emoji.className = "fa-solid";
+    emoji.classList.add("fa-face-grin");
+    emoji.classList.add("emojiInMessage");
+    emoji.dataset.messageId = m.MessageId;
 
-            sessionStorage.setItem(m.MessageId, JSON.stringify(arrayOfPeopleWhoSeenTheMessage));
+    const reply = document.createElement("i");
+    reply.className = "fa-solid";
+    reply.classList.add("fa-reply");
+    reply.classList.add("replyInMessage");
+    reply.dataset.messageId = m.MessageId;
 
-            const youProfile = document.createElement("img");
-            youProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${currentUserId}.png")`;
-            youProfile.className = "youProfile";
+    const peopleWhoSeenMessagesListContainer = document.createElement("div");
+    peopleWhoSeenMessagesListContainer.className = "peopleWhoSeenMessagesListContainer";
 
-            conversation.appendChild(youContainer);
-            youContainer.appendChild(you);
-            you.appendChild(messageAndProfileWrapper);
-            messageAndProfileWrapper.appendChild(iconsWrapper);
-            iconsWrapper.appendChild(threeDotInMessage);
-            iconsWrapper.appendChild(emoji);
-            iconsWrapper.appendChild(reply);
-            messageAndProfileWrapper.appendChild(youMessage);
-            messageAndProfileWrapper.appendChild(youProfile);
-            you.appendChild(peopleWhoSeenMessagesListContainer);
-            conversationContainer.scrollTop = conversation.scrollHeight;
-        } else if (m.senderId.id === Number(friendId)) {
-            
-            const kachatContainer = document.createElement("div");
-            kachatContainer.className = "kachatContainer";
-            kachatContainer.classList.add("messageContainer");
+    const youMessage = document.createElement("p");
+    youMessage.classList = "message";
+    youMessage.dataset.messageId = m.MessageId;
+    youMessage.innerText = m.textMessage;
 
-            const kachat = document.createElement("div");
-            kachat.className = "kachat";
+    const arrayOfPeopleWhoSeenTheMessage = [];
 
-            const messageAndProfileWrapper = document.createElement("div");
-            messageAndProfileWrapper.className = "messageAndProfileWrapper";
-
-            const iconsWrapper = document.createElement("div");
-            iconsWrapper.className = "iconsWrapperInMessages";
-            iconsWrapper.dataset.messageId = m.MessageId;
-
-            const threeDotInMessage = document.createElement("i");
-            threeDotInMessage.className = "fa-solid";
-            threeDotInMessage.classList.add("fa-ellipsis");
-            threeDotInMessage.classList.add("threeDotInMessage");
-            threeDotInMessage.dataset.messageId = m.MessageId;
-
-            const emoji = document.createElement("i");
-            emoji.className = "fa-solid";
-            emoji.classList.add("fa-face-grin");
-            emoji.classList.add("emojiInMessage");
-            emoji.dataset.messageId = m.MessageId;
-
-            const reply = document.createElement("i");
-            reply.className = "fa-solid";
-            reply.classList.add("fa-reply");
-            reply.classList.add("replyInMessage");
-            reply.dataset.messageId = m.MessageId;
-
-            const peopleWhoSeenMessagesListContainer = document.createElement("div");
-            peopleWhoSeenMessagesListContainer.className = "peopleWhoSeenMessagesListContainer";
-
-            const kachatProfile = document.createElement("img");
-            kachatProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${friendId}.png")`;
-            kachatProfile.className = "kachatProfile";
-
-            const kaChatMessage = document.createElement("p");
-            kaChatMessage.classList = "message";
-            kaChatMessage.innerText = m.textMessage;
-            kaChatMessage.dataset.messageId = m.MessageId;
-
-            const arrayOfPeopleWhoSeenTheMessage = [];
-
-            Object.entries(m.peopleWhoSeenTheMessage).forEach(([user_id, readStatus]) => {
-                if (readStatus === "read") {
-                    const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
-                    profileOfpeopleWhoSeenTheMessage.dataset.seenerId = user_id;
-                    arrayOfPeopleWhoSeenTheMessage.push(user_id);
-                    profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
-                    profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${user_id}.png`;
-                    peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
-                } 
-            });
-
-            sessionStorage.setItem(m.MessageId, JSON.stringify(arrayOfPeopleWhoSeenTheMessage));
-
-            conversation.appendChild(kachatContainer);
-            kachatContainer.appendChild(kachat);
-            kachat.appendChild(messageAndProfileWrapper);
-            messageAndProfileWrapper.appendChild(kachatProfile);
-            messageAndProfileWrapper.appendChild(kaChatMessage);
-            messageAndProfileWrapper.appendChild(iconsWrapper);
-            iconsWrapper.appendChild(reply);
-            iconsWrapper.appendChild(emoji);
-            iconsWrapper.appendChild(threeDotInMessage);
-            kachat.appendChild(peopleWhoSeenMessagesListContainer);
-            conversationContainer.scrollTop = conversation.scrollHeight;
+    Object.entries(m.peopleWhoSeenTheMessage).forEach(([user_id, readStatus]) => {
+        if (readStatus === "read") {
+            const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
+            profileOfpeopleWhoSeenTheMessage.dataset.seenerId = user_id;
+            arrayOfPeopleWhoSeenTheMessage.push(user_id);
+            profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
+            profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${user_id}.png`;
+            peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
         }
     });
+
+    sessionStorage.setItem(m.MessageId, JSON.stringify(arrayOfPeopleWhoSeenTheMessage));
+
+    const youProfile = document.createElement("img");
+    youProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${currentUser.id}.png")`;
+    youProfile.className = "youProfile";
+
+    conversationEl.appendChild(youContainer);
+    youContainer.appendChild(you);
+    you.appendChild(messageAndProfileWrapper);
+    messageAndProfileWrapper.appendChild(iconsWrapper);
+    iconsWrapper.appendChild(threeDotInMessage);
+    iconsWrapper.appendChild(emoji);
+    iconsWrapper.appendChild(reply);
+    messageAndProfileWrapper.appendChild(youMessage);
+    messageAndProfileWrapper.appendChild(youProfile);
+    you.appendChild(peopleWhoSeenMessagesListContainer);
+    conversationContainer.scrollTop = conversationEl.scrollHeight;
+}
+
+function appendFriendMessage (m) {
+
+    const conversationContainer = document.querySelector(".conversationContainer");
+
+    const conversationEl = document.querySelector(".conversation");
+
+    const kachatContainer = document.createElement("div");
+    kachatContainer.className = "kachatContainer";
+    kachatContainer.classList.add("messageContainer");
+
+    const kachat = document.createElement("div");
+    kachat.className = "kachat";
+
+    const messageAndProfileWrapper = document.createElement("div");
+    messageAndProfileWrapper.className = "messageAndProfileWrapper";
+
+    const iconsWrapper = document.createElement("div");
+    iconsWrapper.className = "iconsWrapperInMessages";
+    iconsWrapper.dataset.messageId = m.MessageId;
+
+    const threeDotInMessage = document.createElement("i");
+    threeDotInMessage.className = "fa-solid";
+    threeDotInMessage.classList.add("fa-ellipsis");
+    threeDotInMessage.classList.add("threeDotInMessage");
+    threeDotInMessage.dataset.messageId = m.MessageId;
+
+    const emoji = document.createElement("i");
+    emoji.className = "fa-solid";
+    emoji.classList.add("fa-face-grin");
+    emoji.classList.add("emojiInMessage");
+    emoji.dataset.messageId = m.MessageId;
+
+    const reply = document.createElement("i");
+    reply.className = "fa-solid";
+    reply.classList.add("fa-reply");
+    reply.classList.add("replyInMessage");
+    reply.dataset.messageId = m.MessageId;
+
+    const peopleWhoSeenMessagesListContainer = document.createElement("div");
+    peopleWhoSeenMessagesListContainer.className = "peopleWhoSeenMessagesListContainer";
+
+    const kachatProfile = document.createElement("img");
+    kachatProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${m.senderId.id}.png")`;
+    kachatProfile.className = "kachatProfile";
+
+    const kaChatMessage = document.createElement("p");
+    kaChatMessage.classList = "message";
+    kaChatMessage.innerText = m.textMessage;
+    kaChatMessage.dataset.messageId = m.MessageId;
+
+    const arrayOfPeopleWhoSeenTheMessage = [];
+
+    Object.entries(m.peopleWhoSeenTheMessage).forEach(([user_id, readStatus]) => {
+        if (readStatus === "read") {
+            const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
+            profileOfpeopleWhoSeenTheMessage.dataset.seenerId = user_id;
+            arrayOfPeopleWhoSeenTheMessage.push(user_id);
+            profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
+            profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${user_id}.png`;
+            peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
+        }
+    });
+
+    sessionStorage.setItem(m.MessageId, JSON.stringify(arrayOfPeopleWhoSeenTheMessage));
+
+    conversationEl.appendChild(kachatContainer);
+    kachatContainer.appendChild(kachat);
+    kachat.appendChild(messageAndProfileWrapper);
+    messageAndProfileWrapper.appendChild(kachatProfile);
+    messageAndProfileWrapper.appendChild(kaChatMessage);
+    messageAndProfileWrapper.appendChild(iconsWrapper);
+    iconsWrapper.appendChild(reply);
+    iconsWrapper.appendChild(emoji);
+    iconsWrapper.appendChild(threeDotInMessage);
+    kachat.appendChild(peopleWhoSeenMessagesListContainer);
+    conversationContainer.scrollTop = conversationEl.scrollHeight;
+
 }
 
 export async function displayFriendList(conversationList) {
@@ -225,175 +206,86 @@ export async function displayFriendList(conversationList) {
     
     conversationList.forEach(async conversation => {
 
-        //check if the conversation is GROUP or PRIVATE
-        if(conversation.members.length === 2) {
+        addConversation(conversation);
 
-            let friendId;
-           
-            conversation.members.forEach(user => {
-                if(Number(user.id) != Number(currentUserId)) {
-                    friendId = user.id;
-                }
-            });
+        const messagesContainer = document.querySelector(".messagesContainer");
 
-            const messagesContainer = document.querySelector(".messagesContainer");
+        const conversationEl = document.createElement("div");
+        conversationEl.className = "friend";
 
-            const friendEl = document.createElement("div");
-            friendEl.className = "friend";
+        const profilePicAndNameWrapper = document.createElement("div");
+        profilePicAndNameWrapper.className = "profilePicAndNameWrapper";
 
-            const profilePicAndNameWrapper = document.createElement("div");
-            profilePicAndNameWrapper.className = "profilePicAndNameWrapper";
+        const profilepicture = document.createElement("img");
+        profilepicture.className = "profilepicture";
 
-            const profilepicture = document.createElement("img");
-            profilepicture.className = "profilepicture";
+        const nameAndLastMessageWrapper = document.createElement("div");
+        nameAndLastMessageWrapper.className = "nameAndLastMessageWrapper";
 
-            const nameAndLastMessageWrapper = document.createElement("div");
-            nameAndLastMessageWrapper.className = "nameAndLastMessageWrapper";
+        const h1 = document.createElement("h1");
 
-            const h1 = document.createElement("h1");
+        const lastMessage = document.createElement("p");
+        lastMessage.className = "lastMessage";
 
-            const lastMessage = document.createElement("p");
-            lastMessage.className = "lastMessage";
+        try {
+            const lastMessageInAConversation = await (await fetch(`http://192.168.100.17:8080/getLastMessages/${friend.conversationId.id}`)).json();
 
-            try {
-                const lastMessageInAConversation = await (await fetch(`http://192.168.100.17:8080/getLastMessages/${friend.conversationId.id}`)).json();
+            const whoSentTheLastMessage = document.createElement("span");
+            whoSentTheLastMessage.className = "whoSentTheLastMessage";
 
+            if (!lastMessageInAConversation) {
+                console.log("lastMessageInAConversationIsNullOrWhatEver");
+                return;
+            }
+
+            if (Number(currentUserId) === lastMessageInAConversation.senderId.id) {
+                whoSentTheLastMessage.innerText = "you: ";
+            } else {
+                whoSentTheLastMessage.innerText = lastMessageInAConversation.senderId.username + ": ";
+            }
+            lastMessage.appendChild(whoSentTheLastMessage);
+            if (lastMessageInAConversation.status[currentUserId] !== "read") {
+                lastMessage.classList.add("notSeenYet");
+                h1.classList.add("notSeenYet");
+            }
+            lastMessage.append(lastMessageInAConversation.textMessage);
+            } catch (error) { 
                 const whoSentTheLastMessage = document.createElement("span");
                 whoSentTheLastMessage.className = "whoSentTheLastMessage";
 
-                if (!lastMessageInAConversation) {
-                    console.log("lastMessageInAConversationIsNullOrWhatEver");
-                    return;
-                }
-
-                if (Number(currentUserId) === lastMessageInAConversation.senderId.id) {
-                    whoSentTheLastMessage.innerText = "you: ";
-                } else {
-                    whoSentTheLastMessage.innerText = lastMessageInAConversation.senderId.username + ": ";
-                }
+                whoSentTheLastMessage.innerText = "system: ";
                 lastMessage.appendChild(whoSentTheLastMessage);
-                if (lastMessageInAConversation.status[currentUserId] !== "read") {
-                    lastMessage.classList.add("notSeenYet");
-                    h1.classList.add("notSeenYet");
-                }
-                lastMessage.append(lastMessageInAConversation.textMessage);
-                } catch (error) { 
-                    const whoSentTheLastMessage = document.createElement("span");
-                    whoSentTheLastMessage.className = "whoSentTheLastMessage";
+                lastMessage.append("you are now connected to hey daddy");
 
-                    whoSentTheLastMessage.innerText = "system: ";
-                    lastMessage.appendChild(whoSentTheLastMessage);
-                    lastMessage.append("you are now connected to hey daddy");
+                console.error("ERROR HAPPENS: " + error);
+            } 
 
-                    console.error("ERROR HAPPENS: " + error);
-                } 
-
-            profilepicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${friendId}.png")`;
-            h1.innerText = conversation.conversationName;
-            friendEl.dataset.conversationId = conversation.id;
-            friendEl.dataset.friendId = friendId;
-             
-            // TODO: use friend id as key and
-            // store the current users id as value
-            // to know  that they're friends
-            addRelationship(friendId);
-
-            //find the friend id
-            conversation.members.forEach(user => {
-                if(Number(user.id) != Number(currentUserId)) {
-                    // add the friends info to a hashmap 
-                    addUser(user);
-                }
-            });
+            if(conversation.members.length === 2) {
+                conversation.members.forEach(member => {
+                    if(Number(member.id) !== Number(currentUserId)) {
+                        profilepicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${member.id}.png")`;
+                        h1.innerText = member.username;
+                        conversationEl.dataset.conversationId = conversation.id;
+                    }
+                });
+            } else {
+                // profilepicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${member.id}.png")`;
+                h1.innerText = conversation.conversationName;
+                conversationEl.dataset.conversationId = conversation.id;
+            }
 
             const i = document.createElement("i");
             i.className = "fa-ellipsis";
             i.classList.add("fa-solid");
 
-            friendEl.appendChild(profilePicAndNameWrapper);
+            conversationEl.appendChild(profilePicAndNameWrapper);
             profilePicAndNameWrapper.appendChild(profilepicture);
             profilePicAndNameWrapper.appendChild(nameAndLastMessageWrapper);
             nameAndLastMessageWrapper.appendChild(h1);
             nameAndLastMessageWrapper.appendChild(lastMessage);
-            friendEl.appendChild(i);
-            messagesContainer.appendChild(friendEl);
-        } else { 
-
-            addConversation(conversation);
-            
-            const messagesContainer = document.querySelector(".messagesContainer");
-
-            const friendEl = document.createElement("div");
-            friendEl.className = "friend";
-
-            const profilePicAndNameWrapper = document.createElement("div");
-            profilePicAndNameWrapper.className = "profilePicAndNameWrapper";
-
-            const profilepicture = document.createElement("img");
-            profilepicture.className = "profilepicture";
-
-            const nameAndLastMessageWrapper = document.createElement("div");
-            nameAndLastMessageWrapper.className = "nameAndLastMessageWrapper";
-
-            const h1 = document.createElement("h1");
-
-            const lastMessage = document.createElement("p");
-            lastMessage.className = "lastMessage";
-
-            // try {
-            //     const lastMessageInAConversation = await (await fetch(`http://192.168.100.17:8080/getLastMessages/${friend.conversationId.id}`)).json();
-
-            //     const whoSentTheLastMessage = document.createElement("span");
-            //     whoSentTheLastMessage.className = "whoSentTheLastMessage";
-
-            //     if (!lastMessageInAConversation) {
-            //         console.log("lastMessageInAConversationIsNullOrWhatEver");
-            //         return;
-            //     }
-
-            //     if (Number(currentUserId) === lastMessageInAConversation.senderId.id) {
-            //         whoSentTheLastMessage.innerText = "you: ";
-            //     } else {
-            //         whoSentTheLastMessage.innerText = lastMessageInAConversation.senderId.username + ": ";
-            //     }
-            //     lastMessage.appendChild(whoSentTheLastMessage);
-            //     if (lastMessageInAConversation.status[currentUserId] !== "read") {
-            //         lastMessage.classList.add("notSeenYet");
-            //         h1.classList.add("notSeenYet");
-            //     }
-            //     lastMessage.append(lastMessageInAConversation.textMessage);
-            // } catch (error) {
-            //     const whoSentTheLastMessage = document.createElement("span");
-            //     whoSentTheLastMessage.className = "whoSentTheLastMessage";
-
-            //     whoSentTheLastMessage.innerText = "system: ";
-            //     lastMessage.appendChild(whoSentTheLastMessage);
-            //     lastMessage.append("you are now connected to hey daddy");
-
-            //     console.error("ERROR HAPPENS: " + error);
-            // }
-
-            // profilepicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${friendId}.png")`;
-            h1.innerText = conversation.conversationName;
-            friendEl.dataset.conversationId = conversation.id;
-
-            // TODO: use friend id as key and
-            // store the current users id as value
-            // to know  that they're friends
-
-            const i = document.createElement("i");
-            i.className = "fa-ellipsis";
-            i.classList.add("fa-solid");
-
-            friendEl.appendChild(profilePicAndNameWrapper);
-            profilePicAndNameWrapper.appendChild(profilepicture);
-            profilePicAndNameWrapper.appendChild(nameAndLastMessageWrapper);
-            nameAndLastMessageWrapper.appendChild(h1);
-            nameAndLastMessageWrapper.appendChild(lastMessage);
-            friendEl.appendChild(i);
-            messagesContainer.appendChild(friendEl);
-        }
-        
+            conversationEl.appendChild(i);
+            messagesContainer.appendChild(conversationEl);
+           
     });
 }
 

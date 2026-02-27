@@ -21,10 +21,6 @@
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    background: radial-gradient(circle at 0% 0%, rgb(0, 74, 0) 30%, transparent 60%),
-            radial-gradient(circle at 100% 0%, rgb(1, 143, 20) 30%, transparent 60%),
-            radial-gradient(circle at 50% 50%, rgb(1, 101, 29) 30%, transparent 60%),
-            #08ba14;
 }
 
 .recieverContainer {
@@ -37,7 +33,6 @@
     font-family: sans-serif;
     font-weight: 100;
     font-size: large;
-    color: white;
 }
 
 .recieverProfile {
@@ -50,7 +45,6 @@
 
 .chatContainer i {
     cursor: pointer;
-    color: white;
 }
 
 .fa-x {
@@ -78,24 +72,12 @@
     padding: 10px;
     overflow: auto;
     scrollbar-width: none;
-    background: radial-gradient(circle at 0% 0%, rgb(2, 54, 2) 30%, transparent 60%),
-            radial-gradient(circle at 100% 0%, rgb(0, 41, 6) 30%, transparent 60%),
-            radial-gradient(circle at 50% 50%, rgb(6, 87, 29) 30%, transparent 60%),
-            #000000;
 }
 
 .kachatlittleinfo {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.kachatlittleinfo h1 {
-    color: white;
-}
-
-.kachatlittleinfo h3 {
-    color: white;
 }
 
 .friendProfile {
