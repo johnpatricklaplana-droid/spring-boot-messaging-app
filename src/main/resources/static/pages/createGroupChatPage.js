@@ -68,7 +68,7 @@ import { currentUser } from "/store/currentUser.js";
             group_name: groupChatName,
             members: members
         };
-        console.log(body.members);
+        
         post(body, url);
     });
 

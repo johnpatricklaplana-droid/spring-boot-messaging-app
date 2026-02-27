@@ -9,13 +9,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DTO.ConversationMemberDTO;
 import com.example.demo.Model.Conversation;
+import com.example.demo.Service.AuthService;
 import com.example.demo.Service.ConversationService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 public class ConversationContorller {
     
     @Autowired
     ConversationService service;
+
+    @Autowired
+    AuthService authService;
 
     @GetMapping("/getConversationId/{userId}")
     public List<ConversationMemberDTO> getConversationId(@PathVariable int userId) {
@@ -27,8 +33,10 @@ public class ConversationContorller {
         return service.getUserConversation(userId, friendId);
     }
 
-    @GetMapping("/getConversationList/{userId}")
-    public List<Conversation> getConversationList (@PathVariable int userId) {
+    @GetMapping("/getConversationList")
+    public List<Conversation> getConversationList (HttpServletRequest request) {
+        int userId = Integer.parseInt(authService.isAuthorized(request));
+         
         return service.getConversationList(userId);
     }
 

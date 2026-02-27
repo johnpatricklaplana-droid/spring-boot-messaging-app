@@ -432,12 +432,11 @@ export function typing_indicator () {
 }) ();
 
 window.addEventListener("load", async () => {
-    const currentUserId = currentUser.id;
 
     history.pushState(null, null, location.href);
     
     const friendList = await(await fetch(
-        `http://192.168.100.17:8080/getConversationList/${currentUserId}`
+        `http://192.168.100.17:8080/getConversationList`
     )).json();
     console.log(friendList);
     displayFriendList(friendList);
@@ -482,7 +481,7 @@ window.addEventListener("popstate", (event)=> {
         
         const userId = currentUser.id;
          
-        window.location.href = `http://192.168.100.17:8080/menu/${userId}`;
+        window.location.href = `http://192.168.100.17:8080/menu`;
 
     }); 
     
@@ -707,10 +706,8 @@ window.addEventListener("popstate", (event)=> {
     const createGroupChat = document.getElementById("createGroupChat");
     console.log(createGroupChat);
     createGroupChat.addEventListener("click", () => {
-        
-        const currentUserId = currentUser.id;
 
-        window.location.href = `http://192.168.100.17:8080/create-group-chat/${currentUserId}`;
+        window.location.href = `http://192.168.100.17:8080/create-group-chat`;
 
     });
 

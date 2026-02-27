@@ -22,7 +22,6 @@ import com.example.demo.Exceptions.UserAlreadyExistsException;
 import com.example.demo.Exceptions.UserDontExistsException;
 import com.example.demo.Model.User;
 import com.example.demo.Service.AuthService;
-import com.example.demo.Service.FriendService;
 import com.example.demo.Service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,9 +34,6 @@ public class AuthController {
 
     @Autowired
     UserService userServie;
-
-    @Autowired
-    FriendService friendService;
 
     @PostMapping("/signup")
     @ResponseBody
@@ -91,8 +87,10 @@ public class AuthController {
         return "PersonProfile";
     }
 
-    @GetMapping("/menu/{currentUserId}")
-    public String menu (Model model, @PathVariable int currentUserId) {
+    @GetMapping("/menu")
+    public String menu (Model model, HttpServletRequest request) {
+        int currentUserId = Integer.parseInt(service.isAuthorized(request));
+
         User user = userServie.getUser(currentUserId);
 
         model.addAttribute("imagePath", "/getProfilePic/" + currentUserId + ".png");
@@ -102,8 +100,10 @@ public class AuthController {
         return "Menu";
     }
 
-    @GetMapping("/create-group-chat/{currentUserId}")
-    public String createGroupChat (Model model, @PathVariable int currentUserId) {
+    @GetMapping("/create-group-chat")
+    public String createGroupChat (Model model, HttpServletRequest request) {
+        int currentUserId = Integer.parseInt(service.isAuthorized(request));
+
         model.addAttribute("imagePath", "/getProfilePic/" + currentUserId + ".png");
         model.addAttribute("userId", currentUserId);
 
