@@ -34,7 +34,7 @@ export async function showMessagesLive (info) {
 
         const iconsWrapper = document.createElement("div");
         iconsWrapper.className = "iconsWrapperInMessages"; 
-        iconsWrapper.dataset.messageId = info.MessageId;
+        iconsWrapper.dataset.messageId = info.message_id;
 
         const threeDotInMessage = document.createElement("i");
         threeDotInMessage.className = "fa-solid";
@@ -74,8 +74,8 @@ export async function showMessagesLive (info) {
         // and there chat is open
         peopleWhoSeenTheMessage.forEach(person => {
             if (chatContainer.classList.contains("show")
-                && person.lastMessageRead >= info.message_id
-                && conversationId === info.conversation_id) 
+                && Number(person.lastMessageRead) >= Number(info.message_id)
+                && Number(conversationId) === Number(info.conversation_id)) 
             {
                 const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
                 profileOfpeopleWhoSeenTheMessage.dataset.seenerId = person.user.id;
@@ -92,9 +92,10 @@ export async function showMessagesLive (info) {
         conversation.appendChild(youContainer);
         youContainer.appendChild(you);
         you.appendChild(messageAndProfileWrapper);
-        messageAndProfileWrapper.appendChild(threeDotInMessage);
-        messageAndProfileWrapper.appendChild(emoji);
-        messageAndProfileWrapper.appendChild(reply);
+        messageAndProfileWrapper.appendChild(iconsWrapper);
+        iconsWrapper.appendChild(threeDotInMessage);
+        iconsWrapper.appendChild(emoji);
+        iconsWrapper.appendChild(reply);
         messageAndProfileWrapper.appendChild(youMessage);
         messageAndProfileWrapper.appendChild(youProfile);
         you.appendChild(peopleWhoSeenMessagesListContainer);
@@ -161,7 +162,7 @@ function appendFriendMessageLive(info, peopleWhoSeenTheMessage) {
 
     const iconsWrapper = document.createElement("div");
     iconsWrapper.className = "iconsWrapperInMessages";
-    iconsWrapper.dataset.messageId = info.MessageId;
+    iconsWrapper.dataset.messageId = info.message_id;
 
     const threeDotInMessage = document.createElement("i");
     threeDotInMessage.className = "fa-solid";
@@ -218,9 +219,10 @@ function appendFriendMessageLive(info, peopleWhoSeenTheMessage) {
     kachat.appendChild(messageAndProfileWrapper);
     messageAndProfileWrapper.appendChild(kachatProfile);
     messageAndProfileWrapper.appendChild(kaChatMessage);
-    messageAndProfileWrapper.appendChild(reply);
-    messageAndProfileWrapper.appendChild(emoji);
-    messageAndProfileWrapper.appendChild(threeDotInMessage);
+    messageAndProfileWrapper.appendChild(iconsWrapper);
+    iconsWrapper.appendChild(reply);
+    iconsWrapper.appendChild(emoji);
+    iconsWrapper.appendChild(threeDotInMessage);
     kachat.appendChild(peopleWhoSeenMessagesListContainer);
     conversationContainer.scrollTop = conversation.scrollHeight;
 }

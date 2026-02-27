@@ -201,7 +201,7 @@ function appendFriendMessage (m) {
 }
 
 export async function displayFriendList(conversationList) {
-
+    console.log(conversationList);
     const currentUserId = currentUser.id;
     
     conversationList.forEach(async conversation => {

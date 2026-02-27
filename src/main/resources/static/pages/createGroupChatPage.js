@@ -56,14 +56,13 @@ import { currentUser } from "/store/currentUser.js";
                 members.push(Number(friend.dataset.friendId));
             }
 
-            if(members.length < 2) {
-                console.log("dalawa lang kau? baliw ka ba?");
-                return;
-            }
-
         });
 
-        console.log(groupChatName);
+        if (members.length <= 2) {
+            console.log("dalawa lang kau? baliw ka ba?");
+            return;
+        }
+
         const url = `http://192.168.100.17:8080/conversation-member`;
         const body = {
             group_name: groupChatName,

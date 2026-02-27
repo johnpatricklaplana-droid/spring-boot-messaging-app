@@ -214,6 +214,7 @@
     gap: 10px;
     height: 10vh;
     width: 80%;
+    background-color: aliceblue;
 }
 
 .Inputfieldicons {
@@ -310,6 +311,8 @@
     transform: translate(-50%, -100%);
     transition: width, height, opacity, transform .5s ease-in-out;
     z-index: 20;
+    background-color: aliceblue;
+    border: 1px solid gray;
 }
 
 .morePopUp.show {
@@ -363,6 +366,8 @@
     opacity: 0;
     pointer-events: none;
     transition: opacity, transform 1s ease-in-out;
+    background-color: aliceblue;
+    border: 1px solid gray;
 }
 
 .deleteMessagePopUp.show {
