@@ -16,12 +16,16 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Autowired
     ChatWebSocketHandler chat;
+
+    @Autowired
+    AuthHandShakeInterceptor authHandshake;
     
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 
 
         registry.addHandler(chat, "/chat")
+                .addInterceptors(authHandshake)
                 .setAllowedOrigins("*");
     }
 }

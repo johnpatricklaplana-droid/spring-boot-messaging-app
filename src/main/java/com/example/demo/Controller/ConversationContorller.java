@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.DTO.ConversationMemberDTO;
 import com.example.demo.Model.Conversation;
 import com.example.demo.Service.AuthService;
 import com.example.demo.Service.ConversationService;
@@ -23,10 +22,11 @@ public class ConversationContorller {
     @Autowired
     AuthService authService;
 
-    @GetMapping("/getConversationId/{userId}")
-    public List<ConversationMemberDTO> getConversationId(@PathVariable int userId) {
-       return service.getConversationId(userId);
-    }
+    // I THINK IS NOT USED?
+    // @GetMapping("/getConversationId/{userId}")
+    // public List<ConversationMemberDTO> getConversationId(@PathVariable int userId) {
+    //    return service.getConversationId(userId);
+    // }
 
     @GetMapping("/getUserConversation/{userId}/{friendId}")
     public Integer getUserConversation (@PathVariable int userId, @PathVariable int friendId) {

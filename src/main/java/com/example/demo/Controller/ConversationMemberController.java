@@ -27,7 +27,7 @@ public class ConversationMemberController {
     public ResponseEntity<?> createGroupChat (
         @RequestBody Map<String, Object> requestBody,
         HttpServletRequest request
-    ) {
+    ) { 
         authService.isAuthorized(request);
 
         @SuppressWarnings("unchecked")

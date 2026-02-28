@@ -16,9 +16,11 @@ export function friendListInCreateGroupChat (friendList) {
         if (friend.requestFrom === null) {
             name.innerText = friend.requestTo.username;
             friendWrapper.dataset.friendId = friend.requestTo.id;
+            friendprofilepicture.src = `http://192.168.100.17:8080/getProfilePic/${friend.requestTo.id}.png`;
         } else {
             name.innerText = friend.requestFrom.username;
             friendWrapper.dataset.friendId = friend.requestFrom.id;
+            friendprofilepicture.src = `http://192.168.100.17:8080/getProfilePic/${friend.requestFrom.id}.png`;
         }
 
         const input = document.createElement("input");

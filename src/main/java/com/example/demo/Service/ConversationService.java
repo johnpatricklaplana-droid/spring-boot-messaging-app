@@ -12,7 +12,6 @@ import com.example.demo.Model.ConversationMember;
 import com.example.demo.Model.User;
 import com.example.demo.Repository.ConversationMemberRepository;
 import com.example.demo.Repository.ConversationRepository;
-import com.example.demo.Repository.MessagesRepository;
 
 import jakarta.persistence.EntityManager;
 
@@ -27,12 +26,11 @@ public class ConversationService {
     EntityManager entityManager;
 
     @Autowired
-    MessagesRepository messagesRepo;
-
-    @Autowired
     ConversationRepository convoRepo;
     
     public List<ConversationMemberDTO> getConversationId (int userId) {
+
+        // int userId = Integer.parseInt(authService.isAuthorized(request));
        
         List<ConversationMember> member = convoMemberRepo.findConversationMemberByUserId(userId);
         

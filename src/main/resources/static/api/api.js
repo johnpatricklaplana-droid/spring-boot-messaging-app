@@ -1,6 +1,6 @@
 
 
-export async function post (requestBody, url, credentials = "omit") {
+export async function post(requestBody, url, credentials = "same-origin") {
 
     try {
         const result = await fetch(url, {

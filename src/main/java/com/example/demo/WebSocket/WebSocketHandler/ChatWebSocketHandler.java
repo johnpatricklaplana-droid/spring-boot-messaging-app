@@ -19,8 +19,6 @@ import com.example.demo.Service.SendMessageLive;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import jakarta.persistence.EntityManager;
-
 @Component
 public class ChatWebSocketHandler extends TextWebSocketHandler {
 
@@ -32,9 +30,6 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     ConversationService service;
 
     @Autowired
-    EntityManager entityManager;
-
-    @Autowired
     SendMessageLive sendMessageLive;
 
     @Autowired
@@ -42,14 +37,12 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        
-        String param = session.getUri().getQuery();
 
-        int userId = Integer.parseInt(param.split("=")[1]);
+        Map<String, Object> info = session.getAttributes();
+
+        int userId = (Integer) info.get("userId");
 
         List<ConversationMemberDTO> conversationMember = service.getConversationId(userId);
-
-
 
         for (ConversationMemberDTO d : conversationMember) {
             conversationSession.putIfAbsent(d.getConversationId().getId(), ConcurrentHashMap.newKeySet());
