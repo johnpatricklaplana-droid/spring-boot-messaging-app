@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu</title>
+    <title>Friend request</title>
     <link rel="stylesheet" href="/styles/body.css">
-    <link rel="stylesheet" href="/styles/menu.css">
     <link rel="stylesheet" href="/styles/navbar.css">
     <link rel="stylesheet" href="/styles/sidebar.css">
     <link rel="stylesheet" href="/styles/bottomNavBar.css">
+    <link rel="stylesheet" href="/styles/friendRequest.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+
     <div class="box-shadow container sidebar">
         <div class="logo">
             <i class="fa-solid fa-envelope"></i>
@@ -41,7 +42,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="requestBodyContainer">
         <div class="navbar">
             <h1>Messages</h1>
@@ -57,22 +58,10 @@
             </div>
             <img class="userprofile" th:attr="data-user-id=${userId}" th:src="@{${imagePath}}">
         </div>
-    
-        <div class="menuContainer">
-            <h1>Menu</h1>
-            <div class="userWrapperInMenu">
-                <img class="userprofilePicInMenu" th:src="@{${imagePath}}" alt="">
-                <h3 th:text="${email}" th:attr="data-user-id=${userId}" class="usernameInMenu"></h3>
-            </div>
-            <div class="settingsWrapper">
-                <i class="fa-solid fa-gear"></i>
-                <p>Settings</p>
-            </div>
+
+        <div class="friendrequestsContainer">
+            <h1>Friend request</h1>
             <hr>
-            <h5>Friend Request</h5>
-            <h5>Archive</h5>
-            <label for="">groups</label>
-            <a href="create-group-chat">Create group chat</a>
         </div>
     
         <nav class="bottomNavbar">
@@ -91,6 +80,6 @@
         </nav>
     </div>
 
-    <script type="module" src="/pages/mainPage.js"></script>
+    <script type="module" src="pages/friendRequest.js"></script>
 </body>
 </html>

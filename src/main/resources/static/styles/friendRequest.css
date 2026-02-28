@@ -1,24 +1,22 @@
 .friendrequestsContainer {
-    background-color: black;
     height: 100vh;
     padding: 10px;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 1px 1px 8px gray;
     gap: 10px;
-    display: none;
+    display: flex;
     overflow: auto;
     scrollbar-width: none;
 }
 
-.friendrequestsContainer h1 {
+.friendAddedMessage {
     color: black;
 }
 
-.friendrequestsContainer h3 {
-    color: white;
+.friendrequestsContainer h1 {
+    color: black;
 }
 
 .friendrequestsContainer hr {

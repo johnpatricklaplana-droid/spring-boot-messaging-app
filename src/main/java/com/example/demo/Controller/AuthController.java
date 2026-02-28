@@ -75,8 +75,10 @@ public class AuthController {
         return "index";
     }
 
-    @GetMapping("/personprofile/{userId}/{currentUserId}")
-    public String PersonProfile (Model model, @PathVariable int userId, @PathVariable int currentUserId) {
+    @GetMapping("/personprofile/{userId}")
+    public String PersonProfile (Model model, @PathVariable int userId, HttpServletRequest request) {
+        int currentUserId = Integer.parseInt(service.isAuthorized(request));
+
         model.addAttribute("imagePath", "/getProfilePic/" + currentUserId + ".png");
         model.addAttribute("currentUserId", currentUserId);
 
@@ -108,6 +110,16 @@ public class AuthController {
         model.addAttribute("userId", currentUserId);
 
         return "createGroupChat";
+    }
+
+    @GetMapping("/friend-request")
+    public String friendRequestPage (HttpServletRequest request, Model model) {
+        int currentUserId = Integer.parseInt(service.isAuthorized(request));
+
+        model.addAttribute("userId", currentUserId);
+        model.addAttribute("imagePath", "/getProfilePic/" + currentUserId + ".png");
+
+        return "friendRequest";
     }
 
     @GetMapping("/search/{name}")
