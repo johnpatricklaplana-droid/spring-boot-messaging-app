@@ -9,7 +9,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.demo.DTO.MessagesAndLastMessageReadDTO;
 import com.example.demo.Exceptions.MessageNotFoundException;
@@ -156,9 +158,15 @@ public class MessagesService  {
         messagesRepo.deleteById(messageId);
     }
 
-    public void editMessage(int messageId, String textMessage) {
-        messagesRepo.findById(messageId)
-            .orElseThrow(() -> new MessageNotFoundException("{ \"response\": \"message not found\" } "));
+    public void editMessage(int messageId, String textMessage, int currentUserId) {
+        
+        Messages message = messagesRepo.findById(messageId)
+        .orElseThrow(() -> new MessageNotFoundException(textMessage)
+        );
+
+        if(message.getSenderId().getId() != currentUserId) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(403));
+        }
 
         messagesRepo.editMessage(messageId, textMessage);
     }

@@ -71,7 +71,14 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
                 int conversation_id = messageObject.get("conversation_id").asInt();
                 int messageId = messageObject.get("id").asInt();
                 String textMessage = messageObject.get("textMessage").asText();
-                messageService.editMessage(messageId, textMessage);
+
+                Map<String, Object> someInfo = session.getAttributes();
+
+                String token = (String) someInfo.get("token");
+
+                int currentUserId = Integer.parseInt(authService.isAuthorized(token));
+
+                messageService.editMessage(messageId, textMessage, currentUserId);
 
                 Set<WebSocketSession> chat = conversationSession.get(conversation_id);
 
