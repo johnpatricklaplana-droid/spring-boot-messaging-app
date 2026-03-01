@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.example.demo.Model.Friend;
+import com.example.demo.Model.User;
 
 public interface FriendRepository extends JpaRepository<Friend, Integer> {
     
@@ -41,5 +42,18 @@ public interface FriendRepository extends JpaRepository<Friend, Integer> {
     AND f.status = 'accepted'
     """)
     List<Friend> FriendsList(@Param("userId") int userId);
+
+    @Query("""
+    SELECT f
+    FROM Friend f
+    WHERE (
+        ( f.requestTo = :currentUserId AND f.requestFrom = :userId )
+          OR 
+        ( f.requestFrom = :currentUserId AND f.requestTo = :userId ) 
+    )
+    AND 
+    status = 'accepted'
+    """)
+    Friend checkIfFriends(@Param("currentUserId") User currentUserId, @Param("userId") User userId);
 
 }

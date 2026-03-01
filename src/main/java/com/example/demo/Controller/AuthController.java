@@ -20,8 +20,10 @@ import com.example.demo.DTO.UserDTO;
 import com.example.demo.Exceptions.UnauthorizedException;
 import com.example.demo.Exceptions.UserAlreadyExistsException;
 import com.example.demo.Exceptions.UserDontExistsException;
+import com.example.demo.Model.Friend;
 import com.example.demo.Model.User;
 import com.example.demo.Service.AuthService;
+import com.example.demo.Service.FriendService;
 import com.example.demo.Service.Helper;
 import com.example.demo.Service.UserService;
 
@@ -38,6 +40,9 @@ public class AuthController {
 
     @Autowired
     Helper helper;
+
+    @Autowired
+    FriendService friendService;
 
     @PostMapping("/signup")
     @ResponseBody
@@ -83,6 +88,9 @@ public class AuthController {
     public String PersonProfile (Model model, @PathVariable int userId, HttpServletRequest request) {
         int currentUserId = Integer.parseInt(service.isAuthorized(helper.extractToken(request)));
 
+        boolean friendBa = friendService.checkIfFriends(currentUserId, userId);
+
+        model.addAttribute("areFriends", friendBa);
         model.addAttribute("imagePath", "/getProfilePic/" + currentUserId + ".png");
         model.addAttribute("currentUserId", currentUserId);
 

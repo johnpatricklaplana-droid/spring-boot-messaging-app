@@ -89,7 +89,7 @@ import { getConversation } from "/store/ConversationStore.js";
       
         const id = event.target.dataset.personId
         
-        const page = window.location.href = `http://192.168.100.241:8080/personprofile/${id}`;
+        window.location.href = `http://192.168.100.241:8080/personprofile/${id}`;
         
         // check if current user is checking their profile
         // if(currentUser.id === id) {

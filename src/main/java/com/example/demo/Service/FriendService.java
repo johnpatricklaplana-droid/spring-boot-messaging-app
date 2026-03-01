@@ -125,5 +125,18 @@ public class FriendService {
 
         return friendDTO;
     }
+
+    public boolean checkIfFriends(int currentUserId, int userId) {
+        
+        Friend friends = friendRepo.checkIfFriends(
+            entityManager.getReference(User.class, currentUserId),
+            entityManager.getReference(User.class, userId));
+
+        if(friends != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     
 }

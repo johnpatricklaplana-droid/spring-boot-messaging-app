@@ -33,5 +33,4 @@ public class Friend {
     @ManyToOne
     @JoinColumn(name = "requestFrom")
     private User requestFrom;
-    
 }

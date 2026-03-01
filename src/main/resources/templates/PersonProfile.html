@@ -63,7 +63,7 @@
             <img class="profile personProfilePicture" th:src="@{${imagePathForFriend}}"></img>
             <h1 class="personName" th:text="${name}">john Patrick laplana</h1>
             <div class="buttonsContainer">
-                <button class="addButton" th:attr="data-user-id=${userId}">Add</button>
+                <button th:class="${areFriends} ? 'friendsNa' : 'addButton'" th:text="${areFriends} ? 'friend' : 'Add'" th:attr="data-user-id=${userId}"></button>
                 <button class="messageButton" th:attr="data-user-id=${userId}">Message</button>
             </div>                                   
             <hr>
