@@ -14,7 +14,7 @@ export function seenMessageInRealTime(info) {
             const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
             profileOfpeopleWhoSeenTheMessage.dataset.seenerId = info.userId;
             profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
-            profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${info.userId}.png`;
+            profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.241:8080/getProfilePic/${info.userId}.png`;
             peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
 
             peopleWhoSeenTheMessage.push(info.userId);
@@ -34,7 +34,7 @@ export function seenMessageInRealTime(info) {
             const profileOfpeopleWhoSeenTheMessage = document.createElement("img");
             profileOfpeopleWhoSeenTheMessage.dataset.seenerId = info.userId;
             profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
-            profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${info.userId}.png`;
+            profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.241:8080/getProfilePic/${info.userId}.png`;
             peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
         } 
     });   

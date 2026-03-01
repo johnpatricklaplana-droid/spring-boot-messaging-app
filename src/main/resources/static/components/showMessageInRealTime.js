@@ -12,11 +12,11 @@ export async function showMessagesLive (info) {
     // the conversation id of the chat is senders conversation id seen the message 
     if(chatContainer.classList.contains("show") && Number(conversationId) === Number(info.conversation_id)) {
         console.log("tell me why");
-        await fetch(`http://192.168.100.17:8080/seenMessagesLive/${currentUserId}/${info.conversation_id}`, { method: "POST" });
+        await fetch(`http://192.168.100.241:8080/seenMessagesLive/${currentUserId}/${info.conversation_id}`, { method: "POST" });
     }
 
     //get people who seen this message
-    const peopleWhoSeenTheMessage = await (await fetch(`http://192.168.100.17:8080/getPeopleWhoSeenTheMessage/${info.conversation_id}`)).json();
+    const peopleWhoSeenTheMessage = await (await fetch(`http://192.168.100.241:8080/getPeopleWhoSeenTheMessage/${info.conversation_id}`)).json();
      
     const conversationContainer = document.querySelector(".conversationContainer");
 
@@ -65,7 +65,7 @@ export async function showMessagesLive (info) {
         youMessage.innerText = info.text_message;
 
         const youProfile = document.createElement("img");
-        youProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${currentUserId}.png")`;
+        youProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${currentUserId}.png")`;
         youProfile.className = "youProfile";
 
         // List of userId who seen this message 
@@ -82,7 +82,7 @@ export async function showMessagesLive (info) {
                 profileOfpeopleWhoSeenTheMessage.dataset.seenerId = person.user.id;
                 arrayOfPeopleWhoSeenTheMessage.push(JSON.stringify(person.user.id));
                 profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
-                profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${person.user.id}.png`;
+                profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.241:8080/getProfilePic/${person.user.id}.png`;
                 peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
             }
         });
@@ -197,7 +197,7 @@ function appendFriendMessageLive(info, peopleWhoSeenTheMessage) {
             profileOfpeopleWhoSeenTheMessage.dataset.seenerId = person.user.id;
             arrayOfPeopleWhoSeenTheMessage.push(JSON.stringify(person.user.id));
             profileOfpeopleWhoSeenTheMessage.className = "profileOfpeopleWhoSeenTheMessage";
-            profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.17:8080/getProfilePic/${person.user.id}.png`;
+            profileOfpeopleWhoSeenTheMessage.src = `http://192.168.100.241:8080/getProfilePic/${person.user.id}.png`;
             peopleWhoSeenMessagesListContainer.appendChild(profileOfpeopleWhoSeenTheMessage);
         }
 
@@ -206,7 +206,7 @@ function appendFriendMessageLive(info, peopleWhoSeenTheMessage) {
     sessionStorage.setItem(info.message_id, JSON.stringify(arrayOfPeopleWhoSeenTheMessage));
 
     const kachatProfile = document.createElement("img");
-    kachatProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${info.sender}.png")`;
+    kachatProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${info.sender}.png")`;
     kachatProfile.className = "kachatProfile";
 
     const kaChatMessage = document.createElement("p");

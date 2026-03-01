@@ -10,7 +10,7 @@ import { get, update } from "/api/api.js";
 
     const currentUserId = document.querySelector(".userprofile").dataset.userId;
 
-        const url = `http://192.168.100.17:8080/getFriendRequest/${currentUserId}`;
+        const url = `http://192.168.100.241:8080/getFriendRequest/${currentUserId}`;
         const result = await get(url);
 
         const friendrequestsContainer = document.querySelector(".friendrequestsContainer");
@@ -23,7 +23,7 @@ import { get, update } from "/api/api.js";
             divpersonRequestContainer.className = "personRequestContainer";
 
             const divpersonRequestProfilePicture = document.createElement("div");
-            divpersonRequestProfilePicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
+            divpersonRequestProfilePicture.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
             divpersonRequestProfilePicture.className = "personRequestProfilePicture";
             divpersonRequestProfilePicture.classList.add("profile");
 
@@ -68,7 +68,7 @@ import { get, update } from "/api/api.js";
             const idFromFriendRequest = event.target.dataset.personID;
             const currentUserId = document.querySelector(".userprofile").dataset.userId;
 
-            const url = `http://192.168.100.17:8080/acceptFriendRequest/${idFromFriendRequest}/${currentUserId}`;
+            const url = `http://192.168.100.241:8080/acceptFriendRequest/${idFromFriendRequest}/${currentUserId}`;
             const requestMethod = "PUT";
             const result = await update(url, requestMethod);
 

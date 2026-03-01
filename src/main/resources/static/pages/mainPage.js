@@ -20,7 +20,7 @@ import { getConversation } from "/store/ConversationStore.js";
 //     const youProfile = document.querySelectorAll(".youProfile");
   
 //     youProfile.forEach(element => {
-//         element.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
+//         element.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
 //     });
     
 // }) ();
@@ -49,7 +49,7 @@ import { getConversation } from "/store/ConversationStore.js";
         
         searchResultContainer.style.display = "block";
 
-        const url = `http://192.168.100.17:8080/search/${name}`; 
+        const url = `http://192.168.100.241:8080/search/${name}`; 
         const result = await get(url);
         
         if(!result.length) {
@@ -89,7 +89,7 @@ import { getConversation } from "/store/ConversationStore.js";
       
         const id = event.target.dataset.personId
         
-        const page = window.location.href = `http://192.168.100.17:8080/personprofile/${id}`;
+        const page = window.location.href = `http://192.168.100.241:8080/personprofile/${id}`;
         
         // check if current user is checking their profile
         // if(currentUser.id === id) {
@@ -125,7 +125,7 @@ import { getConversation } from "/store/ConversationStore.js";
         // const personProfilePicture = document.querySelector(".personProfilePicture");
         // const personName = document.querySelector(".personName");
 
-        // personProfilePicture.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${id}.png")`;
+        // personProfilePicture.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${id}.png")`;
         // personName.innerText = person.username;
     })
 }) ();
@@ -139,7 +139,7 @@ import { getConversation } from "/store/ConversationStore.js";
             const requestTo = event.target.dataset.userId;
             const requestFrom = currentUser.id;
 
-            const url = `http://192.168.100.17:8080/addFriend/${requestTo}/${requestFrom}`;
+            const url = `http://192.168.100.241:8080/addFriend/${requestTo}/${requestFrom}`;
             const result = await post(null, url);
 
             if (result == 200) {
@@ -160,7 +160,7 @@ import { getConversation } from "/store/ConversationStore.js";
     }
 
     friendRequestIconAndLabelContainer.addEventListener("click", ()=> {
-        window.location.href = 'http://192.168.100.17:8080/friend-request';
+        window.location.href = 'http://192.168.100.241:8080/friend-request';
     });
 
 }) ();
@@ -187,22 +187,22 @@ import { getConversation } from "/store/ConversationStore.js";
             const recivierName = document.querySelector(".recivierName");
             const recivierNameTop = document.querySelector(".recivierNameTop");
 
-            const messages = await (await fetch(`http://192.168.100.17:8080/getMessages/${conversationId}`)).json();
+            const messages = await (await fetch(`http://192.168.100.241:8080/getMessages/${conversationId}`)).json();
             console.log(messages);
             if(conversation.members.length === 2) {
                 conversation.members.forEach(member => {
                     if(Number(member.id) !== Number(currentUser.id)) {
                         friendProfile.dataset.friendId = member.id;
-                        recieverProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${member.id}.png")`;
-                        friendProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${member.id}.png")`;
+                        recieverProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${member.id}.png")`;
+                        friendProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${member.id}.png")`;
                         recivierName.innerText = member.username;
                         recivierNameTop.innerText = member.username;
                     }
                     displayConversation(messages, conversation);
                 });
             } else if(conversation.members.length > 2) {
-                // recieverProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${member.id}.png")`;
-                // friendProfile.style.backgroundImage = `url("http://192.168.100.17:8080/getProfilePic/${member.id}.png")`;
+                // recieverProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${member.id}.png")`;
+                // friendProfile.style.backgroundImage = `url("http://192.168.100.241:8080/getProfilePic/${member.id}.png")`;
                 recivierName.innerText = conversation.conversationName;
                 recivierNameTop.innerText = conversation.conversationName;
 
@@ -334,7 +334,7 @@ window.addEventListener("load", async () => {
     history.pushState(null, null, location.href);
     
     const friendList = await(await fetch(
-        `http://192.168.100.17:8080/getConversationList`
+        `http://192.168.100.241:8080/getConversationList`
     )).json();
     console.log(friendList);
     displayFriendList(friendList);
@@ -379,7 +379,7 @@ window.addEventListener("popstate", (event)=> {
         
         const userId = currentUser.id;
          
-        window.location.href = `http://192.168.100.17:8080/menu`;
+        window.location.href = `http://192.168.100.241:8080/menu`;
 
     }); 
     
@@ -502,8 +502,7 @@ window.addEventListener("popstate", (event)=> {
         const payload = {
             type: "delete_message",
             message_id: message_id,
-            conversation_id: document.querySelector(".recieverProfile").dataset.conversationId,
-            userId: currentUser.id
+            conversation_id: document.querySelector(".recieverProfile").dataset.conversationId
         };
   
         socket.send(JSON.stringify(payload));
@@ -605,7 +604,7 @@ window.addEventListener("popstate", (event)=> {
     console.log(createGroupChat);
     createGroupChat.addEventListener("click", () => {
 
-        window.location.href = `http://192.168.100.17:8080/create-group-chat`;
+        window.location.href = `http://192.168.100.241:8080/create-group-chat`;
 
     });
 

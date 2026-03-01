@@ -13,6 +13,7 @@ import com.example.demo.Model.Conversation;
 import com.example.demo.Model.Messages;
 import com.example.demo.Model.ReadMessages;
 import com.example.demo.Model.User;
+import com.example.demo.Repository.ConversationMemberRepository;
 import com.example.demo.Repository.MessagesRepository;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -30,13 +31,25 @@ public class SendMessageLive {
 
         @Autowired
         MessagesService messagesService;
+
+        @Autowired
+        ConversationMemberRepository convoMemberRepo;
     
         public void handleTextMessageType(ObjectNode messageObject, TextMessage message, Map<Integer, Set<WebSocketSession>> conversationSession) throws IOException, java.io.IOException {
         
         int conversation_id = messageObject.get("conversation_id").asInt();
         String TextMessage = messageObject.get("text_message").asText();
         int sender = messageObject.get("sender").asInt();
+
+        Boolean youBelongHere = convoMemberRepo.existsByConversationIdAndUserId(
+            entityManager.getReference(Conversation.class, conversation_id),
+            entityManager.getReference(User.class, sender));
         
+        if(!youBelongHere) {
+            System.out.println("????? HAHAHAHHA");
+            return;
+        } 
+
         Messages messages = new Messages();
         messages.setConversationId(entityManager.getReference(Conversation.class, conversation_id));
         messages.setTextMessage(TextMessage);

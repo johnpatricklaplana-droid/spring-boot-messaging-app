@@ -13,6 +13,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.example.demo.DTO.ConversationMemberDTO;
+import com.example.demo.Service.AuthService;
 import com.example.demo.Service.ConversationService;
 import com.example.demo.Service.MessagesService;
 import com.example.demo.Service.SendMessageLive;
@@ -34,6 +35,9 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
     @Autowired
     MessagesService messageService;
+
+    @Autowired
+    AuthService authService;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -80,8 +84,13 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
             case "delete_message" -> {
                 int messageId = messageObject.get("message_id").asInt();
                 int conversationId = messageObject.get("conversation_id").asInt();
-                int userId = messageObject.get("userId").asInt();
 
+                Map<String, Object> someInfo = session.getAttributes();
+
+                String token = (String) someInfo.get("token");
+                
+                int userId = Integer.parseInt(authService.isAuthorized(token));
+                
                 Set<WebSocketSession> chat = conversationSession.get(conversationId);
 
                 messageService.deleteMessage(messageId, userId);

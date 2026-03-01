@@ -22,6 +22,7 @@ public class AuthService {
     
     @Autowired
     AuthRepository authRepo;
+    
     @Autowired
     JwtService jwtService;
 
@@ -51,18 +52,7 @@ public class AuthService {
         return token;   
     }
 
-    public String isAuthorized (HttpServletRequest request) {
-        
-        String token = null;
-
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null) {
-            for (Cookie c: cookies) {
-                if("token".equals(c.getName())) {
-                    token = c.getValue();
-                }
-            }
-        }
+    public String isAuthorized (String token) {
        
         if(token == null) {
             throw new UnauthorizedException("Unauthorized");

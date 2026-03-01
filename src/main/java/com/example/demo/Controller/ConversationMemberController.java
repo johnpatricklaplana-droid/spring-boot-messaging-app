@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Service.AuthService;
 import com.example.demo.Service.ConversationMemberService;
+import com.example.demo.Service.Helper;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -22,13 +23,16 @@ public class ConversationMemberController {
 
     @Autowired
     AuthService authService;
+
+    @Autowired
+    Helper helper;
     
     @PostMapping("/conversation-member")
     public ResponseEntity<?> createGroupChat (
         @RequestBody Map<String, Object> requestBody,
         HttpServletRequest request
     ) { 
-        authService.isAuthorized(request);
+        authService.isAuthorized(helper.extractToken(request));
 
         @SuppressWarnings("unchecked")
         List<Integer> members_id = (List<Integer>) requestBody.get("members");

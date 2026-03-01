@@ -10,8 +10,10 @@ import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
+import jakarta.servlet.http.Cookie;
 
 import com.example.demo.Service.AuthService;
+import com.example.demo.Service.Helper;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -21,6 +23,9 @@ public class AuthHandShakeInterceptor implements HandshakeInterceptor {
     @Autowired
     AuthService authService;
 
+    @Autowired
+    Helper helper;
+
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
             Map<String, Object> attributes) throws Exception {
@@ -29,10 +34,13 @@ public class AuthHandShakeInterceptor implements HandshakeInterceptor {
                 
                 HttpServletRequest httpRequest = servletRequest.getServletRequest();
 
-                int userId = Integer.parseInt(authService.isAuthorized(httpRequest));
+                String token = helper.extractToken(httpRequest);
+
+                int userId = Integer.parseInt(authService.isAuthorized(token));
 
                 attributes.put("userId", userId);
- 
+                attributes.put("token", token);
+
                 return true;
     }
 

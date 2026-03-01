@@ -8,7 +8,7 @@ import { currentUser } from "/store/currentUser.js";
 
     const userId = userprofile.dataset.userId;
 
-    const url = `http://192.168.100.17:8080/getfriends/${userId}`;
+    const url = `http://192.168.100.241:8080/getfriends/${userId}`;
     const result = await get(url);
 
     friendListInCreateGroupChat(result);
@@ -63,7 +63,7 @@ import { currentUser } from "/store/currentUser.js";
             return;
         }
 
-        const url = `http://192.168.100.17:8080/conversation-member`;
+        const url = `http://192.168.100.241:8080/conversation-member`;
         const body = {
             group_name: groupChatName,
             members: members

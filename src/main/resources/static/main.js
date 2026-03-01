@@ -7,7 +7,7 @@ import { typing_indicator } from "/pages/mainPage.js";
 const currentUserId = currentUser.id;
 
 export const socket = new WebSocket(
-    `ws://192.168.100.17:8080/chat`
+    `ws://192.168.100.241:8080/chat`
 );  
 
 socket.onmessage = (event) => {

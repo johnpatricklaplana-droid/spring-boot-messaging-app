@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.Model.Conversation;
 import com.example.demo.Service.AuthService;
 import com.example.demo.Service.ConversationService;
+import com.example.demo.Service.Helper;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -21,6 +22,9 @@ public class ConversationContorller {
 
     @Autowired
     AuthService authService;
+
+    @Autowired
+    Helper helper;
 
     // I THINK IS NOT USED?
     // @GetMapping("/getConversationId/{userId}")
@@ -35,7 +39,7 @@ public class ConversationContorller {
 
     @GetMapping("/getConversationList")
     public List<Conversation> getConversationList (HttpServletRequest request) {
-        int userId = Integer.parseInt(authService.isAuthorized(request));
+        int userId = Integer.parseInt(authService.isAuthorized(helper.extractToken(request)));
          
         return service.getConversationList(userId);
     }

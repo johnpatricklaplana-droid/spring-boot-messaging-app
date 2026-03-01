@@ -22,6 +22,7 @@ import com.example.demo.Exceptions.UserAlreadyExistsException;
 import com.example.demo.Exceptions.UserDontExistsException;
 import com.example.demo.Model.User;
 import com.example.demo.Service.AuthService;
+import com.example.demo.Service.Helper;
 import com.example.demo.Service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,6 +35,9 @@ public class AuthController {
 
     @Autowired
     UserService userServie;
+
+    @Autowired
+    Helper helper;
 
     @PostMapping("/signup")
     @ResponseBody
@@ -65,7 +69,7 @@ public class AuthController {
     @GetMapping("/index")
     public String serveMainPage (Model model, HttpServletRequest request) {
 
-        String userId = service.isAuthorized(request);
+        String userId = service.isAuthorized(helper.extractToken(request));
         User user = userServie.getUser(Integer.parseInt(userId));
        
         model.addAttribute("imagePath", "/getProfilePic/" + userId + ".png");
@@ -77,7 +81,7 @@ public class AuthController {
 
     @GetMapping("/personprofile/{userId}")
     public String PersonProfile (Model model, @PathVariable int userId, HttpServletRequest request) {
-        int currentUserId = Integer.parseInt(service.isAuthorized(request));
+        int currentUserId = Integer.parseInt(service.isAuthorized(helper.extractToken(request)));
 
         model.addAttribute("imagePath", "/getProfilePic/" + currentUserId + ".png");
         model.addAttribute("currentUserId", currentUserId);
@@ -91,7 +95,7 @@ public class AuthController {
 
     @GetMapping("/menu")
     public String menu (Model model, HttpServletRequest request) {
-        int currentUserId = Integer.parseInt(service.isAuthorized(request));
+        int currentUserId = Integer.parseInt(service.isAuthorized(helper.extractToken(request)));
 
         User user = userServie.getUser(currentUserId);
 
@@ -104,7 +108,7 @@ public class AuthController {
 
     @GetMapping("/create-group-chat")
     public String createGroupChat (Model model, HttpServletRequest request) {
-        int currentUserId = Integer.parseInt(service.isAuthorized(request));
+        int currentUserId = Integer.parseInt(service.isAuthorized(helper.extractToken(request)));
 
         model.addAttribute("imagePath", "/getProfilePic/" + currentUserId + ".png");
         model.addAttribute("userId", currentUserId);
@@ -114,7 +118,7 @@ public class AuthController {
 
     @GetMapping("/friend-request")
     public String friendRequestPage (HttpServletRequest request, Model model) {
-        int currentUserId = Integer.parseInt(service.isAuthorized(request));
+        int currentUserId = Integer.parseInt(service.isAuthorized(helper.extractToken(request)));
 
         model.addAttribute("userId", currentUserId);
         model.addAttribute("imagePath", "/getProfilePic/" + currentUserId + ".png");
