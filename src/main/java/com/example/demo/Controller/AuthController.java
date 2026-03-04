@@ -20,7 +20,6 @@ import com.example.demo.DTO.UserDTO;
 import com.example.demo.Exceptions.UnauthorizedException;
 import com.example.demo.Exceptions.UserAlreadyExistsException;
 import com.example.demo.Exceptions.UserDontExistsException;
-import com.example.demo.Model.Friend;
 import com.example.demo.Model.User;
 import com.example.demo.Service.AuthService;
 import com.example.demo.Service.FriendService;
